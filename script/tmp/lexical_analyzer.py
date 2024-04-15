@@ -1,20 +1,15 @@
 # -*- coding:utf-8 -*-
-# @FileName : lexical_analyzer.py
+# @FileName : lexer.py
 # @Time : 2024/4/3 20:53
 # @Author : fiv
-from colorama import Fore, Back, Style
+from colorama import Fore
 
 
 class LexicalAnalyzer:
-    def __init__(self, text=None, file_path=None):
-        assert text or file_path, 'text or file_path must be provided'
-        if file_path:
-            with open(file_path, 'r') as f:
-                self.text = f.read()
-        else:
-            self.text = text
+    def __init__(self):
+        self.text = None
         self.index = 0
-        self.tokens = []  # (token, value, row, column)
+        self.tokens = []
         self.row = 1
         self.column = 1
         self.last_column = 1
@@ -28,16 +23,30 @@ class LexicalAnalyzer:
             'quote': Fore.YELLOW,
         }
 
+    def __call__(self, text):
+        self.text = text
+        self.index = 0
+        self.tokens = []
+        self.row = 1
+        self.column = 1
+        self.last_column = 1
+        return self.analyze()
+
     def output(self):
-        # draw a table for tokens
-        print(r"{:<15}  |  {:<15} |  {:<3} | {:<3}".format('Token', 'Value', 'Row', 'Column'))
-        tr = 1
-        for token in self.tokens:
-            t, v, r, c = token
-            if r != tr:
-                print(Fore.WHITE, '-' * 50)
-                tr = r
-            print(self.colors[t] + "{:<15}  |  {:<15} |  {:<3} | {:<3}".format(t, v, r, c))
+        # color the output in file
+        with open('lexical_analyzer_output.txt', 'w') as f:
+            f.write(self.text + '\n')
+            f.write(r"{:<15}  |  {:<15} |  {:<3} | {:<3}".format('Token', 'Value', 'Row', 'Column') + '\n')
+            print(r"{:<15}  |  {:<15} |  {:<3} | {:<3}".format('Token', 'Value', 'Row', 'Column'))
+            tr = 0
+            for token in self.tokens:
+                t, v, r, c = token
+                if r != tr:
+                    print(Fore.WHITE, '-' * 50)
+                    f.write('-' * 50 + '\n')
+                    tr = r
+                print(self.colors[t] + "{:<15}  |  {:<15} |  {:<3} | {:<3}".format(t, v, r, c))
+                f.write("{:<15}  |  {:<15} |  {:<3} | {:<3}".format(t, v, r, c) + '\n')
 
     def analyze(self):
         while self.index < len(self.text):
@@ -261,37 +270,25 @@ class LexicalAnalyzer:
 
 
 if __name__ == '__main__':
-    text = r"""
-struct node{
-	int son[26];
-	int mark;
-}tire[1000005];
-int num=0;
-double i =-1.566*1e-3;
-void insert(string s){
-	int pos=0;
-	for(int i=0;i<s.length();i++){
-		int temp=s[i]-'a';
-		if(!tire[pos].son[temp])
-		tire[pos].son[temp]=++num;
-		pos=tire[pos].son[temp];
-	}
-	tire[pos].mark++;
-} 
-bool find(string s){
-	int pos=0;
-	for(int i=0;i<s.length();i++){
-		int temp=s[i]-'a';
-		if(!tire[pos].son[temp])
-		return 0;
-		pos=tire[pos].son[temp];
-	}
-	if(tire[pos].mark)
-	return 1;
-	else
-	return 0;
+    input_text = r"""miniRC=function(integer N, integer K, double rc){
+     integer a[10][20];
+     double b[19];
+
+     if(N==1) return(0);
+     integer KL=floor(K * rc);         #split N 
+     if(KL < 1 || KL > (K-1))
+            KL = 1;
+     else if (KL > .5*K)
+            KL = ceiling(KL / 2.0)
+
+     KR = K - KL
+
+     integer NL = ceiling(N * KL / K)      #split N
+     integer NR = N - NL
+
+     return( 1+(NL * miniRC(NL, KL, rc) + NR * miniRC(NR, KR, rc)) / N)
 }
 """
-    lexical_analyzer = LexicalAnalyzer(text)
-    tokens = lexical_analyzer.analyze()
+    lexical_analyzer = LexicalAnalyzer()
+    tokens = lexical_analyzer(input_text)
     lexical_analyzer.output()
