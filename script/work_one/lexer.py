@@ -16,20 +16,21 @@ class Lexer:
     def __init__(self, sym_path, in_path):
         self.words = {}
         self.line = 1
+        self.column = 0
         self.peek = ' '
 
         self.init_words(sym_path)
         self.text = open(in_path, 'r').read()
         self.index = 0
         self.max = len(self.text)
-
+        self.stack = []
         self.tokens = []
 
     def analyze(self):
         while self.index < self.max:
             w = self.scan()
             if w is not None:
-                self.tokens.append(w)
+                self.tokens.append((w, (self.line, self.column - len(w.lexeme))))
 
     def init_words(self, path):
         with open(path, 'r') as f:
@@ -43,7 +44,8 @@ class Lexer:
     def readch(self):
         self.peek = self.text[self.index]
         self.index += 1
-        print(self.index, self.peek)
+        self.column += 1
+        # print(self.line, self.column, self.peek)
 
     def check_readch(self, c):
         self.readch()
@@ -72,12 +74,50 @@ class Lexer:
                 break
         return x
 
+    def scan_bracket(self):
+
+        if self.peek == '(':
+            self.stack.append(('(', (self.line, self.column - 1)))
+            self.readch()
+            return Word('(', Tag.LPAR)
+        elif self.peek == '{':
+            self.stack.append(('{', (self.line, self.column - 1)))
+            self.readch()
+            return Word("{", Tag.LBRACE)
+        elif self.peek == '[':
+            self.stack.append(('[', (self.line, self.column - 1)))
+            self.readch()
+            return Word("[", Tag.LSQB)
+        else:
+            try:
+                if self.peek == ')' and self.stack[-1][0] == '(':
+                    self.stack.pop()
+                    self.readch()
+                    return Word(")", Tag.RPAR)
+                elif self.peek == '}' and self.stack[-1][0] == '{':
+                    self.stack.pop()
+                    self.readch()
+                    return Word("}", Tag.RBRACE)
+                elif self.peek == ']' and self.stack[-1][0] == '[':
+                    self.stack.pop()
+                    self.readch()
+                    return Word("]", Tag.RSQB)
+                else:
+                    peek = self.peek
+                    self.readch()
+                    return Word(peek, Tag.ERROR)
+            except IndexError:
+                peek = self.peek
+                self.readch()
+                return Word(peek, Tag.ERROR)
+
     def scan(self):
         while True:
             if self.peek == ' ' or self.peek == '\t':
                 self.readch()
             elif self.peek == '\n':
                 self.line += 1
+                self.column = 0
                 self.readch()
             else:
                 break
@@ -128,24 +168,6 @@ class Lexer:
                 return Word("//", Tag.DOUBLESLASH)
             else:
                 return Word("/", Tag.SLASH)
-        elif self.peek == '(':
-            self.readch()
-            return Word("(", Tag.LPAR)
-        elif self.peek == ')':
-            self.readch()
-            return Word(")", Tag.RPAR)
-        elif self.peek == '{':
-            self.readch()
-            return Word("{", Tag.LBRACE)
-        elif self.peek == '}':
-            self.readch()
-            return Word("}", Tag.RBRACE)
-        elif self.peek == '[':
-            self.readch()
-            return Word("[", Tag.LSQB)
-        elif self.peek == ']':
-            self.readch()
-            return Word("]", Tag.RSQB)
         elif self.peek == ',':
             self.readch()
             return Word(",", Tag.COMMA)
@@ -167,6 +189,8 @@ class Lexer:
             if self.peek.isdigit():
                 num = self.scan_number()
                 return Word('.' + str(int(num)), Tag.REAL)
+        elif self.peek == '(' or self.peek == ')' or self.peek == '[' or self.peek == ']' or self.peek == '{' or self.peek == '}':
+            return self.scan_bracket()
 
         # digits
         if self.peek.isdigit():
@@ -199,11 +223,9 @@ if __name__ == '__main__':
 
     lexer = Lexer(sym_path, in_path)
     lexer.analyze()
-    for token in lexer.tokens:
-        if token is not None:
-            print(token.lexeme, token.tag)
-        else:
-            print(token)
+    for token, (r, c) in lexer.tokens:
+        print(token.lexeme, token.tag, r, c)
+
     # la.analyze()
     # print(la.tokens)
 

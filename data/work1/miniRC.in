@@ -1,4 +1,4 @@
-miniRC=function(integer N, integer K, double rc){
+miniRC=function(integer N, integer K, double rc)){
      integer a[10][20];
      double b[19];
 
