@@ -13,19 +13,19 @@ class Lexer:
     Lexer是完成词法分析功能的类，数据成员line为行号，peek是向前的一个字符，words是符号表。成员函数reserve将给定记号加入符号表。它的构造函数(8至17行)将所有保留字加入符号表。
     """
 
-    def __init__(self, sym_path, in_path):
+    def __init__(self, in_path):
         self.words = {}
+        self.init_words()
+        self.text = open(in_path, 'r').read()
+
+        self.index = 0
+        self.max = len(self.text)
         self.line = 1
         self.column = 0
         self.peek = ' '
-
-        self.init_words(sym_path)
-        self.text = open(in_path, 'r').read()
-        self.index = 0
-        self.max = len(self.text)
-        # self.stack = []  # (bracket -> str, (line -> int, column -> int))
-        self.tokens = []
+        self.tokens = []  # [(Word, (line, column))]
         self.error = []  # (line -> int, column -> int, msg -> str)
+        self.symtable = {}  # {tag -> {lexeme}}
 
     def analyze(self):
         while self.index < self.max:
@@ -34,14 +34,25 @@ class Lexer:
                 self.tokens.append((w, (self.line, self.column - len(w.lexeme))))
         # self.check_error()
 
-    def init_words(self, path):
-        with open(path, 'r') as f:
-            for line in f:
-                t, v = line.split()
-                self.reserve(Word(v, Tag(t)))
+    def init_words(self):
+        words = [
+            "if", "else", "while", "return", "do", "break", "continue", "until", "for", "switch", "case", "default",
+            "integer", "double", "bool", "char", "string",
+            "true", "false", "void", "function", "main",
+            "print", "read", "write", "readln", "writeln", "scanf", "printf",
+        ]
+        for i, w in enumerate(words):
+            self.reserve(Word(w, Tag.KEYWORD))
 
     def reserve(self, w: Word):
         self.words[w.lexeme] = w
+
+    def add2symtable(self, w: Word):
+        lexeme, tag = w.lexeme, w.tag.value
+        if tag not in self.symtable:
+            self.symtable[tag] = {lexeme}
+        else:
+            self.symtable[tag].add(lexeme)
 
     def readch(self):
         self.peek = self.text[self.index]
@@ -232,9 +243,10 @@ class Lexer:
                     break
             w = self.words.get(b)
             if w is not None:
+                self.add2symtable(w)
                 return w
-            w = Word(b, Tag.UNKNOWN)
-            self.error.append((self.line, self.column - len(b), f"unknown word {b}"))
+            w = Word(b, Tag.IDENTIFIER)
+            self.add2symtable(w)
             return w
 
     def error(self, line, column, msg):
@@ -258,6 +270,14 @@ class Lexer:
             for r, c, msg in self.error:
                 print(f"line {r}, column {c}: {msg}")
 
+    def output_symtable(self):
+        print("{:<15} | {:<15}".format("lexeme", "tag"))
+        print("-" * 30)
+        for tag, lexemes in self.symtable.items():
+            lexemes = sorted(lexemes)
+            for lexeme in lexemes:
+                print("{:<15} | {:<15}".format(tag, lexeme))
+
 
 if __name__ == '__main__':
     from ENV import PATH
@@ -265,9 +285,10 @@ if __name__ == '__main__':
     sym_path = PATH.DATA_PATH / "work1" / "miniRC.sym"
     in_path = PATH.DATA_PATH / "work1" / "miniRC.in"
 
-    lexer = Lexer(sym_path, in_path)
+    lexer = Lexer(in_path)
     lexer.analyze()
     lexer.output()
+    lexer.output_symtable()
 
     # la.analyze()
     # print(la.tokens)
