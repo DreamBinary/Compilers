@@ -270,7 +270,7 @@ class LexicalAnalyzer:
 
 
 if __name__ == '__main__':
-    input_text = r"""miniRC=function(integer N, integer K, double rc){
+    input_text = r"""123miniRC=function(integer N, integer K, double rc){
      integer a[10][20];
      double b[19];
 

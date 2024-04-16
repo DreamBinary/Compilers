@@ -9,7 +9,7 @@ miniRC=function(integer N, integer K, double rc){
      else if (KL > .5*K)
             KL = ceiling(KL / 2.0)
 
-     KR = K - KL
+     12KR = K - KL
 
      integer NL = ceiling(N * KL / K)      #split N
      integer NR = N - NL

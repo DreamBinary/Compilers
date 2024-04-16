@@ -67,7 +67,7 @@ class Lexer:
         self.peek = ' '
         return True
 
-    def scan_number(self) -> float:
+    def scan_number(self) -> str:
         x = 0.0
         while True:
             x = x * 10 + int(self.peek)
@@ -75,7 +75,7 @@ class Lexer:
             if not self.peek.isdigit():
                 break
         if self.peek != '.':
-            return x
+            return str(int(x))
         x *= 10
         self.readch()
         d = 10
@@ -85,7 +85,7 @@ class Lexer:
             self.readch()
             if not self.peek.isdigit():
                 break
-        return x
+        return str(x)
 
     # def scan_bracket(self):
     #     if self.peek == '(':
@@ -227,33 +227,33 @@ class Lexer:
             return self.scan_bracket()
 
         # digits
+        b = ""
         if self.peek.isdigit():
             num = self.scan_number()
-            if num.is_integer():
-                return Word(str(int(num)), Tag.INT)
-            return Word(str(num), Tag.REAL)
+            if self.peek == ' ':
+                if '.' in num:
+                    return Word(num, Tag.REAL)
+                else:
+                    return Word(num, Tag.INT)
+            else:
+                b += str(num)
 
         # words
-        if self.peek.isalpha():
-            b = ""
+        if self.peek.isalpha() or self.peek == '_':
             while True:
                 b += self.peek
                 self.readch()
-                if not self.peek.isalpha():
+                if not self.peek.isalnum() and self.peek != '_':
                     break
             w = self.words.get(b)
             if w is not None:
                 self.add2symtable(w)
                 return w
             w = Word(b, Tag.IDENTIFIER)
-            if not self.is_identifier(b):
+            if not b.isidentifier():
                 self.error.append((self.line, self.column - len(b), f"invalid identifier {b}"))
             self.add2symtable(w)
             return w
-
-    def is_identifier(self, token):
-        pattern = r'^[a-zA-Z_][a-zA-Z0-9_]*$'
-        return re.match(pattern, token) is not None
 
     def error(self, line, column, msg):
         print(f"line {line}, column {column}: {msg}")
@@ -284,7 +284,6 @@ class Lexer:
             for lexeme in lexemes:
                 print("{:<15} | {:<15}".format(tag, lexeme))
 
-
     def output_error(self):
         print("Error:")
         for r, c, msg in self.error:
@@ -294,7 +293,6 @@ class Lexer:
 if __name__ == '__main__':
     from ENV import PATH
 
-    sym_path = PATH.DATA_PATH / "work1" / "miniRC.sym"
     in_path = PATH.DATA_PATH / "work1" / "miniRC.in"
 
     lexer = Lexer(in_path)
@@ -302,9 +300,6 @@ if __name__ == '__main__':
     lexer.output()
     lexer.output_symtable()
     lexer.output_error()
-
-    # la.analyze()
-    # print(la.tokens)
 
 """
 Example Input:
