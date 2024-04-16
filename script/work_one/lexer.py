@@ -226,6 +226,13 @@ class Lexer:
         print("Lexical analysis completed")
 
 
+    def output(self):
+        print("-" * 50)
+        print("{:<10} | {:<15} | {:<10} | {:<10}".format("lexeme", "tag", "row", "column"))
+        for token, (r, c) in self.tokens:
+            print("{:<10} | {:<15} | {:<10} | {:<10}".format(token.lexeme, token.tag.value, r, c))
+
+
 if __name__ == '__main__':
     from ENV import PATH
 
@@ -234,8 +241,7 @@ if __name__ == '__main__':
 
     lexer = Lexer(sym_path, in_path)
     lexer.analyze()
-    for token, (r, c) in lexer.tokens:
-        print(token.lexeme, token.tag, r, c)
+    lexer.output()
 
     # la.analyze()
     # print(la.tokens)
