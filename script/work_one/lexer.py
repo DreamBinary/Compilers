@@ -4,7 +4,7 @@
 # @Author : fiv
 
 from tag import Tag
-
+import re
 from tokenn import Word
 
 
@@ -246,8 +246,14 @@ class Lexer:
                 self.add2symtable(w)
                 return w
             w = Word(b, Tag.IDENTIFIER)
+            if not self.is_identifier(b):
+                self.error.append((self.line, self.column - len(b), f"invalid identifier {b}"))
             self.add2symtable(w)
             return w
+
+    def is_identifier(self, token):
+        pattern = r'^[a-zA-Z_][a-zA-Z0-9_]*$'
+        return re.match(pattern, token) is not None
 
     def error(self, line, column, msg):
         print(f"line {line}, column {column}: {msg}")
@@ -279,6 +285,12 @@ class Lexer:
                 print("{:<15} | {:<15}".format(tag, lexeme))
 
 
+    def output_error(self):
+        print("Error:")
+        for r, c, msg in self.error:
+            print(f"line {r}, column {c}: {msg}")
+
+
 if __name__ == '__main__':
     from ENV import PATH
 
@@ -289,6 +301,7 @@ if __name__ == '__main__':
     lexer.analyze()
     lexer.output()
     lexer.output_symtable()
+    lexer.output_error()
 
     # la.analyze()
     # print(la.tokens)
