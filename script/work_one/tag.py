@@ -9,11 +9,9 @@ class Tag(Enum):
     """
     Tag类定义部分记号对应的常量（内部表示）.
     """
-    NUM = "NUM"
     INT = "INT"
     REAL = "REAL"
 
-    ID = "ID"
     TRUE = "TRUE"
     FALSE = "FALSE"
     IF = "IF"
@@ -27,9 +25,6 @@ class Tag(Enum):
     NE = "NE"
     LE = "LE"
     GE = "GE"
-
-    KEYWORD = "KEYWORD"
-    IDENTIFIER = "IDENTIFIER"
 
     PLUS = "PLUS"
     MINUS = "MINUS"
@@ -51,7 +46,10 @@ class Tag(Enum):
     PERCENT = "PERCENT"
 
     ERROR = "ERROR"
-    UNKNOW = "UNKNOW"
+    UNKNOWN = "UNKNOWN"
+
+    KEYWORD = "KEYWORD"
+    IDENTIFIER = "IDENTIFIER"
 
 
 

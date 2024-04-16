@@ -23,15 +23,16 @@ class Lexer:
         self.text = open(in_path, 'r').read()
         self.index = 0
         self.max = len(self.text)
-        self.stack = []  # (bracket -> str, (line -> int, column -> int))
+        # self.stack = []  # (bracket -> str, (line -> int, column -> int))
         self.tokens = []
+        self.error = []  # (line -> int, column -> int, msg -> str)
 
     def analyze(self):
         while self.index < self.max:
             w = self.scan()
             if w is not None:
                 self.tokens.append((w, (self.line, self.column - len(w.lexeme))))
-        self.check_error()
+        # self.check_error()
 
     def init_words(self, path):
         with open(path, 'r') as f:
@@ -75,43 +76,63 @@ class Lexer:
                 break
         return x
 
+    # def scan_bracket(self):
+    #     if self.peek == '(':
+    #         self.stack.append(('(', (self.line, self.column - 1)))
+    #         self.readch()
+    #         return Word('(', Tag.LPAR)
+    #     elif self.peek == '{':
+    #         self.stack.append(('{', (self.line, self.column - 1)))
+    #         self.readch()
+    #         return Word("{", Tag.LBRACE)
+    #     elif self.peek == '[':
+    #         self.stack.append(('[', (self.line, self.column - 1)))
+    #         self.readch()
+    #         return Word("[", Tag.LSQB)
+    #     else:
+    #         try:
+    #             if self.peek == ')' and self.stack[-1][0] == '(':
+    #                 self.stack.pop()
+    #                 self.readch()
+    #                 return Word(")", Tag.RPAR)
+    #             elif self.peek == '}' and self.stack[-1][0] == '{':
+    #                 self.stack.pop()
+    #                 self.readch()
+    #                 return Word("}", Tag.RBRACE)
+    #             elif self.peek == ']' and self.stack[-1][0] == '[':
+    #                 self.stack.pop()
+    #                 self.readch()
+    #                 return Word("]", Tag.RSQB)
+    #             else:
+    #                 peek = self.peek
+    #                 self.readch()
+    #                 self.error(self.line, self.column, f"unexpected symbol {peek}")
+    #                 return Word(peek, Tag.ERROR)
+    #         except IndexError:
+    #             peek = self.peek
+    #             self.readch()
+    #             self.error(self.line, self.column, f"unexpected symbol {peek}")
+    #             return Word(peek, Tag.ERROR)
+
     def scan_bracket(self):
         if self.peek == '(':
-            self.stack.append(('(', (self.line, self.column - 1)))
             self.readch()
             return Word('(', Tag.LPAR)
+        elif self.peek == ')':
+            self.readch()
+            return Word(")", Tag.RPAR)
         elif self.peek == '{':
-            self.stack.append(('{', (self.line, self.column - 1)))
             self.readch()
             return Word("{", Tag.LBRACE)
+        elif self.peek == '}':
+            self.readch()
+            return Word("}", Tag.RBRACE)
         elif self.peek == '[':
-            self.stack.append(('[', (self.line, self.column - 1)))
             self.readch()
             return Word("[", Tag.LSQB)
-        else:
-            try:
-                if self.peek == ')' and self.stack[-1][0] == '(':
-                    self.stack.pop()
-                    self.readch()
-                    return Word(")", Tag.RPAR)
-                elif self.peek == '}' and self.stack[-1][0] == '{':
-                    self.stack.pop()
-                    self.readch()
-                    return Word("}", Tag.RBRACE)
-                elif self.peek == ']' and self.stack[-1][0] == '[':
-                    self.stack.pop()
-                    self.readch()
-                    return Word("]", Tag.RSQB)
-                else:
-                    peek = self.peek
-                    self.readch()
-                    self.error(self.line, self.column, f"unexpected symbol {peek}")
-                    return Word(peek, Tag.ERROR)
-            except IndexError:
-                peek = self.peek
-                self.readch()
-                self.error(self.line, self.column, f"unexpected symbol {peek}")
-                return Word(peek, Tag.ERROR)
+        elif self.peek == ']':
+            self.readch()
+            return Word("]", Tag.RSQB)
 
     def scan(self):
         while True:
@@ -212,25 +233,30 @@ class Lexer:
             w = self.words.get(b)
             if w is not None:
                 return w
-            w = Word(b, Tag.ID)
-            self.words[b] = w
+            w = Word(b, Tag.UNKNOWN)
+            self.error.append((self.line, self.column - len(b), f"unknown word {b}"))
             return w
 
     def error(self, line, column, msg):
         print(f"line {line}, column {column}: {msg}")
 
-    def check_error(self):
-        if self.stack:
-            for s, (r, c) in self.stack:
-                self.error(r, c, f"unmatched bracket {s}")
-        print("Lexical analysis completed")
-
+    # def check_error(self):
+    #     if self.stack:
+    #         for s, (r, c) in self.stack:
+    #             self.error(r, c, f"unmatched bracket {s}")
+    #     print("Lexical analysis completed")
 
     def output(self):
-        print("-" * 50)
         print("{:<10} | {:<15} | {:<10} | {:<10}".format("lexeme", "tag", "row", "column"))
+        print("-" * 50)
         for token, (r, c) in self.tokens:
             print("{:<10} | {:<15} | {:<10} | {:<10}".format(token.lexeme, token.tag.value, r, c))
+
+        print("\n" + "-" * 50)
+        if self.error:
+            print("Error:")
+            for r, c, msg in self.error:
+                print(f"line {r}, column {c}: {msg}")
 
 
 if __name__ == '__main__':
