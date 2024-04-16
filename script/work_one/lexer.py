@@ -23,7 +23,7 @@ class Lexer:
         self.text = open(in_path, 'r').read()
         self.index = 0
         self.max = len(self.text)
-        self.stack = []
+        self.stack = []  # (bracket -> str, (line -> int, column -> int))
         self.tokens = []
 
     def analyze(self):
@@ -31,6 +31,7 @@ class Lexer:
             w = self.scan()
             if w is not None:
                 self.tokens.append((w, (self.line, self.column - len(w.lexeme))))
+        self.check_error()
 
     def init_words(self, path):
         with open(path, 'r') as f:
@@ -75,7 +76,6 @@ class Lexer:
         return x
 
     def scan_bracket(self):
-
         if self.peek == '(':
             self.stack.append(('(', (self.line, self.column - 1)))
             self.readch()
@@ -105,10 +105,12 @@ class Lexer:
                 else:
                     peek = self.peek
                     self.readch()
+                    self.error(self.line, self.column, f"unexpected symbol {peek}")
                     return Word(peek, Tag.ERROR)
             except IndexError:
                 peek = self.peek
                 self.readch()
+                self.error(self.line, self.column, f"unexpected symbol {peek}")
                 return Word(peek, Tag.ERROR)
 
     def scan(self):
@@ -188,7 +190,7 @@ class Lexer:
             self.readch()
             if self.peek.isdigit():
                 num = self.scan_number()
-                return Word('.' + str(int(num)), Tag.REAL)
+                return Word(str(num), Tag.REAL)
         elif self.peek == '(' or self.peek == ')' or self.peek == '[' or self.peek == ']' or self.peek == '{' or self.peek == '}':
             return self.scan_bracket()
 
@@ -213,6 +215,15 @@ class Lexer:
             w = Word(b, Tag.ID)
             self.words[b] = w
             return w
+
+    def error(self, line, column, msg):
+        print(f"line {line}, column {column}: {msg}")
+
+    def check_error(self):
+        if self.stack:
+            for s, (r, c) in self.stack:
+                self.error(r, c, f"unmatched bracket {s}")
+        print("Lexical analysis completed")
 
 
 if __name__ == '__main__':
