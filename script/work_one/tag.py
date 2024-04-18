@@ -44,6 +44,7 @@ class Tag(Enum):
     DOT = "DOT"
     COLON = "COLON"
     PERCENT = "PERCENT"
+    COMMENT = "COMMENT"
 
     ERROR = "ERROR"
     UNKNOWN = "UNKNOWN"

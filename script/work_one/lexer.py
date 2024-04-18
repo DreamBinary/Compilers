@@ -76,7 +76,6 @@ class Lexer:
                 break
         if self.peek != '.':
             return str(int(x))
-        x *= 10
         self.readch()
         d = 10
         while True:
@@ -215,14 +214,16 @@ class Lexer:
             self.readch()
             return Word("%", Tag.PERCENT)
         elif self.peek == '#':  # comment
+            t = ""
             while self.peek != '\n':
+                t += self.peek
                 self.readch()
-            return
+            return Word(t, Tag.COMMENT)
         elif self.peek == '.':
             self.readch()
             if self.peek.isdigit():
                 num = self.scan_number()
-                return Word(str(num), Tag.REAL)
+                return Word("." + str(num), Tag.REAL)
         elif self.peek == '(' or self.peek == ')' or self.peek == '[' or self.peek == ']' or self.peek == '{' or self.peek == '}':
             return self.scan_bracket()
 
@@ -230,13 +231,14 @@ class Lexer:
         b = ""
         if self.peek.isdigit():
             num = self.scan_number()
-            if self.peek == ' ':
+
+            if self.peek.isalpha():
+                b += str(num)
+            else:
                 if '.' in num:
                     return Word(num, Tag.REAL)
                 else:
                     return Word(num, Tag.INT)
-            else:
-                b += str(num)
 
         # words
         if self.peek.isalpha() or self.peek == '_':
