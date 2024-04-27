@@ -2,9 +2,8 @@
 # @FileName : tokenn.py
 # @Time : 2024/4/14 16:37
 # @Author : fiv
-import numpy
 from tag import Tag
-from lexeme import Lexeme
+
 
 class Token:
     """
@@ -29,6 +28,7 @@ class Word(Token):
     """
     Word描述保留字、标识符和各种复合运算符，派生于Token，增加了一个数据成员lexeme，它的构造函数有两个参数（前面是词素，后面是记号值）。7至13行定义一些Word类的常量。
     """
+
     def __init__(self, lexeme: str, tag: Tag):
         super().__init__(tag)
         self.lexeme = lexeme

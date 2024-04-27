@@ -32,6 +32,7 @@ class Lexer:
             w = self.scan()
             if w is not None:
                 self.tokens.append((w, (self.line, self.column - len(w.lexeme))))
+        return self.tokens, self.symtable
         # self.check_error()
 
     def init_words(self):
