@@ -6,7 +6,7 @@
 from tag import Tag
 import re
 from tokenn import Word
-
+import flet as ft
 
 class Lexer:
     """
@@ -272,7 +272,6 @@ class Lexer:
         print("-" * 50)
         for token, (r, c) in self.tokens:
             print("{:<10} | {:<15} | {:<10} | {:<10}".format(token.lexeme, token.tag.value, r, c))
-
         print("\n" + "-" * 50)
         if self.error:
             print("Error:")
@@ -297,7 +296,6 @@ if __name__ == '__main__':
     from ENV import PATH
 
     in_path = PATH.DATA_PATH / "work1" / "miniRC.in"
-
     lexer = Lexer(in_path)
     lexer.analyze()
     lexer.output()
