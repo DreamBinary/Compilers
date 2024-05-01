@@ -1,0 +1,20 @@
+lexeme          | tag            
+------------------------------
+IDENTIFIER      | K              
+IDENTIFIER      | KL             
+IDENTIFIER      | KR             
+IDENTIFIER      | N              
+IDENTIFIER      | NL             
+IDENTIFIER      | NR             
+IDENTIFIER      | a              
+IDENTIFIER      | b              
+IDENTIFIER      | ceiling        
+IDENTIFIER      | floor          
+IDENTIFIER      | miniRC         
+IDENTIFIER      | rc             
+KEYWORD         | double         
+KEYWORD         | else           
+KEYWORD         | function       
+KEYWORD         | if             
+KEYWORD         | integer        
+KEYWORD         | return         
