@@ -59,13 +59,13 @@ class Lexer:
             self.symtable[tag].add(lexeme)
 
     def readch(self):
-        if self.index >= self.max:
-            self.peek = self.end_flag
+        if self.index >= self.max:  # 文件结束
+            self.peek = self.end_flag  # 标志文件结束
             self.column += 1
             return
         self.peek = self.text[self.index]
-        self.index += 1
-        self.column += 1
+        self.index += 1  # 读取下一个字符
+        self.column += 1  # 更新列号  行号由\n更新
         # print(self.line, self.column, self.peek)
 
     def check_readch(self, c):
@@ -240,7 +240,7 @@ class Lexer:
         if self.peek.isdigit():
             num = self.scan_number()
 
-            if self.peek.isalpha():
+            if self.peek.isalpha():  # 检测数字后面是否跟字母, 数字和字母可以组成标识符。而不是将数字和字母分开
                 b += str(num)
             else:
                 if '.' in num:
@@ -261,7 +261,7 @@ class Lexer:
             if w is not None:
                 self.add2symtable(w)
                 return w
-            if not b.isidentifier():
+            if not b.isidentifier():  # 检测是否是合法的标识符
                 w = Word(b, Tag.ERROR)
                 self.error.append((self.line, self.column - len(b), f"invalid identifier {b}"))
             else:
@@ -270,7 +270,7 @@ class Lexer:
             return w
 
         # unknown
-        if self.peek != self.end_flag:
+        if self.peek != self.end_flag:  # end_flag 标志着文件结束
             w = Word(self.peek, Tag.ERROR)
             self.error.append((self.line, self.column, f"unknown symbol {self.peek}"))
             self.readch()
