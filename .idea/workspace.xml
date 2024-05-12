@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Compilers.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Compilers.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/work_one/lexer.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/work_one/lexer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,24 +35,28 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2fiPvEGmvp7TcAoOgYoi5CfHCgX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.lexer.executor": "Run",
-    "Python.tmp.executor": "Run",
-    "Python.ui.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "V:/Compilers/data/work1",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.lexer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tmp.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ui.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;V:/Sample-Compiler&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="V:\Compilers\data\work2" />
       <recent name="V:\Compilers\data\work1" />
     </key>
   </component>
@@ -156,6 +158,10 @@
       <workItem from="1714528969549" duration="3136000" />
       <workItem from="1714533533606" duration="414000" />
       <workItem from="1714543141986" duration="1347000" />
+      <workItem from="1714544517827" duration="29000" />
+      <workItem from="1714557341810" duration="624000" />
+      <workItem from="1715515532281" duration="1194000" />
+      <workItem from="1715518553086" duration="339000" />
     </task>
     <servers />
   </component>
