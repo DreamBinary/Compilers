@@ -2,11 +2,15 @@
 # @FileName : lexer.py
 # @Time : 2024/4/14 16:02
 # @Author : fiv
-from pathlib import Path
 
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from ENV import PATH
+from pathlib import Path
 from tag import Tag
 from tokenn import Word
-from ENV import PATH
 
 
 class Lexer:
@@ -175,7 +179,7 @@ class Lexer:
                 return Word("|", Tag.OR)
         elif self.peek == '=':
             if self.check_readch('='):
-                return Word("==", Tag.EQ)
+                return Word("==", Tag.EQEQ)
             else:
                 return Word("=", Tag.EQ)
         elif self.peek == '!':
