@@ -3,6 +3,10 @@
 # @Time : 2024/5/12 21:00
 # @Author : fiv
 
+
+from enum import Enum
+import re
+
 """
 miniRC=function(integer delta){
      integer a[5] [10], b[5] [10], i, j;
@@ -22,7 +26,6 @@ miniRC=function(integer delta){
     return(sum);
 }
 """
-from enum import Enum
 
 """
 miniRC=function(integer N, integer K, double rc){
@@ -168,12 +171,12 @@ class Grammar:
             key = key.strip()
             value = value.strip()
             # split by '|' not ' ||'
-            import re
             value = re.split(r'\s*\|\s*', value)
             tmp_grammar_dict[key] = value
 
         # convert grammar_dict to EnumGrammar and EnumSymbol
-        new_grammar_dict = {}
+        # new_grammar_dict = {}
+        new_grammar_dict = []  # 改增广文法
         for key, value in tmp_grammar_dict.items():
             # convert key to EnumGrammar
             new_key = getattr(EnumGrammar, key.upper())
@@ -191,9 +194,9 @@ class Grammar:
                         else:
                             # convert value to EnumGrammar
                             nv.append(EnumGrammar(vv.upper()))
-
                 new_value.append(tuple(nv))
-            new_grammar_dict[new_key] = new_value
+            for tv in new_value:
+                new_grammar_dict.append((new_key, tv))
         return new_grammar_dict
 
 
@@ -216,9 +219,11 @@ comment -> # | # letter | # letter comment | # digit | # digit comment | # digit
     grammar_dict = g.covert_grammar()
 
     # TODO: print grammar_dict
-    for k, v in grammar_dict.items():
-        print(k, " -> ", end='')
-        for vv in v:
-            print(vv, end=' | ')
-            # print(tuple([(vvv.value if type(vvv) is not str else vvv) for vvv in vv]), end=' | ')
-        print()
+    # for k, v in grammar_dict.items():
+    #     print(k, " -> ", end='')
+    #     for vv in v:
+    #         print(vv, end=' | ')
+    #         # print(tuple([(vvv.value if type(vvv) is not str else vvv) for vvv in vv]), end=' | ')
+    #     print()
+    for i in grammar_dict:
+        print(i)
