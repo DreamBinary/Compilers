@@ -1,0 +1,8 @@
+program -> variable
+variable -> variable ; | type identifier | type identifier = expression | type identifier = function | type identifier , variable | type identifier [ integer ] | type identifier [ integer ] [ integer ]
+function -> type identifier ( expressionList ) { statementList } | type identifier ( expressionList )
+type -> integer | double | epsilon
+statementList -> statement | statementList statement
+statement -> variable |  if ( expression ) statement |  if ( expression ) statement else statement | if ( expression ) statement else if ( expression ) statement | repeat { statementList } until ( expression ) | for ( expressionList ) { statementList } | for ( expressionList ) statement | return expression ; | break ; | epsilon | ;
+expressionList -> expression | expressionList ; expression | expressionList , expression
+expression -> variable | function | expression + expression | expression - expression | expression * expression | expression / expression | expression < expression | expression > expression | expression == expression | expression != expression | expression && expression | expression || expression | expression ++ | expression -- | ( expression )

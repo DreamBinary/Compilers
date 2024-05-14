@@ -7,7 +7,9 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from ENV import PATH
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), os.pardir)))
+
 from pathlib import Path
 from tag import Tag
 from tokenn import Word

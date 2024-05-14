@@ -56,7 +56,7 @@ if         | KEYWORD         | 7          | 6
 KL         | IDENTIFIER      | 7          | 9         
 <          | <=              | 7          | 12        
 1          | INT             | 7          | 14        
-||         | OR              | 7          | 15        
+||         | ||              | 7          | 15        
 KL         | IDENTIFIER      | 7          | 19        
 >          | >=              | 7          | 22        
 (          | (               | 7          | 24        

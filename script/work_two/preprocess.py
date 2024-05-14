@@ -3,9 +3,11 @@
 # @Time : 2024/5/13 20:15
 # @Author : fiv
 
-from script.work_one import Lexer
-from ENV import PATH
-from script.work_one import Tag
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
+
+from work_one import Lexer, Tag
 from grammar import EnumGrammar, EnumSymbol
 
 
@@ -24,31 +26,14 @@ class PreProcess:
         new_tokens = []
         for token, (r, c) in tokens:
             val, tag = token.lexeme, token.tag
+            new_token = None
             if tag.value == EnumGrammar.IDENTIFIER.value:
                 new_token = (val, EnumGrammar.IDENTIFIER)
-            elif tag.value == Tag.KEYWORD.value:
-                if val == "if":
-                    new_token = (val, EnumGrammar.IF)
-                elif val == "else":
-                    new_token = (val, EnumGrammar.ELSE)
-                elif val == "integer":
-                    new_token = (val, EnumGrammar.INTEGER)
-                elif val == "double":
-                    new_token = (val, EnumGrammar.DOUBLE)
-                elif val == "return":
-                    new_token = (val, EnumGrammar.RETURN)
-                elif val == "function":
-                    new_token = (val, EnumGrammar.FUNCTION)
-                elif val == "until":
-                    new_token = (val, EnumGrammar.UNTIL)
-                elif val == "repeat":
-                    new_token = (val, EnumGrammar.REPEAT)
-                elif val == "break":
-                    new_token = (val, EnumGrammar.BREAK)
-                elif val == "for":
-                    new_token = (val, EnumGrammar.FOR)
-                else:
-                    print("ERROR:", print(val, tag))
+            elif tag.value == Tag.KEYWORD.value:  # 关键字处理
+                try:
+                    new_token = EnumGrammar(val.upper())
+                except ValueError:
+                    print("No exist keyword: ", val)
             elif tag.value == Tag.INT.value:
                 new_token = (val, EnumGrammar.INT)
             elif tag.value == Tag.REAL.value:
@@ -60,6 +45,7 @@ class PreProcess:
 
 
 if __name__ == '__main__':
+    from ENV import PATH
     # TODO: 输出按文法转换之后的tokens
     path = PATH.DATA_PATH / "work2" / "miniRC.in2"
     s = PreProcess(path)

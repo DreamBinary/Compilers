@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a3391ad7-3ad3-4110-9d72-37a930917cb0" name="b">
+        <fileTransfer rootFolder="/HOME/scw6byb" accessType="SFTP" host="ssh.cn-zhongwei-1.paracloud.com" port="22" sshConfigId="ffd13c2f-03bf-4e59-809d-82449e2a8973" sshConfig="scw6byb@NC-N40@ssh.cn-zhongwei-1.paracloud.com:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
