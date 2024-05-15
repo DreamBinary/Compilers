@@ -12,7 +12,6 @@ sys.path.append(path)
 from collections import defaultdict
 
 from grammar import Grammar, EnumGrammar
-from preprocess import PreProcess
 from typing import Tuple, List
 from copy import deepcopy
 from tqdm import tqdm
@@ -157,5 +156,7 @@ if __name__ == "__main__":
     lr = LR()
 
     # TODO 检查LR0自动机
-    for i in lr.items:
-        print(i)
+    with open("LR0.txt", "w") as f:
+        for i in lr.items:
+            print(i)
+            f.write(str(i))

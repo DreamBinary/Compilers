@@ -100,7 +100,7 @@ class Grammar:
                 continue
             value = value.strip()
             # split by '|' not ' ||'
-            value = re.split(r'\s*\|\s*', value)
+            value = value.split(" | ")  # 注意空格
             tmp_grammar_dict[key] = value
 
         # convert grammar_dict to EnumGrammar and EnumSymbol
