@@ -60,7 +60,10 @@ class ItemCluster:
     def __init__(self, state: int, items: List[Item]):
         self.items = items
         self.state = state
-        self.goto = defaultdict(lambda: -1)
+        self.goto = defaultdict(lambda: -1)  # x -> state
+
+    def get_goto(self, x):
+        return self.goto.get(x)
 
     def __eq__(self, other):
         if len(self.items) != len(other.items):
@@ -82,10 +85,8 @@ class ItemCluster:
 
 # 文法分析
 class LR:
-    def __init__(self, input_file):
-        self.input = self.get_input(input_file)
+    def __init__(self):
         self.grammar, self.sym = self.get_grammar()
-        self.stack = []
         self.items = self.get_items()
 
     def goto(self, il, x):
@@ -114,7 +115,7 @@ class LR:
 
     def get_items(self):
         bar = tqdm()
-        state = 1
+        state = 0
         c = [ItemCluster(state, self.closure([self.grammar[0]]))]
         state += 1
         now_len = 0
@@ -141,10 +142,6 @@ class LR:
                 break
         return c
 
-    def get_input(self, input_file):
-        pp = PreProcess(input_file)
-        return pp.tokens
-
     def get_grammar(self):
         dirr = os.path.dirname(__file__)
         grammar = os.path.join(dirr, 'grammar.txt')
@@ -157,9 +154,7 @@ class LR:
 if __name__ == "__main__":
     from ENV import PATH
 
-    in_path = PATH.DATA_PATH / "work2" / "miniRC.in1"
-    lr = LR(in_path)
-
+    lr = LR()
 
     # TODO 检查LR0自动机
     for i in lr.items:

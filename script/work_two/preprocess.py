@@ -8,7 +8,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 
 from work_one import Lexer, Tag
-from grammar import EnumGrammar, EnumSymbol
+from grammar import EnumGrammar
 
 
 class PreProcess:
@@ -39,7 +39,7 @@ class PreProcess:
             elif tag.value == Tag.REAL.value:
                 new_token = (val, EnumGrammar.FLOAT)
             else:
-                new_token = (val, EnumSymbol(tag.value))
+                new_token = (val, EnumGrammar(tag.value))
             new_tokens.append(new_token)
         return new_tokens
 

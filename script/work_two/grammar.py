@@ -7,6 +7,7 @@
 from enum import Enum
 import re
 
+
 class EnumGrammar(Enum):
     def __hash__(self):
         return super().__hash__()
@@ -25,7 +26,6 @@ class EnumGrammar(Enum):
     FLOAT = 'FLOAT'
     # LETTER = 'LETTER'
     IDENTIFIER = 'IDENTIFIER'
-    COMMENT = 'COMMENT'
     IF = 'IF'
     ELSE = 'ELSE'
     REPEAT = 'REPEAT'
@@ -36,11 +36,6 @@ class EnumGrammar(Enum):
     EPSILON = 'EPSILON'
     STATEMENTLIST = 'STATEMENTLIST'
     EXPRESSIONLIST = 'EXPRESSIONLIST'
-
-
-class EnumSymbol(Enum):
-    def __hash__(self):
-        return super().__hash__()
 
     EQ = '='
     PLUS = '+'
@@ -69,6 +64,10 @@ class EnumSymbol(Enum):
     COMMENT = '#'
 
 
+# class EnumSymbol(Enum):
+#     def __hash__(self):
+#         return super().__hash__()
+
 class Grammar:
     def __init__(self, grammar_file: str):
         self.grammar = open(grammar_file, 'r').read()
@@ -83,9 +82,9 @@ class Grammar:
             if k.name not in rm:
                 sym.append(k)
         # add EnumSymbol
-        for k in EnumSymbol:
-            sym.append(k)
-        sym = sorted(sym, key=lambda x: x.name)
+        # for k in EnumSymbol:
+        #     sym.append(k)
+        # sym = sorted(sym, key=lambda x: x.name)
         return sym
 
     def covert_grammar(self):
@@ -118,7 +117,7 @@ class Grammar:
                     if vv:
                         if not vv.isalnum():
                             # convert value to EnumSymbol, = -->> EQ
-                            nv.append(EnumSymbol(vv))
+                            nv.append(EnumGrammar(vv))
                         elif len(vv) == 1:
                             nv.append(str(vv))
                         else:
@@ -136,6 +135,7 @@ class Grammar:
 
 if __name__ == '__main__':
     import os
+
     dirr = os.path.dirname(__file__)
     grammar = os.path.join(dirr, 'grammar.txt')
     g = Grammar(grammar)
