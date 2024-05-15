@@ -14,19 +14,20 @@ class SLR:
 
     def __init__(self, input_file):
         self.input = self.get_input(input_file)
-        self.lr = LR()
+        self.lr = LR()  # LR0自动机
         self.items: List[ItemCluster] = self.lr.items
         self.grammar = self.lr.grammar
         self.grammar_dict = self.convert_grammar_dict()
-        self.term, self.non_term = self.split_sym(self.lr.sym)  # terminal, non-terminal
+        self.sym = self.lr.sym
+        self.term, self.non_term = self.split_sym(self.sym)  # terminal, non-terminal
         self.dollar = "DOLLAR"
         self.epsilon = EnumGrammar.EPSILON
         self.first = self.get_first()
         self.follow = self.get_follow()
 
         self.midx = len(self.input)
-        self.sym = []
-        self.action = []
+        self.action = self.get_action()
+        self.goto = self.get_goto()
 
     def convert_grammar_dict(self):
         grammar_dict = defaultdict(list)
@@ -44,26 +45,44 @@ class SLR:
                 term.append(s)
         return term, non_term
 
-    def table(self):
-        idx = 0
-        state = 0
-        while idx < self.midx:
-            top = self.input[idx]
-            idx += 1
+    def get_action(self):  # 分析表
+        action = defaultdict(dict)
+        il = len(self.items)
+        sym = self.non_term + [self.dollar]
+        for idx in range(il):
+            item = self.items[idx]
+            state = item.state
+            for s in sym:
+                goto = item.get_goto(s)
+                if goto:
+                    if goto == -1:
+                        reduce = item.get_reduce()
+                        if reduce:
+                            for r in reduce:
+                                if r.pre == EnumGrammar.PROGRAM_:
+                                    action[state][self.dollar] = "acc"
+                                else:
+                                    for f in self.follow[r.pre]:
+                                        action[state][f] = f"r{r.label}"
+                    elif goto == -2:
+                        print("ERROR")
+                    else:
+                        action[state][s] = f"s{goto}"
+        return action
 
-            self.sym.append(top)
-
-            print("state: ", state)
-            print("top: ", top)
-
-            n_state = self.items[state].get_goto(top[-1])
-            if n_state is None:
-                print("error")  # TODO
-            elif n_state == -1:
-                # 规约
-                print("reduce")
-            else:
-                print("shift to ", n_state)
+    def get_goto(self):
+        goto = defaultdict(dict)
+        il = len(self.items)
+        for idx in range(il):
+            item = self.items[idx]
+            state = item.state
+            for s in self.non_term:
+                goto_state = item.get_goto(s)
+                if goto_state and goto_state != -1:
+                    goto[state][s] = goto_state
+                else:
+                    print("ERROR")
+        return goto
 
     def get_follow(self):
         follow = {nt: set() for nt in self.non_term}
@@ -127,17 +146,24 @@ class SLR:
 
 
 if __name__ == '__main__':
-
     import os
     from ENV import PATH
 
     path = PATH.DATA_PATH / "work2" / "miniRC.in1"
     slr = SLR(path)
-    for g in slr.grammar:
-        print(g.pre, g.suf)
+    # for g in slr.grammar:
+    #     print(g.pre, g.suf)
 
     # TODO 检查一下
-    print("==>> first")
-    print(slr.first)
-    print("==>> follow")
-    print(slr.follow)
+    # print("==>> first")
+    # print(slr.first)
+    # print("==>> follow")
+    # print(slr.follow)
+    print("==>> action")
+    for k, v in slr.action.items():
+        for kk, vv in v.items():
+            print(k, kk, vv)
+    print("==>> goto")
+    for k, v in slr.goto.items():
+        for kk, vv in v.items():
+            print(k, kk, vv)

@@ -6,6 +6,7 @@
 check 文法, raw_grammar.txt
 check 词法转换完的代码 （preprocess.py）
 check first and follow
+check action and goto table
 
 
 # TODO FAN

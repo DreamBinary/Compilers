@@ -18,8 +18,9 @@ from tqdm import tqdm
 
 
 class Item:
-    def __init__(self, grammar: Tuple[EnumGrammar, Tuple], index: int):
+    def __init__(self, grammar: Tuple[EnumGrammar, Tuple], index: int, label):
         # pre -> suf
+        self.label = label  # 标记在文法中的位置
         self.index = index
         self.pre = grammar[0]
         self.suf = grammar[1]
@@ -36,8 +37,11 @@ class Item:
                 return False
         return True
 
+    def end(self):
+        return self.index >= len(self.suf)
+
     def current(self):
-        if self.index >= len(self.suf):
+        if self.end():
             return None
         return self.suf[self.index]
 
@@ -59,10 +63,17 @@ class ItemCluster:
     def __init__(self, state: int, items: List[Item]):
         self.items = items
         self.state = state
-        self.goto = defaultdict(lambda: -1)  # x -> state
+        self.goto = defaultdict(lambda: -2)  # x -> state
 
     def get_goto(self, x):
         return self.goto.get(x)
+
+    def get_reduce(self):
+        r_items = []
+        for i in self.items:
+            if i.end():
+                r_items.append(i)
+        return r_items
 
     def __eq__(self, other):
         if len(self.items) != len(other.items):
@@ -78,7 +89,10 @@ class ItemCluster:
     def __str__(self):
         res = f"==>> state: {self.state}\n"
         for i in self.items:
-            res += f"{i}    goto: {self.goto[i.current()]}\n"
+            res += f"{i}  index: {i.index} {len(i.suf)}    goto: {self.goto[i.current()]}\n"
+        r = self.get_reduce()
+        for i in r:
+            res += f"Reduce: {i.pre.value} -> {' '.join([j.value for j in i.suf])}\n"
         return res
 
 
@@ -124,8 +138,6 @@ class LR:
             now_len = len(c)
             for idx in range(last_len, now_len):
                 for x in self.sym:
-                    if x == EnumGrammar.EPSILON:  # EPSILON为空, 不需要处理
-                        continue
                     nic = ItemCluster(state, self.goto(c[idx].items, x))
                     if nic:
                         # ic x -> nic
@@ -137,8 +149,13 @@ class LR:
                             state += 1
                             bar.set_description(f"==>> state: {state}")
                             flag = False
+                    else:
+                        c[idx].goto[x] = -1
+
             if flag:
                 break
+        bar.set_description(f"==>> Done: {state}")
+        bar.close()
         return c
 
     def get_grammar(self):
@@ -146,7 +163,8 @@ class LR:
         grammar = os.path.join(dirr, 'grammar.txt')
         g = Grammar(grammar)
         grammar, sym = g.get_grammar()
-        grammar = [Item(i, 0) for i in grammar]
+        grammar = [(Item(i, 0, idx) if i[1][0] != EnumGrammar.EPSILON else Item(i, 1, idx)) for idx, i in
+                   enumerate(grammar)]
         return grammar, sym
 
 
