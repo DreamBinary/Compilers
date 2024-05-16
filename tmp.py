@@ -1,24 +1,76 @@
 # -*- coding:utf-8 -*-
-# @FileName : tmp.py
-# @Time : 2024/5/1 11:19
+# @FileName : ls.py
+# @Time : 2024/5/16 13:53
 # @Author : fiv
 
-from math import pow, e
+import turtle as t
+from copy import deepcopy
 
-a = [0, 1, 2]
 
-a_e = [pow(e, i) for i in a]
-a_e_s = sum(a_e)
+class Draw:
+    def __init__(self, angle, length):
+        self.stack = []  # (pos, ang, len)
+        self.length = length
+        self.angle = angle
 
-mm = max(a) - min(a)
-a_o = [i / mm for i in a]
+    def process(self, ls, cnt=3):
+        tls = deepcopy(ls)
+        for i in range(cnt):
+            ls = ls.replace("F", tls)
+        return ls
 
-m = sum(a) / len(a)
-s = sum([(i - m) ** 2 for i in a]) / len(a)
+    def draw(self, ls, cnt=3, heading=None):
+        nls = self.process(ls, cnt)
+        t.penup()
+        if heading:
+            t.setheading(heading)
+        t.goto(0, 0)
+        t.pendown()
+        for c in nls:
+            if c == 'F':
+                t.fd(self.length)
+            elif c == '+':
+                t.lt(self.angle)
+            elif c == '-':
+                t.rt(self.angle)
+            elif c == '[':
+                self.stack.append((t.pos(), t.heading(), self.length))
+                self.length *= 0.6
+            elif c == ']':
+                pos, ang, length = self.stack.pop()
+                self.length = length
+                t.penup()
+                t.goto(pos)
+                t.setheading(ang)
+                t.pendown()
 
-print(a_e, a_e_s)
-print(a_o, mm)
-print(m, s)
-print([i / a_e_s for i in a_e])
-print([i / mm for i in a_o])
-print([(i - m) / s for i in a])
+
+if __name__ == '__main__':
+    t.setup(800, 800)
+    t.speed(0)
+    lsl = [
+        ("F+F+++F+F+++F", 60, 100),  # alpha = 60
+        ("F[+F][-F]", 30, 100),  # alpha = 30
+        ("[F[+F][-F]]", 30, 500),  # alpha = 30
+    ]
+    for ls, angle, length in lsl:
+        t.reset()
+        d = Draw(angle, length)
+        d.draw(ls, cnt=5, heading=90)
+        t.getcanvas().postscript(file=f'{ls}.eps')
+    t.done()
+# (1)
+# w: F
+# alpha: 60
+# F -> F+F+++F+F+++F
+# (2)
+# w: F
+# alpha: 30
+# F -> F[+F][-F]
+# (3)
+# w: F
+# alpha: 30
+# F -> [F[+F][-F]]
+#
+#
+# F[+F][-F][+F[+F][-F]][-F[+F][-F]]

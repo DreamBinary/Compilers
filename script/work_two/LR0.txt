@@ -4,7 +4,7 @@ PROGRAM ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -22,7 +22,7 @@ Reduce: PROGRAM -> VARIABLE
 ==>> state: 3
 VARIABLE -> TYPE . IDENTIFIER  index: 1 2    goto: 7
 VARIABLE -> TYPE . IDENTIFIER = EXPRESSION  index: 1 4    goto: 7
-VARIABLE -> TYPE . IDENTIFIER = FUNCTION  index: 1 4    goto: 7
+VARIABLE -> TYPE . IDENTIFIER = FUN  index: 1 4    goto: 7
 VARIABLE -> TYPE . IDENTIFIER , VARIABLE  index: 1 4    goto: 7
 VARIABLE -> TYPE . IDENTIFIER [ INTEGER ]  index: 1 5    goto: 7
 VARIABLE -> TYPE . IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 1 8    goto: 7
@@ -38,38 +38,39 @@ Reduce: VARIABLE -> VARIABLE ;
 ==>> state: 7
 VARIABLE -> TYPE IDENTIFIER .   index: 2 2    goto: -2
 VARIABLE -> TYPE IDENTIFIER . = EXPRESSION  index: 2 4    goto: 8
-VARIABLE -> TYPE IDENTIFIER . = FUNCTION  index: 2 4    goto: 8
+VARIABLE -> TYPE IDENTIFIER . = FUN  index: 2 4    goto: 8
 VARIABLE -> TYPE IDENTIFIER . , VARIABLE  index: 2 4    goto: 10
 VARIABLE -> TYPE IDENTIFIER . [ INTEGER ]  index: 2 5    goto: 9
 VARIABLE -> TYPE IDENTIFIER . [ INTEGER ] [ INTEGER ]  index: 2 8    goto: 9
 Reduce: VARIABLE -> TYPE IDENTIFIER
 ==>> state: 8
-VARIABLE -> TYPE IDENTIFIER = . EXPRESSION  index: 3 4    goto: 13
-VARIABLE -> TYPE IDENTIFIER = . FUNCTION  index: 3 4    goto: 12
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 12
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 13
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 13
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 13
+VARIABLE -> TYPE IDENTIFIER = . EXPRESSION  index: 3 4    goto: 14
+VARIABLE -> TYPE IDENTIFIER = . FUN  index: 3 4    goto: 11
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 12
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 14
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 14
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 14
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
+FUN ->  . VARIABLE ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 12
+FUN ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 12
+FUN ->  . FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 13
+FUN ->  . FUNCTION ( EXPRESSIONLIST )  index: 0 4    goto: 13
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 12
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
@@ -82,7 +83,7 @@ VARIABLE -> TYPE IDENTIFIER , . VARIABLE  index: 3 4    goto: 17
 VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 17
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -91,109 +92,73 @@ TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 11
+VARIABLE -> TYPE IDENTIFIER = FUN .   index: 4 4    goto: -2
+Reduce: VARIABLE -> TYPE IDENTIFIER = FUN
+==>> state: 12
 EXPRESSION -> VARIABLE .   index: 1 1    goto: -2
+FUN -> VARIABLE . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 7    goto: 18
+FUN -> VARIABLE . ( EXPRESSIONLIST )  index: 1 4    goto: 18
 VARIABLE -> VARIABLE . ;  index: 1 2    goto: 6
 Reduce: EXPRESSION -> VARIABLE
-==>> state: 12
-VARIABLE -> TYPE IDENTIFIER = FUNCTION .   index: 4 4    goto: -2
-EXPRESSION -> FUNCTION .   index: 1 1    goto: -2
-Reduce: VARIABLE -> TYPE IDENTIFIER = FUNCTION
-Reduce: EXPRESSION -> FUNCTION
 ==>> state: 13
-VARIABLE -> TYPE IDENTIFIER = EXPRESSION .   index: 4 4    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: VARIABLE -> TYPE IDENTIFIER = EXPRESSION
+FUN -> FUNCTION . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 7    goto: 19
+FUN -> FUNCTION . ( EXPRESSIONLIST )  index: 1 4    goto: 19
 ==>> state: 14
-FUNCTION -> TYPE . IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 8    goto: 30
-FUNCTION -> TYPE . IDENTIFIER ( EXPRESSIONLIST )  index: 1 5    goto: 30
-VARIABLE -> TYPE . IDENTIFIER  index: 1 2    goto: 30
-VARIABLE -> TYPE . IDENTIFIER = EXPRESSION  index: 1 4    goto: 30
-VARIABLE -> TYPE . IDENTIFIER = FUNCTION  index: 1 4    goto: 30
-VARIABLE -> TYPE . IDENTIFIER , VARIABLE  index: 1 4    goto: 30
-VARIABLE -> TYPE . IDENTIFIER [ INTEGER ]  index: 1 5    goto: 30
-VARIABLE -> TYPE . IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 1 8    goto: 30
+VARIABLE -> TYPE IDENTIFIER = EXPRESSION .   index: 4 4    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: VARIABLE -> TYPE IDENTIFIER = EXPRESSION
 ==>> state: 15
-EXPRESSION -> ( . EXPRESSION )  index: 1 3    goto: 32
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 32
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 32
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 32
+EXPRESSION -> ( . EXPRESSION )  index: 1 3    goto: 33
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 33
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 33
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 33
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 16
-VARIABLE -> TYPE IDENTIFIER [ INTEGER . ]  index: 4 5    goto: 33
-VARIABLE -> TYPE IDENTIFIER [ INTEGER . ] [ INTEGER ]  index: 4 8    goto: 33
+VARIABLE -> TYPE IDENTIFIER [ INTEGER . ]  index: 4 5    goto: 34
+VARIABLE -> TYPE IDENTIFIER [ INTEGER . ] [ INTEGER ]  index: 4 8    goto: 34
 ==>> state: 17
 VARIABLE -> TYPE IDENTIFIER , VARIABLE .   index: 4 4    goto: -2
 VARIABLE -> VARIABLE . ;  index: 1 2    goto: 6
 Reduce: VARIABLE -> TYPE IDENTIFIER , VARIABLE
 ==>> state: 18
-EXPRESSION -> EXPRESSION + . EXPRESSION  index: 2 3    goto: 34
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 34
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 34
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 34
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
-==>> state: 19
-EXPRESSION -> EXPRESSION - . EXPRESSION  index: 2 3    goto: 35
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+FUN -> VARIABLE ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 7    goto: 36
+FUN -> VARIABLE ( . EXPRESSIONLIST )  index: 2 4    goto: 36
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 35
+EXPRESSIONLIST ->  . EXPRESSIONLIST ; EXPRESSION  index: 0 3    goto: 36
+EXPRESSIONLIST ->  . EXPRESSIONLIST , EXPRESSION  index: 0 3    goto: 36
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 35
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 35
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 35
@@ -207,83 +172,51 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 35
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 35
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 35
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 19
+FUN -> FUNCTION ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 7    goto: 37
+FUN -> FUNCTION ( . EXPRESSIONLIST )  index: 2 4    goto: 37
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 35
+EXPRESSIONLIST ->  . EXPRESSIONLIST ; EXPRESSION  index: 0 3    goto: 37
+EXPRESSIONLIST ->  . EXPRESSIONLIST , EXPRESSION  index: 0 3    goto: 37
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 35
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 35
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 20
-EXPRESSION -> EXPRESSION * . EXPRESSION  index: 2 3    goto: 36
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 36
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 36
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 36
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
-==>> state: 21
-EXPRESSION -> EXPRESSION / . EXPRESSION  index: 2 3    goto: 37
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 37
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 37
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 37
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
-==>> state: 22
-EXPRESSION -> EXPRESSION < . EXPRESSION  index: 2 3    goto: 38
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+EXPRESSION -> EXPRESSION + . EXPRESSION  index: 2 3    goto: 38
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 38
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 38
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 38
@@ -297,23 +230,20 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 38
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 38
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 38
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 23
-EXPRESSION -> EXPRESSION > . EXPRESSION  index: 2 3    goto: 39
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+==>> state: 21
+EXPRESSION -> EXPRESSION - . EXPRESSION  index: 2 3    goto: 39
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 39
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 39
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 39
@@ -327,23 +257,20 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 39
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 39
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 39
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 24
-EXPRESSION -> EXPRESSION == . EXPRESSION  index: 2 3    goto: 40
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+==>> state: 22
+EXPRESSION -> EXPRESSION * . EXPRESSION  index: 2 3    goto: 40
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 40
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 40
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 40
@@ -357,23 +284,20 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 40
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 40
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 40
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 25
-EXPRESSION -> EXPRESSION != . EXPRESSION  index: 2 3    goto: 41
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+==>> state: 23
+EXPRESSION -> EXPRESSION / . EXPRESSION  index: 2 3    goto: 41
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 41
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 41
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 41
@@ -387,23 +311,20 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 41
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 41
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 41
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 26
-EXPRESSION -> EXPRESSION && . EXPRESSION  index: 2 3    goto: 42
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+==>> state: 24
+EXPRESSION -> EXPRESSION < . EXPRESSION  index: 2 3    goto: 42
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 42
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 42
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 42
@@ -417,23 +338,20 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 42
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 42
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 42
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 27
-EXPRESSION -> EXPRESSION || . EXPRESSION  index: 2 3    goto: 43
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+==>> state: 25
+EXPRESSION -> EXPRESSION > . EXPRESSION  index: 2 3    goto: 43
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 43
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 43
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 43
@@ -447,214 +365,101 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 43
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 43
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 43
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 26
+EXPRESSION -> EXPRESSION == . EXPRESSION  index: 2 3    goto: 44
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 44
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 44
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 44
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 27
+EXPRESSION -> EXPRESSION != . EXPRESSION  index: 2 3    goto: 45
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 45
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 45
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 45
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 28
-EXPRESSION -> EXPRESSION ++ .   index: 2 2    goto: -2
-Reduce: EXPRESSION -> EXPRESSION ++
+EXPRESSION -> EXPRESSION && . EXPRESSION  index: 2 3    goto: 46
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 46
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 46
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 46
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
 ==>> state: 29
-EXPRESSION -> EXPRESSION -- .   index: 2 2    goto: -2
-Reduce: EXPRESSION -> EXPRESSION --
-==>> state: 30
-FUNCTION -> TYPE IDENTIFIER . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 8    goto: 44
-FUNCTION -> TYPE IDENTIFIER . ( EXPRESSIONLIST )  index: 2 5    goto: 44
-VARIABLE -> TYPE IDENTIFIER .   index: 2 2    goto: -2
-VARIABLE -> TYPE IDENTIFIER . = EXPRESSION  index: 2 4    goto: 8
-VARIABLE -> TYPE IDENTIFIER . = FUNCTION  index: 2 4    goto: 8
-VARIABLE -> TYPE IDENTIFIER . , VARIABLE  index: 2 4    goto: 10
-VARIABLE -> TYPE IDENTIFIER . [ INTEGER ]  index: 2 5    goto: 9
-VARIABLE -> TYPE IDENTIFIER . [ INTEGER ] [ INTEGER ]  index: 2 8    goto: 9
-Reduce: VARIABLE -> TYPE IDENTIFIER
-==>> state: 31
-EXPRESSION -> FUNCTION .   index: 1 1    goto: -2
-Reduce: EXPRESSION -> FUNCTION
-==>> state: 32
-EXPRESSION -> ( EXPRESSION . )  index: 2 3    goto: 45
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-==>> state: 33
-VARIABLE -> TYPE IDENTIFIER [ INTEGER ] .   index: 5 5    goto: -2
-VARIABLE -> TYPE IDENTIFIER [ INTEGER ] . [ INTEGER ]  index: 5 8    goto: 46
-Reduce: VARIABLE -> TYPE IDENTIFIER [ INTEGER ]
-==>> state: 34
-EXPRESSION -> EXPRESSION + EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION + EXPRESSION
-==>> state: 35
-EXPRESSION -> EXPRESSION - EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION - EXPRESSION
-==>> state: 36
-EXPRESSION -> EXPRESSION * EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION * EXPRESSION
-==>> state: 37
-EXPRESSION -> EXPRESSION / EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION / EXPRESSION
-==>> state: 38
-EXPRESSION -> EXPRESSION < EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION < EXPRESSION
-==>> state: 39
-EXPRESSION -> EXPRESSION > EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION > EXPRESSION
-==>> state: 40
-EXPRESSION -> EXPRESSION == EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION == EXPRESSION
-==>> state: 41
-EXPRESSION -> EXPRESSION != EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION != EXPRESSION
-==>> state: 42
-EXPRESSION -> EXPRESSION && EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION && EXPRESSION
-==>> state: 43
-EXPRESSION -> EXPRESSION || EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSION -> EXPRESSION || EXPRESSION
-==>> state: 44
-FUNCTION -> TYPE IDENTIFIER ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 3 8    goto: 48
-FUNCTION -> TYPE IDENTIFIER ( . EXPRESSIONLIST )  index: 3 5    goto: 48
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 47
-EXPRESSIONLIST ->  . EXPRESSIONLIST ; EXPRESSION  index: 0 3    goto: 48
-EXPRESSIONLIST ->  . EXPRESSIONLIST , EXPRESSION  index: 0 3    goto: 48
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+EXPRESSION -> EXPRESSION || . EXPRESSION  index: 2 3    goto: 47
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 47
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 47
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 47
@@ -668,84 +473,232 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 47
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 47
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 47
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 45
-EXPRESSION -> ( EXPRESSION ) .   index: 3 3    goto: -2
-Reduce: EXPRESSION -> ( EXPRESSION )
-==>> state: 46
-VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ . INTEGER ]  index: 6 8    goto: 49
-==>> state: 47
+==>> state: 30
+EXPRESSION -> EXPRESSION ++ .   index: 2 2    goto: -2
+Reduce: EXPRESSION -> EXPRESSION ++
+==>> state: 31
+EXPRESSION -> EXPRESSION -- .   index: 2 2    goto: -2
+Reduce: EXPRESSION -> EXPRESSION --
+==>> state: 32
+EXPRESSION -> VARIABLE .   index: 1 1    goto: -2
+VARIABLE -> VARIABLE . ;  index: 1 2    goto: 6
+Reduce: EXPRESSION -> VARIABLE
+==>> state: 33
+EXPRESSION -> ( EXPRESSION . )  index: 2 3    goto: 48
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+==>> state: 34
+VARIABLE -> TYPE IDENTIFIER [ INTEGER ] .   index: 5 5    goto: -2
+VARIABLE -> TYPE IDENTIFIER [ INTEGER ] . [ INTEGER ]  index: 5 8    goto: 49
+Reduce: VARIABLE -> TYPE IDENTIFIER [ INTEGER ]
+==>> state: 35
 EXPRESSIONLIST -> EXPRESSION .   index: 1 1    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
 Reduce: EXPRESSIONLIST -> EXPRESSION
-==>> state: 48
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 4 8    goto: 50
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST . )  index: 4 5    goto: 50
+==>> state: 36
+FUN -> VARIABLE ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 3 7    goto: 50
+FUN -> VARIABLE ( EXPRESSIONLIST . )  index: 3 4    goto: 50
 EXPRESSIONLIST -> EXPRESSIONLIST . ; EXPRESSION  index: 1 3    goto: 52
 EXPRESSIONLIST -> EXPRESSIONLIST . , EXPRESSION  index: 1 3    goto: 51
+==>> state: 37
+FUN -> FUNCTION ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 3 7    goto: 53
+FUN -> FUNCTION ( EXPRESSIONLIST . )  index: 3 4    goto: 53
+EXPRESSIONLIST -> EXPRESSIONLIST . ; EXPRESSION  index: 1 3    goto: 52
+EXPRESSIONLIST -> EXPRESSIONLIST . , EXPRESSION  index: 1 3    goto: 51
+==>> state: 38
+EXPRESSION -> EXPRESSION + EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION + EXPRESSION
+==>> state: 39
+EXPRESSION -> EXPRESSION - EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION - EXPRESSION
+==>> state: 40
+EXPRESSION -> EXPRESSION * EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION * EXPRESSION
+==>> state: 41
+EXPRESSION -> EXPRESSION / EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION / EXPRESSION
+==>> state: 42
+EXPRESSION -> EXPRESSION < EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION < EXPRESSION
+==>> state: 43
+EXPRESSION -> EXPRESSION > EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION > EXPRESSION
+==>> state: 44
+EXPRESSION -> EXPRESSION == EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION == EXPRESSION
+==>> state: 45
+EXPRESSION -> EXPRESSION != EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION != EXPRESSION
+==>> state: 46
+EXPRESSION -> EXPRESSION && EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION && EXPRESSION
+==>> state: 47
+EXPRESSION -> EXPRESSION || EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSION -> EXPRESSION || EXPRESSION
+==>> state: 48
+EXPRESSION -> ( EXPRESSION ) .   index: 3 3    goto: -2
+Reduce: EXPRESSION -> ( EXPRESSION )
 ==>> state: 49
-VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ INTEGER . ]  index: 7 8    goto: 53
+VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ . INTEGER ]  index: 6 8    goto: 54
 ==>> state: 50
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 5 8    goto: 54
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST ) .   index: 5 5    goto: -2
-Reduce: FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST )
+FUN -> VARIABLE ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 4 7    goto: 55
+FUN -> VARIABLE ( EXPRESSIONLIST ) .   index: 4 4    goto: -2
+Reduce: FUN -> VARIABLE ( EXPRESSIONLIST )
 ==>> state: 51
-EXPRESSIONLIST -> EXPRESSIONLIST , . EXPRESSION  index: 2 3    goto: 55
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 55
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 55
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 55
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
-==>> state: 52
-EXPRESSIONLIST -> EXPRESSIONLIST ; . EXPRESSION  index: 2 3    goto: 56
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
+EXPRESSIONLIST -> EXPRESSIONLIST , . EXPRESSION  index: 2 3    goto: 56
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
 EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 56
 EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 56
 EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 56
@@ -759,41 +712,69 @@ EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 56
 EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 56
 EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 56
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 52
+EXPRESSIONLIST -> EXPRESSIONLIST ; . EXPRESSION  index: 2 3    goto: 57
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 57
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 57
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 57
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 53
-VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ INTEGER ] .   index: 8 8    goto: -2
-Reduce: VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]
+FUN -> FUNCTION ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 4 7    goto: 58
+FUN -> FUNCTION ( EXPRESSIONLIST ) .   index: 4 4    goto: -2
+Reduce: FUN -> FUNCTION ( EXPRESSIONLIST )
 ==>> state: 54
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 6 8    goto: 64
-STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 58
-STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 64
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
+VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ INTEGER . ]  index: 7 8    goto: 59
+==>> state: 55
+FUN -> VARIABLE ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 5 7    goto: 67
+STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 61
+STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 67
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
 STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -802,164 +783,129 @@ TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
-==>> state: 55
-EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION
 ==>> state: 56
-EXPRESSIONLIST -> EXPRESSIONLIST ; EXPRESSION .   index: 3 3    goto: -2
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-Reduce: EXPRESSIONLIST -> EXPRESSIONLIST ; EXPRESSION
+EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION
 ==>> state: 57
+EXPRESSIONLIST -> EXPRESSIONLIST ; EXPRESSION .   index: 3 3    goto: -2
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+Reduce: EXPRESSIONLIST -> EXPRESSIONLIST ; EXPRESSION
+==>> state: 58
+FUN -> FUNCTION ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 5 7    goto: 69
+STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 61
+STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 69
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
+STATEMENT -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: STATEMENT -> EPSILON
+Reduce: TYPE -> EPSILON
+==>> state: 59
+VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ INTEGER ] .   index: 8 8    goto: -2
+Reduce: VARIABLE -> TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]
+==>> state: 60
 STATEMENT -> VARIABLE .   index: 1 1    goto: -2
 VARIABLE -> VARIABLE . ;  index: 1 2    goto: 6
 Reduce: STATEMENT -> VARIABLE
-==>> state: 58
+==>> state: 61
 STATEMENTLIST -> STATEMENT .   index: 1 1    goto: -2
 Reduce: STATEMENTLIST -> STATEMENT
-==>> state: 59
-STATEMENT -> IF . ( EXPRESSION ) STATEMENT  index: 1 5    goto: 66
-STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 1 7    goto: 66
-STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 1 11    goto: 66
-==>> state: 60
-STATEMENT -> REPEAT . { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 1 8    goto: 67
-==>> state: 61
-STATEMENT -> FOR . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 7    goto: 68
-STATEMENT -> FOR . ( EXPRESSIONLIST ) STATEMENT  index: 1 5    goto: 68
 ==>> state: 62
-STATEMENT -> BREAK . ;  index: 1 2    goto: 69
+STATEMENT -> IF . ( EXPRESSION ) STATEMENT  index: 1 5    goto: 70
+STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 1 7    goto: 70
+STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 1 11    goto: 70
 ==>> state: 63
-STATEMENT -> RETURN . EXPRESSION ;  index: 1 3    goto: 70
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 70
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 70
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 70
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
+STATEMENT -> REPEAT . { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 1 8    goto: 71
 ==>> state: 64
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 7 8    goto: 72
-STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 71
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
-STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT -> FOR . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 7    goto: 72
+STATEMENT -> FOR . ( EXPRESSIONLIST ) STATEMENT  index: 1 5    goto: 72
+==>> state: 65
+STATEMENT -> BREAK . ;  index: 1 2    goto: 73
+==>> state: 66
+STATEMENT -> RETURN . EXPRESSION ;  index: 1 3    goto: 74
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 74
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 74
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 74
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: STATEMENT -> EPSILON
-Reduce: TYPE -> EPSILON
-==>> state: 65
-STATEMENT -> ; .   index: 1 1    goto: -2
-Reduce: STATEMENT -> ;
-==>> state: 66
-STATEMENT -> IF ( . EXPRESSION ) STATEMENT  index: 2 5    goto: 73
-STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE STATEMENT  index: 2 7    goto: 73
-STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 2 11    goto: 73
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 73
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 73
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 73
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 67
-STATEMENT -> REPEAT { . STATEMENTLIST } UNTIL ( EXPRESSION )  index: 2 8    goto: 74
-STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 58
-STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 74
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
+FUN -> VARIABLE ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 6 7    goto: 76
+STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 75
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
 STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -969,159 +915,181 @@ TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
 ==>> state: 68
-STATEMENT -> FOR ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 7    goto: 75
-STATEMENT -> FOR ( . EXPRESSIONLIST ) STATEMENT  index: 2 5    goto: 75
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 47
-EXPRESSIONLIST ->  . EXPRESSIONLIST ; EXPRESSION  index: 0 3    goto: 75
-EXPRESSIONLIST ->  . EXPRESSIONLIST , EXPRESSION  index: 0 3    goto: 75
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 47
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 47
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 47
+STATEMENT -> ; .   index: 1 1    goto: -2
+Reduce: STATEMENT -> ;
+==>> state: 69
+FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 6 7    goto: 77
+STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 75
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
+STATEMENT -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: STATEMENT -> EPSILON
+Reduce: TYPE -> EPSILON
+==>> state: 70
+STATEMENT -> IF ( . EXPRESSION ) STATEMENT  index: 2 5    goto: 78
+STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE STATEMENT  index: 2 7    goto: 78
+STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 2 11    goto: 78
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 78
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 78
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 78
 EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 69
+==>> state: 71
+STATEMENT -> REPEAT { . STATEMENTLIST } UNTIL ( EXPRESSION )  index: 2 8    goto: 79
+STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 61
+STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 79
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
+STATEMENT -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: STATEMENT -> EPSILON
+Reduce: TYPE -> EPSILON
+==>> state: 72
+STATEMENT -> FOR ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 7    goto: 80
+STATEMENT -> FOR ( . EXPRESSIONLIST ) STATEMENT  index: 2 5    goto: 80
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 35
+EXPRESSIONLIST ->  . EXPRESSIONLIST ; EXPRESSION  index: 0 3    goto: 80
+EXPRESSIONLIST ->  . EXPRESSIONLIST , EXPRESSION  index: 0 3    goto: 80
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 35
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 35
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 35
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 73
 STATEMENT -> BREAK ; .   index: 2 2    goto: -2
 Reduce: STATEMENT -> BREAK ;
-==>> state: 70
-STATEMENT -> RETURN EXPRESSION . ;  index: 2 3    goto: 76
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-==>> state: 71
+==>> state: 74
+STATEMENT -> RETURN EXPRESSION . ;  index: 2 3    goto: 81
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+==>> state: 75
 STATEMENTLIST -> STATEMENTLIST STATEMENT .   index: 2 2    goto: -2
 Reduce: STATEMENTLIST -> STATEMENTLIST STATEMENT
-==>> state: 72
-FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST } .   index: 8 8    goto: -2
-Reduce: FUNCTION -> TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }
-==>> state: 73
-STATEMENT -> IF ( EXPRESSION . ) STATEMENT  index: 3 5    goto: 77
-STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE STATEMENT  index: 3 7    goto: 77
-STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 3 11    goto: 77
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-==>> state: 74
-STATEMENT -> REPEAT { STATEMENTLIST . } UNTIL ( EXPRESSION )  index: 3 8    goto: 78
-STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 71
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
-STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: STATEMENT -> EPSILON
-Reduce: TYPE -> EPSILON
-==>> state: 75
-STATEMENT -> FOR ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 3 7    goto: 79
-STATEMENT -> FOR ( EXPRESSIONLIST . ) STATEMENT  index: 3 5    goto: 79
-EXPRESSIONLIST -> EXPRESSIONLIST . ; EXPRESSION  index: 1 3    goto: 52
-EXPRESSIONLIST -> EXPRESSIONLIST . , EXPRESSION  index: 1 3    goto: 51
 ==>> state: 76
-STATEMENT -> RETURN EXPRESSION ; .   index: 3 3    goto: -2
-Reduce: STATEMENT -> RETURN EXPRESSION ;
+FUN -> VARIABLE ( EXPRESSIONLIST ) { STATEMENTLIST } .   index: 7 7    goto: -2
+Reduce: FUN -> VARIABLE ( EXPRESSIONLIST ) { STATEMENTLIST }
 ==>> state: 77
-STATEMENT -> IF ( EXPRESSION ) . STATEMENT  index: 4 5    goto: 80
-STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE STATEMENT  index: 4 7    goto: 80
-STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 4 11    goto: 80
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
-STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: STATEMENT -> EPSILON
-Reduce: TYPE -> EPSILON
+FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } .   index: 7 7    goto: -2
+Reduce: FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST }
 ==>> state: 78
-STATEMENT -> REPEAT { STATEMENTLIST } . UNTIL ( EXPRESSION )  index: 4 8    goto: 81
+STATEMENT -> IF ( EXPRESSION . ) STATEMENT  index: 3 5    goto: 82
+STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE STATEMENT  index: 3 7    goto: 82
+STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 3 11    goto: 82
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
 ==>> state: 79
-STATEMENT -> FOR ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 4 7    goto: 83
-STATEMENT -> FOR ( EXPRESSIONLIST ) . STATEMENT  index: 4 5    goto: 82
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
+STATEMENT -> REPEAT { STATEMENTLIST . } UNTIL ( EXPRESSION )  index: 3 8    goto: 83
+STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 75
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
 STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -1131,34 +1099,32 @@ TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
 ==>> state: 80
-STATEMENT -> IF ( EXPRESSION ) STATEMENT .   index: 5 5    goto: -2
-STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE STATEMENT  index: 5 7    goto: 84
-STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE IF ( EXPRESSION ) STATEMENT  index: 5 11    goto: 84
-Reduce: STATEMENT -> IF ( EXPRESSION ) STATEMENT
+STATEMENT -> FOR ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 3 7    goto: 84
+STATEMENT -> FOR ( EXPRESSIONLIST . ) STATEMENT  index: 3 5    goto: 84
+EXPRESSIONLIST -> EXPRESSIONLIST . ; EXPRESSION  index: 1 3    goto: 52
+EXPRESSIONLIST -> EXPRESSIONLIST . , EXPRESSION  index: 1 3    goto: 51
 ==>> state: 81
-STATEMENT -> REPEAT { STATEMENTLIST } UNTIL . ( EXPRESSION )  index: 5 8    goto: 85
+STATEMENT -> RETURN EXPRESSION ; .   index: 3 3    goto: -2
+Reduce: STATEMENT -> RETURN EXPRESSION ;
 ==>> state: 82
-STATEMENT -> FOR ( EXPRESSIONLIST ) STATEMENT .   index: 5 5    goto: -2
-Reduce: STATEMENT -> FOR ( EXPRESSIONLIST ) STATEMENT
-==>> state: 83
-STATEMENT -> FOR ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 5 7    goto: 86
-STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 58
-STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 86
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
+STATEMENT -> IF ( EXPRESSION ) . STATEMENT  index: 4 5    goto: 85
+STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE STATEMENT  index: 4 7    goto: 85
+STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 4 11    goto: 85
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
 STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -1167,24 +1133,26 @@ TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
+==>> state: 83
+STATEMENT -> REPEAT { STATEMENTLIST } . UNTIL ( EXPRESSION )  index: 4 8    goto: 86
 ==>> state: 84
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE . STATEMENT  index: 6 7    goto: 87
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE . IF ( EXPRESSION ) STATEMENT  index: 6 11    goto: 88
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 88
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 88
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 88
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
+STATEMENT -> FOR ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 4 7    goto: 88
+STATEMENT -> FOR ( EXPRESSIONLIST ) . STATEMENT  index: 4 5    goto: 87
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
 STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -1194,53 +1162,34 @@ TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
 ==>> state: 85
-STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( . EXPRESSION )  index: 6 8    goto: 89
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 89
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 89
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 89
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
-TYPE ->  . INTEGER  index: 0 1    goto: 4
-TYPE ->  . DOUBLE  index: 0 1    goto: 5
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
+STATEMENT -> IF ( EXPRESSION ) STATEMENT .   index: 5 5    goto: -2
+STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE STATEMENT  index: 5 7    goto: 89
+STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE IF ( EXPRESSION ) STATEMENT  index: 5 11    goto: 89
+Reduce: STATEMENT -> IF ( EXPRESSION ) STATEMENT
 ==>> state: 86
-STATEMENT -> FOR ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 6 7    goto: 90
-STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 71
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
+STATEMENT -> REPEAT { STATEMENTLIST } UNTIL . ( EXPRESSION )  index: 5 8    goto: 90
+==>> state: 87
+STATEMENT -> FOR ( EXPRESSIONLIST ) STATEMENT .   index: 5 5    goto: -2
+Reduce: STATEMENT -> FOR ( EXPRESSIONLIST ) STATEMENT
+==>> state: 88
+STATEMENT -> FOR ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 5 7    goto: 91
+STATEMENTLIST ->  . STATEMENT  index: 0 1    goto: 61
+STATEMENTLIST ->  . STATEMENTLIST STATEMENT  index: 0 2    goto: 91
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
 STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -1249,104 +1198,180 @@ TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
-==>> state: 87
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE STATEMENT .   index: 7 7    goto: -2
-Reduce: STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE STATEMENT
-==>> state: 88
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF . ( EXPRESSION ) STATEMENT  index: 7 11    goto: 91
-STATEMENT -> IF . ( EXPRESSION ) STATEMENT  index: 1 5    goto: 91
-STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 1 7    goto: 91
-STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 1 11    goto: 91
 ==>> state: 89
-STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION . )  index: 7 8    goto: 92
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
-==>> state: 90
-STATEMENT -> FOR ( EXPRESSIONLIST ) { STATEMENTLIST } .   index: 7 7    goto: -2
-Reduce: STATEMENT -> FOR ( EXPRESSIONLIST ) { STATEMENTLIST }
-==>> state: 91
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( . EXPRESSION ) STATEMENT  index: 8 11    goto: 93
-STATEMENT -> IF ( . EXPRESSION ) STATEMENT  index: 2 5    goto: 93
-STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE STATEMENT  index: 2 7    goto: 93
-STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 2 11    goto: 93
-EXPRESSION ->  . VARIABLE  index: 0 1    goto: 11
-EXPRESSION ->  . FUNCTION  index: 0 1    goto: 31
-EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 93
-EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 93
-EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 93
-EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 11
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 14
-VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 8    goto: 14
-FUNCTION ->  . TYPE IDENTIFIER ( EXPRESSIONLIST )  index: 0 5    goto: 14
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE . STATEMENT  index: 6 7    goto: 92
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE . IF ( EXPRESSION ) STATEMENT  index: 6 11    goto: 93
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 93
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 93
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 93
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
+STATEMENT -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
 TYPE ->  . INTEGER  index: 0 1    goto: 4
 TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: STATEMENT -> EPSILON
+Reduce: TYPE -> EPSILON
+==>> state: 90
+STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( . EXPRESSION )  index: 6 8    goto: 94
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 94
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 94
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 94
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 91
+STATEMENT -> FOR ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 6 7    goto: 95
+STATEMENTLIST -> STATEMENTLIST . STATEMENT  index: 1 2    goto: 75
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
+STATEMENT -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
 ==>> state: 92
-STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION ) .   index: 8 8    goto: -2
-Reduce: STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE STATEMENT .   index: 7 7    goto: -2
+Reduce: STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE STATEMENT
 ==>> state: 93
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION . ) STATEMENT  index: 9 11    goto: 94
-STATEMENT -> IF ( EXPRESSION . ) STATEMENT  index: 3 5    goto: 94
-STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE STATEMENT  index: 3 7    goto: 94
-STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 3 11    goto: 94
-EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 18
-EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 19
-EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 20
-EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 21
-EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 22
-EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 23
-EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 24
-EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 25
-EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 26
-EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 27
-EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 28
-EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 29
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF . ( EXPRESSION ) STATEMENT  index: 7 11    goto: 96
+STATEMENT -> IF . ( EXPRESSION ) STATEMENT  index: 1 5    goto: 96
+STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 1 7    goto: 96
+STATEMENT -> IF . ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 1 11    goto: 96
 ==>> state: 94
-STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) . STATEMENT  index: 10 11    goto: 95
-STATEMENT -> IF ( EXPRESSION ) . STATEMENT  index: 4 5    goto: 95
-STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE STATEMENT  index: 4 7    goto: 95
-STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 4 11    goto: 95
-STATEMENT ->  . VARIABLE  index: 0 1    goto: 57
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 59
-STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 59
-STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 60
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 61
-STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 61
-STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 63
-STATEMENT ->  . BREAK ;  index: 0 2    goto: 62
-STATEMENT -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . ;  index: 0 1    goto: 65
-VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 57
+STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION . )  index: 7 8    goto: 97
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+==>> state: 95
+STATEMENT -> FOR ( EXPRESSIONLIST ) { STATEMENTLIST } .   index: 7 7    goto: -2
+Reduce: STATEMENT -> FOR ( EXPRESSIONLIST ) { STATEMENTLIST }
+==>> state: 96
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( . EXPRESSION ) STATEMENT  index: 8 11    goto: 98
+STATEMENT -> IF ( . EXPRESSION ) STATEMENT  index: 2 5    goto: 98
+STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE STATEMENT  index: 2 7    goto: 98
+STATEMENT -> IF ( . EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 2 11    goto: 98
+EXPRESSION ->  . VARIABLE  index: 0 1    goto: 32
+EXPRESSION ->  . EXPRESSION + EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION - EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION * EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION / EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION < EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION > EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION == EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION != EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION && EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION || EXPRESSION  index: 0 3    goto: 98
+EXPRESSION ->  . EXPRESSION ++  index: 0 2    goto: 98
+EXPRESSION ->  . EXPRESSION --  index: 0 2    goto: 98
+EXPRESSION ->  . ( EXPRESSION )  index: 0 3    goto: 15
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 32
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
-VARIABLE ->  . TYPE IDENTIFIER = FUNCTION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
+TYPE ->  . INTEGER  index: 0 1    goto: 4
+TYPE ->  . DOUBLE  index: 0 1    goto: 5
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 97
+STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION ) .   index: 8 8    goto: -2
+Reduce: STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )
+==>> state: 98
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION . ) STATEMENT  index: 9 11    goto: 99
+STATEMENT -> IF ( EXPRESSION . ) STATEMENT  index: 3 5    goto: 99
+STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE STATEMENT  index: 3 7    goto: 99
+STATEMENT -> IF ( EXPRESSION . ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 3 11    goto: 99
+EXPRESSION -> EXPRESSION . + EXPRESSION  index: 1 3    goto: 20
+EXPRESSION -> EXPRESSION . - EXPRESSION  index: 1 3    goto: 21
+EXPRESSION -> EXPRESSION . * EXPRESSION  index: 1 3    goto: 22
+EXPRESSION -> EXPRESSION . / EXPRESSION  index: 1 3    goto: 23
+EXPRESSION -> EXPRESSION . < EXPRESSION  index: 1 3    goto: 24
+EXPRESSION -> EXPRESSION . > EXPRESSION  index: 1 3    goto: 25
+EXPRESSION -> EXPRESSION . == EXPRESSION  index: 1 3    goto: 26
+EXPRESSION -> EXPRESSION . != EXPRESSION  index: 1 3    goto: 27
+EXPRESSION -> EXPRESSION . && EXPRESSION  index: 1 3    goto: 28
+EXPRESSION -> EXPRESSION . || EXPRESSION  index: 1 3    goto: 29
+EXPRESSION -> EXPRESSION . ++  index: 1 2    goto: 30
+EXPRESSION -> EXPRESSION . --  index: 1 2    goto: 31
+==>> state: 99
+STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) . STATEMENT  index: 10 11    goto: 100
+STATEMENT -> IF ( EXPRESSION ) . STATEMENT  index: 4 5    goto: 100
+STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE STATEMENT  index: 4 7    goto: 100
+STATEMENT -> IF ( EXPRESSION ) . STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 4 11    goto: 100
+STATEMENT ->  . VARIABLE  index: 0 1    goto: 60
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT  index: 0 5    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE STATEMENT  index: 0 7    goto: 62
+STATEMENT ->  . IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT  index: 0 11    goto: 62
+STATEMENT ->  . REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION )  index: 0 8    goto: 63
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 64
+STATEMENT ->  . FOR ( EXPRESSIONLIST ) STATEMENT  index: 0 5    goto: 64
+STATEMENT ->  . RETURN EXPRESSION ;  index: 0 3    goto: 66
+STATEMENT ->  . BREAK ;  index: 0 2    goto: 65
+STATEMENT -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . ;  index: 0 1    goto: 68
+VARIABLE ->  . VARIABLE ;  index: 0 2    goto: 60
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = EXPRESSION  index: 0 4    goto: 3
+VARIABLE ->  . TYPE IDENTIFIER = FUN  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER , VARIABLE  index: 0 4    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ]  index: 0 5    goto: 3
 VARIABLE ->  . TYPE IDENTIFIER [ INTEGER ] [ INTEGER ]  index: 0 8    goto: 3
@@ -1355,10 +1380,10 @@ TYPE ->  . DOUBLE  index: 0 1    goto: 5
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: STATEMENT -> EPSILON
 Reduce: TYPE -> EPSILON
-==>> state: 95
+==>> state: 100
 STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT .   index: 11 11    goto: -2
 STATEMENT -> IF ( EXPRESSION ) STATEMENT .   index: 5 5    goto: -2
-STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE STATEMENT  index: 5 7    goto: 84
-STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE IF ( EXPRESSION ) STATEMENT  index: 5 11    goto: 84
+STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE STATEMENT  index: 5 7    goto: 89
+STATEMENT -> IF ( EXPRESSION ) STATEMENT . ELSE IF ( EXPRESSION ) STATEMENT  index: 5 11    goto: 89
 Reduce: STATEMENT -> IF ( EXPRESSION ) STATEMENT ELSE IF ( EXPRESSION ) STATEMENT
 Reduce: STATEMENT -> IF ( EXPRESSION ) STATEMENT

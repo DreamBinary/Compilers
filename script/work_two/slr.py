@@ -11,7 +11,6 @@ from lr import ItemCluster
 
 
 class SLR:
-
     def __init__(self, input_file):
         self.input = self.get_input(input_file)
         self.lr = LR()  # LR0自动机
@@ -29,6 +28,72 @@ class SLR:
         self.action = self.get_action()
         self.goto = self.get_goto()
 
+    def process(self):
+        # merge self.action and self.goto
+        table = defaultdict(dict)
+        for k, v in self.action.items():
+            for kk, vv in v.items():
+                table[k][kk] = vv
+        for k, v in self.goto.items():
+            for kk, vv in v.items():
+                table[k][kk] = vv
+        idx = 0
+        stack = [0]
+        symbols = [self.dollar]
+        log_symbols = []
+        log_action = []
+        # print(self.action[3][EnumGrammar.IDENTIFIER])
+
+        # print(table[8])
+        # print(EnumGrammar.FUNCTION in table[8])
+        cnt = 0
+        while True:
+            cnt += 1
+            top = self.input[idx]
+            state = stack[-1]
+            print("==>> top")
+            print(top)
+            print("==>> state")
+            print(state)
+            print("==>> table[state]")
+            print(table[state])
+            if top[-1] not in table[state]:
+                print("==>> ERROR")
+                print(top)
+                print(state)
+                print(table[state])
+                break
+            action = table[state][top[-1]]
+            if action == "acc":
+                print("acc")
+                break
+            if action[0] == "s":
+                next_state = int(action[1:])
+                stack.append(next_state)
+                symbols.append(top[-1])
+                log_symbols.append(symbols.copy())
+                log_action.append(f"shift to {next_state}")
+                idx += 1
+            elif action[0] == "r":
+                reduce = int(action[1:])
+                grammar = self.grammar[reduce]
+
+                if grammar.suf[0] != self.epsilon:
+                    for _ in range(len(grammar.suf)):
+                        stack.pop()
+                        symbols.pop()
+                state = stack[-1]
+                if grammar.pre in table[state]:
+                    next_state = table[state][grammar.pre]
+                    stack.append(int(next_state[1:]))
+                    symbols.append(grammar.pre)
+
+                log_symbols.append(symbols.copy())
+                log_action.append(f"reduce by {grammar.pre} -> {' '.join([str(i) for i in grammar.suf])}")
+            if cnt > 100:
+                break
+        return log_symbols, log_action
+
     def convert_grammar_dict(self):
         grammar_dict = defaultdict(list)
         for g in self.grammar:
@@ -36,19 +101,19 @@ class SLR:
         return grammar_dict
 
     def split_sym(self, sym):
-        term = []
-        non_term = []
+        term = set()
+        non_term = set()
         for g in self.grammar:
-            non_term.append(g.pre)
+            non_term.add(g.pre)
         for s in sym:
             if s not in non_term:
-                term.append(s)
+                term.add(s)
         return term, non_term
 
     def get_action(self):  # 分析表
         action = defaultdict(dict)
         il = len(self.items)
-        sym = self.non_term + [self.dollar]
+        sym = self.non_term.union(self.term)
         for idx in range(il):
             item = self.items[idx]
             state = item.state
@@ -79,14 +144,12 @@ class SLR:
             for s in self.non_term:
                 goto_state = item.get_goto(s)
                 if goto_state and goto_state != -1:
-                    goto[state][s] = goto_state
-                else:
-                    print("ERROR")
+                    goto[state][s] = f"s{goto_state}"
         return goto
 
     def get_follow(self):
         follow = {nt: set() for nt in self.non_term}
-        start = self.non_term[0]
+        start = EnumGrammar.PROGRAM_
         follow[start].add(self.dollar)
 
         while True:
@@ -137,28 +200,33 @@ class SLR:
 
         return first
 
-    def process(self):
-        pass
-
     def get_input(self, input_file):
         pp = PreProcess(input_file)
         return pp.tokens
 
 
 if __name__ == '__main__':
-    import os
     from ENV import PATH
-
     path = PATH.DATA_PATH / "work2" / "miniRC.in1"
     slr = SLR(path)
+    log_symbols, log_action = slr.process()
+    print("==>> non_term")
+    print(slr.non_term)
+    print("==>> log")
+    for sym, act in zip(log_symbols, log_action):
+        print(sym, "===", act)
+
     # for g in slr.grammar:
     #     print(g.pre, g.suf)
 
     # TODO 检查一下
-    # print("==>> first")
-    # print(slr.first)
-    # print("==>> follow")
-    # print(slr.follow)
+    print("==>> first")
+    print("==>> follow")
+    print(slr.follow)
+    print("-----------------", slr.grammar_dict[EnumGrammar.FUNCTION])
+    print("-----------------function follow", slr.follow[EnumGrammar.FUN])
+    print("-----------------variable follow", slr.follow[EnumGrammar.VARIABLE])
+    print("-----------------expression follow", slr.follow[EnumGrammar.EXPRESSION])
     print("==>> action")
     for k, v in slr.action.items():
         for kk, vv in v.items():

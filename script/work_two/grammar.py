@@ -14,8 +14,9 @@ class EnumGrammar(Enum):
 
     PROGRAM_ = 'PROGRAM_'
     PROGRAM = 'PROGRAM'
+    FUN = 'FUN'  # 文法中
     VARIABLE = 'VARIABLE'
-    FUNCTION = 'FUNCTION'
+    FUNCTION = 'FUNCTION'  # Keyword
     STATEMENT = 'STATEMENT'
     EXPRESSION = 'EXPRESSION'
     TYPE = 'TYPE'

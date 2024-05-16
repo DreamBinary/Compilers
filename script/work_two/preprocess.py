@@ -31,7 +31,7 @@ class PreProcess:
                 new_token = (val, EnumGrammar.IDENTIFIER)
             elif tag.value == Tag.KEYWORD.value:  # 关键字处理
                 try:
-                    new_token = EnumGrammar(val.upper())
+                    new_token = (val, EnumGrammar(val.upper()))
                 except ValueError:
                     print("No exist keyword: ", val)
             elif tag.value == Tag.INT.value:
