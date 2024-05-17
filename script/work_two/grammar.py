@@ -18,8 +18,9 @@ class EnumGrammar(Enum):
     VARIABLE = 'VARIABLE'
     FUNCTION = 'FUNCTION'  # Keyword
     STATEMENT = 'STATEMENT'
-    # ifStmt
     IFSTMT = 'IFSTMT'
+    IFBLOCK = 'IFBLOCK'
+    ELIFSTMT = 'ELIFSTMT'
     # IFELSE = 'IFELSE'
     # MIFSTMT = 'MIFSTMT'
     # OIFSTMT = 'OIFSTMT'
@@ -43,6 +44,7 @@ class EnumGrammar(Enum):
     EPSILON = 'EPSILON'
     STATEMENTLIST = 'STATEMENTLIST'
     EXPRESSIONLIST = 'EXPRESSIONLIST'
+    EXPRESSIONLISTVAR = 'EXPRESSIONLISTVAR'  # used in for 避免;的影响
     INDEX = 'INDEX'
     ASSIGN = 'ASSIGN'
 

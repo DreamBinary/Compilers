@@ -46,10 +46,12 @@ class Lexer:
 
     def init_words(self):
         words = [
-            "if", "else", "while", "return", "do", "break", "continue", "until", "for", "switch", "case", "default",
+            "if", "else", "while", "return", "do", "break", "continue", "repeat",
+            "until", "for", "switch", "case", "default",
             "integer", "double", "bool", "char", "string",
             "true", "false", "void", "function", "main",
             "print", "read", "write", "readln", "writeln", "scanf", "printf",
+
         ]
         for i, w in enumerate(words):
             self.reserve(Word(w, Tag.KEYWORD))

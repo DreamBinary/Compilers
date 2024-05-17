@@ -128,7 +128,35 @@ class SLR:
         sym = self.non_term.union(self.term).union({self.dollar[-1]})
 
         # 优先级
-        priority = [EnumGrammar.ELIF, EnumGrammar.ELSE, EnumGrammar.SEMI]
+        priority = [
+            EnumGrammar.ELIF, EnumGrammar.ELSE,  # if-else
+            EnumGrammar.SEMI,  # ;
+            EnumGrammar.EQ,  # = 连等的时候
+            EnumGrammar.PLUS,
+            EnumGrammar.MINUS,
+            EnumGrammar.STAR,
+            EnumGrammar.SLASH,
+            EnumGrammar.LT,
+            EnumGrammar.GT,
+            EnumGrammar.LE,
+            EnumGrammar.GE,
+            EnumGrammar.EQEQ,
+            EnumGrammar.NE,
+            EnumGrammar.AND,
+            EnumGrammar.OR,
+            EnumGrammar.INC,
+            EnumGrammar.DEC,
+            EnumGrammar.LPAR,
+            EnumGrammar.RPAR,
+            EnumGrammar.LBRACE,
+            EnumGrammar.RBRACE,
+            EnumGrammar.LSQB,
+            EnumGrammar.RSQB,
+            EnumGrammar.COMMA,
+            EnumGrammar.SEMI,
+            EnumGrammar.DOT,
+            EnumGrammar.COMMENT,
+        ]
 
         for idx in range(il):
             item = self.items[idx]
@@ -170,7 +198,6 @@ class SLR:
         follow = {nt: set() for nt in self.non_term}
         start = EnumGrammar.PROGRAM_
         follow[start].add(self.dollar[-1])
-
         while True:
             flag = False
             for lhs in self.grammar_dict:
@@ -246,9 +273,6 @@ if __name__ == '__main__':
     print("==>> follow")
     print(slr.follow)
     print("-----------------", slr.grammar_dict[EnumGrammar.FUNCTION])
-    print("-----------------function follow", slr.follow[EnumGrammar.FUN])
-    print("-----------------variable follow", slr.follow[EnumGrammar.VARIABLE])
-    print("-----------------expression follow", slr.follow[EnumGrammar.EXPRESSION])
     print("==>> action")
     for k, v in slr.action.items():
         for kk, vv in v.items():
