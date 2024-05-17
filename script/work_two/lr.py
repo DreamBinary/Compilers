@@ -156,6 +156,9 @@ class LR:
                 break
         bar.set_description(f"==>> Done: {state}")
         bar.close()
+        with open("LR0.txt", "w") as f:
+            for i in c:
+                f.write(str(i))
         return c
 
     def get_grammar(self):

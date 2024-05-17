@@ -19,7 +19,7 @@ class SLR:
         self.grammar_dict = self.convert_grammar_dict()
         self.sym = self.lr.sym
         self.term, self.non_term = self.split_sym(self.sym)  # terminal, non-terminal
-        self.dollar = "DOLLAR"
+        self.dollar = ("DOLLAR", "DOLLAR")  # 和sym保持一致
         self.epsilon = EnumGrammar.EPSILON
         self.first = self.get_first()
         self.follow = self.get_follow()
@@ -39,7 +39,7 @@ class SLR:
                 table[k][kk] = vv
         idx = 0
         stack = [0]
-        symbols = [self.dollar]
+        symbols = [self.dollar[-1]]
         log_symbols = []
         log_action = []
         # print(self.action[3][EnumGrammar.IDENTIFIER])
@@ -49,19 +49,32 @@ class SLR:
         cnt = 0
         while True:
             cnt += 1
-            top = self.input[idx]
+            if idx >= self.midx:
+                top = self.dollar
+            else:
+                top = self.input[idx]
             state = stack[-1]
+            print("==>> stack")
+            print(stack)
             print("==>> top")
             print(top)
             print("==>> state")
             print(state)
             print("==>> table[state]")
             print(table[state])
+            print("==>> log_symbols")
+            for sym, act in zip(log_symbols[-10:], log_action[-10:]):
+                print(sym, "===", act)
             if top[-1] not in table[state]:
                 print("==>> ERROR")
+                print("idx", idx)
                 print(top)
+                print(self.input[idx - 1], top, self.input[idx + 1])
                 print(state)
                 print(table[state])
+                print("====>>>> Log")
+                for sym, act in zip(log_symbols[-10:], log_action[-10:]):
+                    print(sym, "===", act)
                 break
             action = table[state][top[-1]]
             if action == "acc":
@@ -70,14 +83,13 @@ class SLR:
             if action[0] == "s":
                 next_state = int(action[1:])
                 stack.append(next_state)
-                symbols.append(top[-1])
+                symbols.append(top[0])
                 log_symbols.append(symbols.copy())
                 log_action.append(f"shift to {next_state}")
                 idx += 1
             elif action[0] == "r":
                 reduce = int(action[1:])
                 grammar = self.grammar[reduce]
-
                 if grammar.suf[0] != self.epsilon:
                     for _ in range(len(grammar.suf)):
                         stack.pop()
@@ -86,12 +98,12 @@ class SLR:
                 if grammar.pre in table[state]:
                     next_state = table[state][grammar.pre]
                     stack.append(int(next_state[1:]))
-                    symbols.append(grammar.pre)
+                    symbols.append(grammar.pre.value)
 
                 log_symbols.append(symbols.copy())
-                log_action.append(f"reduce by {grammar.pre} -> {' '.join([str(i) for i in grammar.suf])}")
-            if cnt > 100:
-                break
+                log_action.append(f"reduce by {grammar.pre.value} -> {' '.join([str(i.value) for i in grammar.suf])}")
+            # if cnt > 200:
+            #     break
         return log_symbols, log_action
 
     def convert_grammar_dict(self):
@@ -113,7 +125,11 @@ class SLR:
     def get_action(self):  # 分析表
         action = defaultdict(dict)
         il = len(self.items)
-        sym = self.non_term.union(self.term)
+        sym = self.non_term.union(self.term).union({self.dollar[-1]})
+
+        # 优先级
+        priority = [EnumGrammar.ELIF, EnumGrammar.ELSE, EnumGrammar.SEMI]
+
         for idx in range(il):
             item = self.items[idx]
             state = item.state
@@ -125,12 +141,15 @@ class SLR:
                         if reduce:
                             for r in reduce:
                                 if r.pre == EnumGrammar.PROGRAM_:
-                                    action[state][self.dollar] = "acc"
+                                    action[state][self.dollar[-1]] = "acc"
                                 else:
                                     for f in self.follow[r.pre]:
+                                        # if action[state].get(f):
+                                        #     continue
+                                        if ((f in priority) and action[state].get(f) and
+                                                action[state][f][0] == 's'):  # 处理优先级
+                                            continue
                                         action[state][f] = f"r{r.label}"
-                    elif goto == -2:
-                        print("ERROR")
                     else:
                         action[state][s] = f"s{goto}"
         return action
@@ -150,7 +169,7 @@ class SLR:
     def get_follow(self):
         follow = {nt: set() for nt in self.non_term}
         start = EnumGrammar.PROGRAM_
-        follow[start].add(self.dollar)
+        follow[start].add(self.dollar[-1])
 
         while True:
             flag = False
@@ -207,13 +226,16 @@ class SLR:
 
 if __name__ == '__main__':
     from ENV import PATH
+
     path = PATH.DATA_PATH / "work2" / "miniRC.in1"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")
     print(slr.non_term)
+    print("==>> term")
+    print(slr.term)
     print("==>> log")
-    for sym, act in zip(log_symbols, log_action):
+    for sym, act in zip(log_symbols[-10:], log_action[-10:]):
         print(sym, "===", act)
 
     # for g in slr.grammar:

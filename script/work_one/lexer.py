@@ -193,18 +193,22 @@ class Lexer:
             if self.check_readch('='):
                 return Word("<=", Tag.LE)
             else:
-                return Word("<", Tag.LE)
+                return Word("<", Tag.LT)
         elif self.peek == '>':
             if self.check_readch('='):
                 return Word(">=", Tag.GE)
             else:
-                return Word(">", Tag.GE)
+                return Word(">", Tag.GT)
         elif self.peek == '+':
-            self.readch()
-            return Word("+", Tag.PLUS)
+            if self.check_readch('+'):
+                return Word("++", Tag.INC)
+            else:
+                return Word("+", Tag.PLUS)
         elif self.peek == '-':
-            self.readch()
-            return Word("-", Tag.MINUS)
+            if self.check_readch('-'):
+                return Word("--", Tag.DEC)
+            else:
+                return Word("-", Tag.MINUS)
         elif self.peek == '*':
             if self.check_readch('*'):
                 return Word("**", Tag.DOUBLESTAR)

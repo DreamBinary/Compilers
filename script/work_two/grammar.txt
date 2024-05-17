@@ -1,8 +1,13 @@
-program -> variable
-variable -> variable ; | type identifier | type identifier = expression | type identifier = fun | type identifier , variable | type identifier [ int ] | type identifier [ int ] [ int ]
-fun -> variable ( expressionList ) { statementList } | variable ( expressionList ) | function ( expressionList ) { statementList } | function ( expressionList )
+program -> statementList
+variable -> type identifier | variable , variable | variable [ index ] | variable [ index ] [ index ]
+index -> int | identifier
 type -> integer | double | epsilon
+fun -> function ( expressionList ) { statementList } | function ( expressionList )
 statementList -> statement | statementList statement | epsilon
-statement -> variable |  if ( expression ) statement |  if ( expression ) statement else statement | if ( expression ) statement else if ( expression ) statement | repeat { statementList } until ( expression ) | for ( expressionList ) { statementList } | for ( expressionList ) statement | return expression ; | break ; | ;
 expressionList -> expression | expressionList ; expression | expressionList , expression
-expression -> variable | expression + expression | expression - expression | expression * expression | expression / expression | expression < expression | expression > expression | expression == expression | expression != expression | expression && expression | expression || expression | expression ++ | expression -- | ( expression )
+expression -> variable | int | float | identifier | expression = expression | variable ( expressionList ) | expression + expression | expression - expression | expression * expression | expression / expression | expression < expression | expression > expression | expression == expression | expression != expression | expression && expression | expression || expression | expression ++ | expression -- | ( expression )
+ifStmt -> if ( expression ) statementList | if ( expression ) statementList else if ( expression ) statementList |  if ( expression ) statementList else statementList
+
+statement -> variable ; | variable = assign | ifStmt | repeat { statementList } until ( expression ) | for ( expressionList ) { statementList } | for ( expressionList ) statement | return expression | break ; | ; | #
+assign -> int | expression | identifier ( expressionList ) | expression | fun
+

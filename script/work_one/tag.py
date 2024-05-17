@@ -27,9 +27,13 @@ class Tag(Enum):
     NE = "!="
     LE = "<="
     GE = ">="
+    LT = "<"
+    GT = ">"
 
     PLUS = "+"
+    INC = "++"
     MINUS = "-"
+    DEC = "--"
     STAR = "*"
     DOUBLESTAR = "**"
     SLASH = "/"

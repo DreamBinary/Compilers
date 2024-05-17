@@ -18,6 +18,11 @@ class EnumGrammar(Enum):
     VARIABLE = 'VARIABLE'
     FUNCTION = 'FUNCTION'  # Keyword
     STATEMENT = 'STATEMENT'
+    # ifStmt
+    IFSTMT = 'IFSTMT'
+    # IFELSE = 'IFELSE'
+    # MIFSTMT = 'MIFSTMT'
+    # OIFSTMT = 'OIFSTMT'
     EXPRESSION = 'EXPRESSION'
     TYPE = 'TYPE'
     # DIGIT = 'DIGIT'
@@ -29,6 +34,7 @@ class EnumGrammar(Enum):
     IDENTIFIER = 'IDENTIFIER'
     IF = 'IF'
     ELSE = 'ELSE'
+    ELIF = 'ELSEIF'
     REPEAT = 'REPEAT'
     UNTIL = 'UNTIL'
     FOR = 'FOR'
@@ -37,6 +43,8 @@ class EnumGrammar(Enum):
     EPSILON = 'EPSILON'
     STATEMENTLIST = 'STATEMENTLIST'
     EXPRESSIONLIST = 'EXPRESSIONLIST'
+    INDEX = 'INDEX'
+    ASSIGN = 'ASSIGN'
 
     EQ = '='
     PLUS = '+'
@@ -114,16 +122,31 @@ class Grammar:
             for v in value:
                 # convert value to EnumGrammar
                 nv = []
-                for vv in v.split(' '):
+                vl = v.split(' ')
+                # print(vl)
+                idx = 0
+                ll = len(vl)
+                while idx < ll:
+                    vv = vl[idx]
                     if vv:
-                        if not vv.isalnum():
-                            # convert value to EnumSymbol, = -->> EQ
-                            nv.append(EnumGrammar(vv))
-                        elif len(vv) == 1:
-                            nv.append(str(vv))
+                        if vv == 'else' and vl[idx + 1] == 'if':
+                            nv.append(EnumGrammar.ELIF)
+                            idx += 1
                         else:
-                            # convert value to EnumGrammar
                             nv.append(EnumGrammar(vv.upper()))
+                        # if not vv.isalnum():
+                        #     if vv == 'else' and vl[idx + 1] == 'if':
+                        #         print("-------")
+                        #         nv.append(EnumGrammar.ELIF)
+                        #         idx += 1
+                        #     else:
+                        #         nv.append(EnumGrammar(vv))
+                        # elif len(vv) == 1:
+                        #     nv.append(str(vv))
+                        # else:
+                        #     # convert value to EnumGrammar
+                        #     nv.append(EnumGrammar(vv.upper()))
+                    idx += 1
                 new_value.append(tuple(nv))
             for tv in new_value:
                 new_grammar_dict.append((new_key, tv))
