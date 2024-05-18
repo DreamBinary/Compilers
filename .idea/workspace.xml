@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/work1/miniRC.in" beforeDir="false" afterPath="$PROJECT_DIR$/data/work1/miniRC.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/miniRC.out" beforeDir="false" afterPath="$PROJECT_DIR$/output/miniRC.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/miniRC.sym" beforeDir="false" afterPath="$PROJECT_DIR$/output/miniRC.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/miniRC_error.out" beforeDir="false" afterPath="$PROJECT_DIR$/output/miniRC_error.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/work_one/lexer.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/work_one/lexer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/work_one/ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/work_one/ui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,6 +258,8 @@
       <workItem from="1716013322895" duration="35000" />
       <workItem from="1716016037795" duration="106000" />
       <workItem from="1716016863720" duration="328000" />
+      <workItem from="1716018028899" duration="197000" />
+      <workItem from="1716025527608" duration="71000" />
     </task>
     <servers />
   </component>

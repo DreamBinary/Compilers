@@ -12,4 +12,3 @@ elIfStmt -> else if ( expression ) ifBlock elIfStmt | else ifBlock | epsilon
 ifBlock -> statementList | { statementList }
 statement -> variable | variable = assign | expressionList | ifStmt | repeat { statementList } until ( expression ) | for ( expressionListVar ) { statementList } | for ( expressionListVar ) statement | return expression | break ; | ; | #
 assign -> int | expression | identifier ( expressionList ) | fun
-

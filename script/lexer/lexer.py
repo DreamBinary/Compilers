@@ -51,7 +51,6 @@ class Lexer:
             "integer", "double", "bool", "char", "string",
             "true", "false", "void", "function", "main",
             "print", "read", "write", "readln", "writeln", "scanf", "printf",
-
         ]
         for i, w in enumerate(words):
             self.reserve(Word(w, Tag.KEYWORD))
@@ -101,44 +100,6 @@ class Lexer:
             if not self.peek.isdigit():
                 break
         return str(x)
-
-    # def scan_bracket(self):
-    #     if self.peek == '(':
-    #         self.stack.append(('(', (self.line, self.column - 1)))
-    #         self.readch()
-    #         return Word('(', Tag.LPAR)
-    #     elif self.peek == '{':
-    #         self.stack.append(('{', (self.line, self.column - 1)))
-    #         self.readch()
-    #         return Word("{", Tag.LBRACE)
-    #     elif self.peek == '[':
-    #         self.stack.append(('[', (self.line, self.column - 1)))
-    #         self.readch()
-    #         return Word("[", Tag.LSQB)
-    #     else:
-    #         try:
-    #             if self.peek == ')' and self.stack[-1][0] == '(':
-    #                 self.stack.pop()
-    #                 self.readch()
-    #                 return Word(")", Tag.RPAR)
-    #             elif self.peek == '}' and self.stack[-1][0] == '{':
-    #                 self.stack.pop()
-    #                 self.readch()
-    #                 return Word("}", Tag.RBRACE)
-    #             elif self.peek == ']' and self.stack[-1][0] == '[':
-    #                 self.stack.pop()
-    #                 self.readch()
-    #                 return Word("]", Tag.RSQB)
-    #             else:
-    #                 peek = self.peek
-    #                 self.readch()
-    #                 self.error(self.line, self.column, f"unexpected symbol {peek}")
-    #                 return Word(peek, Tag.ERROR)
-    #         except IndexError:
-    #             peek = self.peek
-    #             self.readch()
-    #             self.error(self.line, self.column, f"unexpected symbol {peek}")
-    #             return Word(peek, Tag.ERROR)
 
     def scan_bracket(self):
         if self.peek == '(':
@@ -337,7 +298,7 @@ class Lexer:
 if __name__ == '__main__':
     from ENV import PATH
 
-    in_path = PATH.DATA_PATH / "work1" / "miniRC.in"
+    in_path = PATH.DATA_PATH / "miniRC.in"
     lexer = Lexer(in_path)
     lexer.analyze()
     lexer.output()

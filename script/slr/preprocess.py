@@ -8,7 +8,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 
-from work_one import Lexer, Tag
+from lexer import Lexer, Tag
 from grammar import EnumGrammar
 
 
