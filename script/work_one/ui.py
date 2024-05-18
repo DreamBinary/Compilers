@@ -8,6 +8,7 @@ import flet as ft
 from lexer import Lexer
 from pathlib import Path
 
+
 def process(file_path: str):
     lexer = Lexer(Path(file_path))
     tokens, symtable, error = lexer.analyze()
@@ -168,4 +169,8 @@ def app(page: ft.Page):
 
 
 if __name__ == '__main__':
-    ft.app(target=app)
+    try:
+        ft.app(target=app)
+    except Exception as e:
+        print(e)
+        raise e

@@ -13,7 +13,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.
 from pathlib import Path
 from tag import Tag
 from tokenn import Word
-
+from ENV import PATH
 
 class Lexer:
     """

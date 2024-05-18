@@ -1,0 +1,38 @@
+miniRC=function(integer delta){
+     integer a[5][10], i;
+     float x, y;
+     i = 0;
+    do{
+        if(i>=5 || a[i][i]==0 ) break;
+        x = delta / a[i][i] + y;
+        i= adapt(i, delta)
+    }while(x<y);
+    i=0;
+}
+
+
+======
+100: i=0
+101: if i>=5 goto 122
+102: goto 103
+103: t1 = i * 40
+104: t2 = i * 4
+105: t3 = t1+t2
+106: t4 = a[t3]
+107: if(t4==0) goto 122
+108: goto 109
+109: t5 = i * 40
+110: t6 = i * 4
+111: t7 = t5 + t6
+112: t8 = a[t7]
+113: t9 = delta / t8
+114: t10 = (float) t9
+115: t11 = t10 + y
+116: x = t11
+117: param i
+118: param delta
+119: i = call adapt, 2
+120: if(x<y) goto 101
+121: goto 122
+122: i=0
+123:

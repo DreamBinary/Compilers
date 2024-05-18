@@ -1,0 +1,81 @@
+
+/*small case symbols are non-terminals. */
+
+/* Program */
+program           -> PROGRAM id BEGIN pgm_body END 
+id                -> IDENTIFIER
+pgm_body          -> decl stmt_list {backpatch(stmt_list.nextlist, nextinstr); }
+decl		  -> string_decl decl | var_decl decl | ɛ
+
+/* String Declaration */
+string_decl       -> STRING id := str ;
+str               -> STRINGLITERAL
+
+/* Variable Declaration */
+var_decl          -> var_type id_list ;
+var_type	        -> FLOAT {type=FLOAT;} 
+var_type	        -> INT {type=INT;}
+id_list           -> id id_tail{top.put(id.lexeme, type);}
+id_tail           -> , id id_tail{top.put(id.lexeme, type);}
+id_tail           ->  ɛ
+
+/* Statement List */
+stmt_list         -> stmt M stmt_tail{backpatch(stmt.nextlist, M.instr); stmt_list.nextlist=stmt_tail.nextlist;}
+stmt_list         -> ɛ
+stmt_tail         -> stmt M stmt_tail1{backpatch(stmt.nextlist, M.instr); stmt_tail.nextlist=stmt_tail1.nextlist;}
+stmt_tail         -> ɛ
+stmt              -> base_stmt
+stmt              -> if_stmt {stmt.nextlist = if_stmt.nextlist;}
+stmt              -> do_while_stmt{stmt.nextlist=do_while_stmt.nextlist;}
+base_stmt         -> assign_stmt
+base_stmt         -> read_stmt
+base_stmt         -> write_stmt
+M                 -> ɛ {M.instr=nextinstr;}
+
+/* Basic Statement */
+assign_stmt       -> assign_expr ;
+assign_expr       -> id := expr {gen(top.get(id.lexeme) '=' expr.addr;}
+read_stmt         -> READ ( id ); {gen('READ ' top.get(id.lexeme) ); }
+write_stmt        -> WRITE ( id );{gen('WRITE ' top.get(id.lexeme) ); }
+
+/* Expressions */
+expr              -> expr1 addop expr2 {expr.addr= new Temp(); gen(expr.addr '=' expr1.addr addop.op expr2.addr);}
+expr              -> expr1 mulop expr2
+expr              -> (expr1) {expr.addr=expr1.addr;}
+expr              -> id {expr.addr=top.get(id.lexeme);}
+expr              -> INTLITERAL {expr.addr = INTLITERAL.lexval;}
+expr              -> FLOATLITERAL {expr.addr=FLOATLITERAL.lexval;}
+addop             -> + {addop.op= '+';}
+addop             -> - {addop.op= '-';}
+mulop             -> * | /
+
+/* Complex Statements and Condition */ 
+if_stmt           -> IF ( cond ) M1 stmt_list N M2  else_part ENDIF{backpatch(cond.truelist, M1.instr); backpatch(cond.falselist, M2.instr);
+                                             temp=merge(stmt_list.nextlist, N.nextlist);
+								if_stmt.nextlist = merge(temp, else_part.nextlist);}           
+else_part         -> ELSIF ( cond ) M1 stmt_list N M2 else_part{backpatch(con.truelist, M1.instr); backpatch(cond.falselist, M2.instr);
+                                             temp=merge(stmt_list.nextlist, N.nextlist);
+								if_stmt.nextlist = merge(temp, else_part.nextlist);}  
+else_part         -> ɛ
+cond              -> expr compop expr1 {cond.truelist=makelist(nextinstr); cond.falselist=makelist(nextinstr+1); 
+                                       gen('if' expr.addr compop.op expr1.addr 'goto  ___');
+						   gen('goto _____');} 
+cond              -> TRUE{cond.truelist=makelist(nextinstr); gen('goto_____');}
+cond              -> FALSE
+compop            -> < | > | = | != | <= | >=
+N                 -> ɛ {N.nextlist=makelist(nextinstr); gen('goto_____');}
+
+/*do_while_stmt */
+do_while_stmt       -> DO aug_stmt_list WHILE ( cond );
+//do_while_stmt       -> DO M1 stmt_list WHILE ( M2 cond ); {backpatch(stmt_list.nextlist, M2.instr); backpatch(cond.truelist, M1.instr); 
+                                                   do_while_stmt.nextlist = cond.falselist;  gen('goto' M1.instr);}
+
+/* CONTINUE and BREAK statements */
+aug_stmt_list     -> aug_stmt aug_stmt_list | ɛ
+aug_stmt          -> base_stmt | aug_if_stmt | do_while_stmt | CONTINUE; | BREAK;
+
+/* Augmented IF statements */ 
+aug_if_stmt       -> IF ( cond ) aug_stmt_list aug_else_part ENDIF
+aug_else_part     -> ELSIF (cond) aug_stmt_list aug_else_part | ɛ
+
+

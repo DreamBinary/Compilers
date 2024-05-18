@@ -1,5 +1,6 @@
 lexeme          | tag            
 ------------------------------
+IDENTIFIER      | ABC19          
 IDENTIFIER      | K              
 IDENTIFIER      | KL             
 IDENTIFIER      | KR             
