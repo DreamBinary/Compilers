@@ -47,6 +47,8 @@ class EnumGrammar(Enum):
     EXPRESSIONLISTVAR = 'EXPRESSIONLISTVAR'  # used in for 避免;的影响
     INDEX = 'INDEX'
     ASSIGN = 'ASSIGN'
+    DO = 'DO'
+    WHILE = 'WHILE'
 
     EQ = '='
     PLUS = '+'

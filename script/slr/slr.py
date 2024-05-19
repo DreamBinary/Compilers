@@ -254,7 +254,7 @@ class SLR:
 if __name__ == '__main__':
     from ENV import PATH
 
-    path = PATH.DATA_PATH / "miniRC.in1"
+    path = PATH.DATA_PATH / "miniRC.in3"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")
