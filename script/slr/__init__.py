@@ -3,3 +3,4 @@
 # @Time : 2024/5/12 20:05
 # @Author : fiv
 
+from slr import SLR

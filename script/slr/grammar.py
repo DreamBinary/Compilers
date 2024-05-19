@@ -153,6 +153,12 @@ class Grammar:
             for tv in new_value:
                 new_grammar_dict.append((new_key, tv))
         new_grammar_dict.insert(0, (EnumGrammar.PROGRAM_, (new_grammar_dict[0][0],)))
+        with open("./augmented_grammar.txt", "w") as f:
+            for k, v in new_grammar_dict:
+                s = k.value + " -> "
+                for vv in v:
+                    s += vv.value + " "
+                f.write(s + "\n")
         return new_grammar_dict
 
     def get_grammar(self):
@@ -174,8 +180,11 @@ if __name__ == '__main__':
     #         print(vv, end=' | ')
     #         # print(tuple([(vvv.value if type(vvv) is not str else vvv) for vvv in vv]), end=' | ')
     #     print()
-    for i in grammar_dict:
-        print(i)
+    for k, v in grammar_dict:
+        s = k.value + " -> "
+        for vv in v:
+            s += vv.value + " "
+        print(s)
 
     for i in sym:
         print(i)
