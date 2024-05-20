@@ -1,0 +1,199 @@
+0: PROGRAM_ -> PROGRAM ${
+
+}$
+1: PROGRAM -> STATEMENTLIST ${
+
+}$
+2: INDEX -> INT ${
+
+}$
+3: INDEX -> VARIABLE ${
+
+}$
+4: TYPE -> INTEGER ${
+
+}$
+5: TYPE -> DOUBLE ${
+
+}$
+6: TYPE -> EPSILON ${
+
+}$
+7: VARIABLE -> TYPE IDENTIFIER ${
+stack[top-1].addr = gen('var', identifier, "");
+top -= 1;
+}$
+8: VARIABLE -> VARIABLE [ INDEX ] ${
+
+}$
+9: VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
+
+}$
+10: STATEMENTLIST -> STATEMENT ${
+
+}$
+11: STATEMENTLIST -> STATEMENTLIST STATEMENT ${
+
+}$
+12: STATEMENTLIST -> EPSILON ${
+
+}$
+13: STATEMENT -> VARIABLE ${
+
+}$
+14: STATEMENT -> VARIABLE = ASSIGN ${
+gen('=', stack[top-2].addr, stack[top].addr);
+top -= 2;
+}$
+15: STATEMENT -> EXPRESSIONLIST ${
+
+}$
+16: STATEMENT -> IFSTMT ${
+
+}$
+17: STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION ) ${
+
+}$
+18: STATEMENT -> DO { LABEL STATEMENTLIST } WHILE ( LABEL EXPRESSION ) ${
+backpatch(stack[top-6].next, stack[top-2].addr);
+backpatch(stack[top-1].true, stack[top-7].addr);
+gen('goto if', stack[top-1].true);
+stack[top-9].addr = gen('goto', stack[top-9].addr);
+top -= 9;
+}$
+19: STATEMENT -> FOR ( EXPRESSIONLISTVAR ) { STATEMENTLIST } ${
+
+}$
+20: STATEMENT -> FOR ( EXPRESSIONLISTVAR ) STATEMENT ${
+
+}$
+21: STATEMENT -> RETURN EXPRESSION ${
+
+}$
+22: STATEMENT -> BREAK ; ${
+
+}$
+23: STATEMENT -> ; ${
+
+}$
+24: STATEMENT -> # ${
+
+}$
+25: ASSIGN -> INT ${
+
+}$
+26: ASSIGN -> EXPRESSION ${
+
+}$
+27: ASSIGN -> IDENTIFIER ( EXPRESSIONLIST ) ${
+
+}$
+28: ASSIGN -> FUN ${
+
+}$
+29: FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
+
+}$
+30: FUN -> FUNCTION ( EXPRESSIONLIST ) ${
+
+}$
+31: IFSTMT -> IF ( EXPRESSION ) IFBLOCK ELIFSTMT ${
+
+}$
+32: ELIFSTMT -> ELSEIF ( EXPRESSION ) IFBLOCK ELIFSTMT ${
+
+}$
+33: ELIFSTMT -> ELSE IFBLOCK ${
+
+}$
+34: ELIFSTMT -> EPSILON ${
+
+}$
+35: IFBLOCK -> STATEMENTLIST ${
+
+}$
+36: IFBLOCK -> { STATEMENTLIST } ${
+
+}$
+37: EXPRESSIONLIST -> EXPRESSION ${
+
+}$
+38: EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION ${
+
+}$
+39: EXPRESSIONLISTVAR -> EXPRESSION ${
+
+}$
+40: EXPRESSIONLISTVAR -> EXPRESSIONLISTVAR ; EXPRESSION ${
+
+}$
+41: EXPRESSION -> VARIABLE ${
+
+}$
+42: EXPRESSION -> INT ${
+stack[top].addr = gen('var', identifier, "");
+}$
+43: EXPRESSION -> FLOAT ${
+
+}$
+44: EXPRESSION -> IDENTIFIER ${
+
+}$
+45: EXPRESSION -> EXPRESSION = EXPRESSION ${
+
+}$
+46: EXPRESSION -> VARIABLE ( EXPRESSIONLIST ) ${
+
+}$
+47: EXPRESSION -> EXPRESSION + EXPRESSION ${
+stack[top-2].addr = gen('+', stack[top-2].addr, stack[top].addr);
+top -= 2;
+}$
+48: EXPRESSION -> EXPRESSION - EXPRESSION ${
+
+}$
+49: EXPRESSION -> EXPRESSION * EXPRESSION ${
+
+}$
+50: EXPRESSION -> EXPRESSION / EXPRESSION ${
+
+}$
+51: EXPRESSION -> EXPRESSION < EXPRESSION ${
+stack[top-2].addr = gen('<', stack[top-2].addr, stack[top].addr);
+stack[top-2].true = stack[top-2].addr;
+top -= 2;
+}$
+52: EXPRESSION -> EXPRESSION > EXPRESSION ${
+
+}$
+53: EXPRESSION -> EXPRESSION >= EXPRESSION ${
+
+}$
+54: EXPRESSION -> EXPRESSION <= EXPRESSION ${
+
+}$
+55: EXPRESSION -> EXPRESSION == EXPRESSION ${
+
+}$
+56: EXPRESSION -> EXPRESSION != EXPRESSION ${
+
+}$
+57: EXPRESSION -> EXPRESSION && EXPRESSION ${
+
+}$
+58: EXPRESSION -> EXPRESSION || EXPRESSION ${
+
+}$
+59: EXPRESSION -> EXPRESSION ++ ${
+
+}$
+60: EXPRESSION -> EXPRESSION -- ${
+
+}$
+61: EXPRESSION -> ( EXPRESSION ) ${
+
+}$
+62: LABEL -> EPSILON ${
+stack[top-1].addr = gen('var', identifier, "");
+top -= 1;
+}$

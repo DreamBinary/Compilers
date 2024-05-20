@@ -1,11 +1,11 @@
 miniRC=function(integer delta){
-     integer a[5][10], i;
-     float x, y;
-     i = 0;
-    do{
-        if(i>=5 || a[i][i]==0 ) break;
+    integer a[5][10], i;
+    float x, y;
+    i = 0;
+    do {
+        if(i>=5 || a[i][i] == 0 ) break;
         x = delta / a[i][i] + y;
         i= adapt(i, delta)
-    }while(x<y);
+    } while(x<y);
     i=0;
 }

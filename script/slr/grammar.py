@@ -50,6 +50,8 @@ class EnumGrammar(Enum):
     DO = 'DO'
     WHILE = 'WHILE'
 
+    LABEL = 'LABEL'  # for SDT
+
     EQ = '='
     PLUS = '+'
     MINUS = '-'

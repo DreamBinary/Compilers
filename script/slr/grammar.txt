@@ -4,7 +4,7 @@ type -> integer | double | epsilon
 variable -> type identifier | variable [ index ] | variable [ index ] [ index ]
 
 statementList -> statement | statementList statement | epsilon
-statement -> variable | variable = assign | expressionList | ifStmt | repeat { statementList } until ( expression ) | do { statementList } while ( expression ) | for ( expressionListVar ) { statementList } | for ( expressionListVar ) statement | return expression | break ; | ; | #
+statement -> variable | variable = assign | expressionList | ifStmt | repeat { statementList } until ( expression ) | do { label statementList } while ( label expression ) | for ( expressionListVar ) { statementList } | for ( expressionListVar ) statement | return expression | break ; | ; | #
 assign -> int | expression | identifier ( expressionList ) | fun
 fun -> function ( expressionList ) { statementList } | function ( expressionList )
 
@@ -15,3 +15,5 @@ ifBlock -> statementList | { statementList }
 expressionList -> expression | expressionList , expression
 expressionListVar -> expression | expressionListVar ; expression
 expression -> variable | int | float | identifier | expression = expression | variable ( expressionList ) | expression + expression | expression - expression | expression * expression | expression / expression | expression < expression | expression > expression | expression >= expression | expression <= expression | expression == expression | expression != expression | expression && expression | expression || expression | expression ++ | expression -- | ( expression )
+
+label -> epsilon
