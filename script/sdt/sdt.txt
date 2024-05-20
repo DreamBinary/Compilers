@@ -25,15 +25,18 @@ top -= 1;
 }$
 8: VARIABLE -> VARIABLE [ INDEX ] ${
 
+top -= 3;
 }$
 9: VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
 
+top -= 6;
 }$
 10: STATEMENTLIST -> STATEMENT ${
 
 }$
 11: STATEMENTLIST -> STATEMENTLIST STATEMENT ${
-
+stack[top-1].next = stack[top].next;
+top -= 1;
 }$
 12: STATEMENTLIST -> EPSILON ${
 
@@ -53,6 +56,7 @@ top -= 2;
 }$
 17: STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( EXPRESSION ) ${
 
+
 }$
 18: STATEMENT -> DO { LABEL STATEMENTLIST } WHILE ( LABEL EXPRESSION ) ${
 backpatch(stack[top-6].next, stack[top-2].addr);
@@ -69,9 +73,11 @@ top -= 9;
 }$
 21: STATEMENT -> RETURN EXPRESSION ${
 
+top -= 1;
 }$
 22: STATEMENT -> BREAK ; ${
 
+top -= 2;
 }$
 23: STATEMENT -> ; ${
 
@@ -87,18 +93,25 @@ top -= 9;
 }$
 27: ASSIGN -> IDENTIFIER ( EXPRESSIONLIST ) ${
 
+top -= 3;
 }$
 28: ASSIGN -> FUN ${
 
 }$
 29: FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
 
+top -= 6;
 }$
 30: FUN -> FUNCTION ( EXPRESSIONLIST ) ${
 
+top -= 3;
 }$
-31: IFSTMT -> IF ( EXPRESSION ) IFBLOCK ELIFSTMT ${
-
+31: IFSTMT -> IF ( EXPRESSION ) LABEL IFBLOCK LABEL ELIFSTMT ${
+backpatch(stack[top-5].true, stack[top-3].addr);
+backpatch(stack[top-5].false, stack[top-1].addr);
+gen('goto if', stack[top-5].addr);
+gen('goto', stack[top-1].addr);
+top -= 7;
 }$
 32: ELIFSTMT -> ELSEIF ( EXPRESSION ) IFBLOCK ELIFSTMT ${
 
@@ -120,12 +133,14 @@ top -= 9;
 }$
 38: EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION ${
 
+top -= 2;
 }$
 39: EXPRESSIONLISTVAR -> EXPRESSION ${
 
 }$
 40: EXPRESSIONLISTVAR -> EXPRESSIONLISTVAR ; EXPRESSION ${
 
+top -= 2;
 }$
 41: EXPRESSION -> VARIABLE ${
 
@@ -140,10 +155,12 @@ stack[top].addr = gen('var', identifier, "");
 
 }$
 45: EXPRESSION -> EXPRESSION = EXPRESSION ${
-
+stack[top-2].addr = gen('=', stack[top-2].addr, stack[top].addr);
+top -= 2;
 }$
 46: EXPRESSION -> VARIABLE ( EXPRESSIONLIST ) ${
 
+top -= 3;
 }$
 47: EXPRESSION -> EXPRESSION + EXPRESSION ${
 stack[top-2].addr = gen('+', stack[top-2].addr, stack[top].addr);
@@ -151,12 +168,18 @@ top -= 2;
 }$
 48: EXPRESSION -> EXPRESSION - EXPRESSION ${
 
+stack[top-2].addr = gen('-', stack[top-2].addr, stack[top].addr);
+top -= 2;
 }$
 49: EXPRESSION -> EXPRESSION * EXPRESSION ${
 
+stack[top-2].addr = gen('*', stack[top-2].addr, stack[top].addr);
+top -= 2;
 }$
 50: EXPRESSION -> EXPRESSION / EXPRESSION ${
 
+stack[top-2].addr = gen('/', stack[top-2].addr, stack[top].addr);
+top -= 2;
 }$
 51: EXPRESSION -> EXPRESSION < EXPRESSION ${
 stack[top-2].addr = gen('<', stack[top-2].addr, stack[top].addr);
@@ -164,10 +187,14 @@ stack[top-2].true = stack[top-2].addr;
 top -= 2;
 }$
 52: EXPRESSION -> EXPRESSION > EXPRESSION ${
-
+stack[top-2].addr = gen('>', stack[top-2].addr, stack[top].addr);
+stack[top-2].true = stack[top-2].addr;
+top -= 2;
 }$
 53: EXPRESSION -> EXPRESSION >= EXPRESSION ${
-
+stack[top-2].addr = gen('>=', stack[top-2].addr, stack[top].addr);
+stack[top-2].true = stack[top-2].addr;
+top -= 2;
 }$
 54: EXPRESSION -> EXPRESSION <= EXPRESSION ${
 
@@ -194,6 +221,5 @@ top -= 2;
 
 }$
 62: LABEL -> EPSILON ${
-stack[top-1].addr = gen('var', identifier, "");
-top -= 1;
+stack[top].addr = gen('LABEL');
 }$

@@ -32,9 +32,10 @@ class SDT:
         self.addr = 100
         self.idx = 0
         self.idx_dict = defaultdict(lambda: None)
-        self.var = {}
+        self.var = {}  # 变量
         self.jump = defaultdict(lambda: None)
         self.identifier = "identifier"
+        self.log = []
 
     def get_todo(self):
         with open("sdt.txt", 'r') as f:
@@ -59,34 +60,41 @@ class SDT:
 
         if op == "LABEL":
             print("==>>", f"{self.addr} : {op}")
+            self.log.append(f"{self.addr} : {op}")
         elif op.startswith("goto"):
             if op.endswith("if"):
                 print("==>>", f"{self.addr} : if t{self.idx_dict[arg1]} goto {self.jump[arg1]}")
+                self.log.append(f"{self.addr} : if t{self.idx_dict[arg1]} goto {self.jump[arg1]}")
             else:
                 if arg1:
                     print("==>>", f"{self.addr} : {op} {arg1}")
+                    self.log.append(f"{self.addr} : {op} {arg1}")
                 else:
                     addr = self.addr
                     self.addr += 1
                     print("==>>", f"{addr} : {op} {self.addr}")
+                    self.log.append(f"{addr} : {op} {self.addr}")
                     return addr
+        elif op.startswith("var"):
+            if arg1 in self.var:
+                return self.var[arg1]
+            self.var[arg1] = self.addr
+            self.idx_dict[self.addr] = self.idx
+            print("==>>", f"{self.addr} : t{self.idx} = {op} {arg1}")
+            self.log.append(f"{self.addr} : t{self.idx} = {op} {arg1}")
+            add()
         elif arg1 and arg2:
             if isinstance(arg1, int) and isinstance(arg2, int):
                 print("==>>", f"{self.addr} : t{self.idx} = t{self.idx_dict[arg1]} {op} t{self.idx_dict[arg2]}")
+                self.log.append(f"{self.addr} : t{self.idx} = t{self.idx_dict[arg1]} {op} t{self.idx_dict[arg2]}")
             else:
                 print("==>>", f"{self.addr} : t{self.idx} = {arg1} {op} {arg2}")
+                self.log.append(f"{self.addr} : t{self.idx} = {arg1} {op} {arg2}")
             add()
         elif arg1:
-            if op.startswith("var"):
-                if arg1 in self.var:
-                    return None
-                self.var[arg1] = self.addr
-                self.idx_dict[self.addr] = self.idx
-                print("==>>", f"{self.addr} : t{self.idx} = {op} {arg1}")
-                add()
-            else:
-                print("==>>", f"{self.addr} : t{self.idx} = {op} {arg1}")
-                add()
+            print("==>>", f"{self.addr} : t{self.idx} = {op} {arg1}")
+            self.log.append(f"{self.addr} : t{self.idx} = {op} {arg1}")
+            add()
         addr = self.addr
         self.addr += 1
         return addr
@@ -117,8 +125,11 @@ class SDT:
                     self.stack.append(Mem())
                     self.top += 1
                 code = self.get_exec(index)
-                # print("===>>", code)
-                exec(code, {}, {'self': self})
+                if code != "":
+                    print("===>>", "code", index)
+                    print(code)
+                    # self.log.append(str(index) + " -> " + str([s.addr for s in self.stack[:self.top + 1]]))
+                    exec(code, {}, {'self': self})
             else:
                 raise ValueError(f"Unknown action: {a}")
 
@@ -144,3 +155,6 @@ if __name__ == '__main__':
 
     sdt = SDT(path)
     sdt.parse()
+    print("==>> log")
+    for l in sdt.log:
+        print(l)

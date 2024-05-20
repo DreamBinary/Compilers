@@ -1,4 +1,3 @@
 do {
-j < 1
-} while (i < 10)
-z < 2
+    float i, j
+} while (i < 100);
