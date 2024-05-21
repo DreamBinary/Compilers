@@ -53,7 +53,7 @@ mulop             -> * | /
 if_stmt           -> IF ( cond ) M1 stmt_list N M2  else_part ENDIF{backpatch(cond.truelist, M1.instr); backpatch(cond.falselist, M2.instr);
                                              temp=merge(stmt_list.nextlist, N.nextlist);
 								if_stmt.nextlist = merge(temp, else_part.nextlist);}           
-else_part         -> ELSIF ( cond ) M1 stmt_list N M2 else_part{backpatch(con.truelist, M1.instr); backpatch(cond.falselist, M2.instr);
+else_part         -> ELSIF ( cond ) M1 stmt_list N M2 else_falselistpart{backpatch(con.truelist, M1.instr); backpatch(cond.falselist, M2.instr);
                                              temp=merge(stmt_list.nextlist, N.nextlist);
 								if_stmt.nextlist = merge(temp, else_part.nextlist);}  
 else_part         -> ɛ

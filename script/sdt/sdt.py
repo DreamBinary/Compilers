@@ -1,20 +1,28 @@
 # -*- coding:utf-8 -*-
 # @FileName : sdt.py
-# @Time : 2024/5/18 19:54
+# @Time : 2024/5/21 8:21
 # @Author : fiv
+
 from collections import defaultdict
 
 from script.slr import SLR
 from script.slr.grammar import EnumGrammar
 
 
+def debugprint(*args):
+    print(*args)
+    pass
+
+
 class Mem:
-    def __init__(self):
+    def __init__(self, value=None):
         self.type = None
         self.addr = None
-        self.true = None
-        self.false = None
-        self.next = None
+        self.truelist = []
+        self.falselist = []
+        self.nextlist = []
+        self.value = value
+        self.instr = None
 
 
 class SDT:
@@ -27,120 +35,108 @@ class SDT:
         self.slr = SLR(input_file)
         self.sym, self.action = self.slr.process()
         self.grammar = self.slr.grammar
+
+        self.nextinstr = 100
+        self.table = defaultdict(lambda: None)  # 符号表
+        self.type = None
+
         self.top = -1
         self.stack = []
-        self.addr = 100
+        self.jump = defaultdict(lambda: None)
+
         self.idx = 0
         self.idx_dict = defaultdict(lambda: None)
-        self.var = {}  # 变量
-        self.jump = defaultdict(lambda: None)
-        self.identifier = "identifier"
-        self.log = []
+
+        # self.log = []
+        self.code = []
+
+    def temp(self):
+        self.idx += 1
+        return f"t{self.idx}"
+
+    def get_code(self):
+        length = len(self.code)
+        for i in range(length):
+            if 'goto' in self.code[i]:
+                instr = int(self.code[i].split(':')[0])
+                self.code[i] = self.code[i] + str(self.jump[instr])
+        return self.code
 
     def get_todo(self):
         with open("sdt.txt", 'r') as f:
             import re
             todo = f.read()
-            # match { } 中间的内容
             todo = re.findall(r'\${(.*?)}\$', todo, re.DOTALL)
             todo = [t.strip() for t in todo]
-            # for i, t in enumerate(todo):
-            #     print(i, t)
         return todo
 
     def backpatch(self, arg1, arg2):
-        self.jump[arg1] = arg2
+        for i in arg1:
+            self.jump[i] = arg2
 
-    def gen(self, op, arg1=None, arg2=None):
-        # print("==>>", op, arg1, arg2)
+    def gen(self, op, arg1=None, arg2=None, result=None):
+        debugprint("==>> gen", op, arg1, arg2)
+        if op == 'if':
+            s = f"{self.nextinstr}: if {arg1} goto "  # wait backpatch
+            self.jump[self.nextinstr] = arg2
+        elif op == 'goto':
+            s = f"{self.nextinstr}: goto "
+            self.jump[self.nextinstr] = arg1
+        elif result:
+            s = f"{self.nextinstr}: {result} = {arg1} {op} {arg2}"
+        else:
+            s = f"{self.nextinstr}: {arg1} {op} {arg2}"
 
-        def add():
-            self.idx_dict[self.addr] = self.idx
-            self.idx += 1
-
-        if op == "LABEL":
-            print("==>>", f"{self.addr} : {op}")
-            self.log.append(f"{self.addr} : {op}")
-        elif op.startswith("goto"):
-            if op.endswith("if"):
-                print("==>>", f"{self.addr} : if t{self.idx_dict[arg1]} goto {self.jump[arg1]}")
-                self.log.append(f"{self.addr} : if t{self.idx_dict[arg1]} goto {self.jump[arg1]}")
-            else:
-                if arg1:
-                    print("==>>", f"{self.addr} : {op} {arg1}")
-                    self.log.append(f"{self.addr} : {op} {arg1}")
-                else:
-                    addr = self.addr
-                    self.addr += 1
-                    print("==>>", f"{addr} : {op} {self.addr}")
-                    self.log.append(f"{addr} : {op} {self.addr}")
-                    return addr
-        elif op.startswith("var"):
-            if arg1 in self.var:
-                return self.var[arg1]
-            self.var[arg1] = self.addr
-            self.idx_dict[self.addr] = self.idx
-            print("==>>", f"{self.addr} : t{self.idx} = {op} {arg1}")
-            self.log.append(f"{self.addr} : t{self.idx} = {op} {arg1}")
-            add()
-        elif arg1 and arg2:
-            if isinstance(arg1, int) and isinstance(arg2, int):
-                print("==>>", f"{self.addr} : t{self.idx} = t{self.idx_dict[arg1]} {op} t{self.idx_dict[arg2]}")
-                self.log.append(f"{self.addr} : t{self.idx} = t{self.idx_dict[arg1]} {op} t{self.idx_dict[arg2]}")
-            else:
-                print("==>>", f"{self.addr} : t{self.idx} = {arg1} {op} {arg2}")
-                self.log.append(f"{self.addr} : t{self.idx} = {arg1} {op} {arg2}")
-            add()
-        elif arg1:
-            print("==>>", f"{self.addr} : t{self.idx} = {op} {arg1}")
-            self.log.append(f"{self.addr} : t{self.idx} = {op} {arg1}")
-            add()
-        addr = self.addr
-        self.addr += 1
-        return addr
-
-    # def backpatch(self, arg1, arg2):
-    #     print(f"backpatch: {arg1} {arg2}")
+        self.nextinstr += 1
+        self.code.append(s)
+        debugprint(s)
+        return None
 
     def parse(self):
-        #         self.stack.append(Mem())
-        #         a = """
-        #
-        # self.stack[0].addr = self.gen('var', self.identifier)
-        # print(self.stack[0].addr)
-        #         """
-        #         exec(a, {}, {'self': self})
-        epsilon_idx = [6, 12, 35, 62]
+        epsilon_idx = []
+        for i, g in enumerate(self.grammar):
+            if g.suf[0].value == EnumGrammar.EPSILON.value:
+                epsilon_idx.append(i)
         for (s, a) in zip(self.sym, self.action):
             if a[0].startswith("shift"):
-                # print(f"shift: {a[1]}")
-                self.stack.append(Mem())
                 self.top += 1
-                self.identifier = s[-1][0]
+                if len(self.stack) <= self.top:
+                    self.stack.append(Mem(s[-1][0]))
+                else:
+                    self.stack[self.top] = Mem(s[-1][0])
+
                 # self.stack = s
             elif a[0].startswith("reduce"):
-                # print(f"reduce: {self.grammar.index(a[1])} {a[1]}")
+                # debugprint(f"reduce: {self.grammar.index(a[1])} {a[1]}")
                 index = self.grammar.index(a[1])
                 if index in epsilon_idx:
-                    self.stack.append(Mem())
                     self.top += 1
+                    if len(self.stack) <= self.top:
+                        self.stack.append(Mem(s[-1][0]))
+                    else:
+                        self.stack[self.top] = Mem(s[-1][0])
                 code = self.get_exec(index)
+                debugprint(index)
                 if code != "":
-                    print("===>>", "code", index)
-                    print(code)
-                    # self.log.append(str(index) + " -> " + str([s.addr for s in self.stack[:self.top + 1]]))
+                    # debugprint("===>>", "code", index)
+                    # debugprint(code)
                     exec(code, {}, {'self': self})
             else:
                 raise ValueError(f"Unknown action: {a}")
+            debugprint(s)
+            debugprint("==>> stack : ", [i.value for i in self.stack[:self.top + 1]])
 
     def get_exec(self, index):
         r = self.todo[index]
         replace = {
             # ';': '\n',
+            'type': 'self.type',
+            'table': 'self.table',
+            'nextinstr': 'self.nextinstr',
             'stack': 'self.stack',
             'top': 'self.top',
-            'identifier': 'self.identifier',
             'gen': 'self.gen',
+            'temp': 'self.temp',
             'backpatch': 'self.backpatch',
         }
         for k, v in replace.items():
@@ -155,6 +151,13 @@ if __name__ == '__main__':
 
     sdt = SDT(path)
     sdt.parse()
-    print("==>> log")
-    for l in sdt.log:
+    print("==>> code")
+    for l in sdt.get_code():
         print(l)
+    print("==>> jump")
+    for k, v in sdt.jump.items():
+        print(k, v)
+
+    print("==>> idx_dict")
+    for k, v in sdt.idx_dict.items():
+        print(k, v)

@@ -8,7 +8,7 @@ statement -> variable | variable = assign | expressionList | ifStmt | repeat { s
 assign -> int | expression | identifier ( expressionList ) | fun
 fun -> function ( expressionList ) { statementList } | function ( expressionList )
 
-ifStmt -> if ( label expression ) label ifBlock elIfStmt
+ifStmt -> if ( expression ) label ifBlock label elIfStmt
 elIfStmt -> else if ( expression ) ifBlock elIfStmt | else ifBlock | epsilon
 ifBlock -> statementList | { statementList }
 

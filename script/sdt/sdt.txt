@@ -11,16 +11,17 @@
 
 }$
 4: TYPE -> INTEGER ${
-
+type = 'int';
 }$
 5: TYPE -> DOUBLE ${
-
+type = 'double';
 }$
 6: TYPE -> EPSILON ${
-
+type = None;
 }$
 7: VARIABLE -> TYPE IDENTIFIER ${
-stack[top-1].addr = gen('var', identifier, "");
+table[stack[top].value] = type;
+stack[top-1].value = stack[top].value;
 top -= 1;
 }$
 8: VARIABLE -> VARIABLE [ INDEX ] ${
@@ -35,7 +36,7 @@ top -= 6;
 
 }$
 11: STATEMENTLIST -> STATEMENTLIST STATEMENT ${
-stack[top-1].next = stack[top].next;
+stack[top-1].value = stack[top].value;
 top -= 1;
 }$
 12: STATEMENTLIST -> EPSILON ${
@@ -45,7 +46,7 @@ top -= 1;
 
 }$
 14: STATEMENT -> VARIABLE = ASSIGN ${
-gen('=', stack[top-2].addr, stack[top].addr);
+gen('=', stack[top-2].value, stack[top].value);
 top -= 2;
 }$
 15: STATEMENT -> EXPRESSIONLIST ${
@@ -59,10 +60,10 @@ top -= 2;
 
 }$
 18: STATEMENT -> DO { LABEL STATEMENTLIST } WHILE ( LABEL EXPRESSION ) ${
-backpatch(stack[top-6].next, stack[top-2].addr);
-backpatch(stack[top-1].true, stack[top-7].addr);
-gen('goto if', stack[top-1].true);
-stack[top-9].addr = gen('goto', stack[top-9].addr);
+backpatch(stack[top-6].nextlist, stack[top-2].instr);
+backpatch(stack[top-1].truelist, stack[top-7].instr);
+stack[top-9].nextlist = stack[top-1].falselist;
+# gen('goto', stack[top-7].instr);
 top -= 9;
 }$
 19: STATEMENT -> FOR ( EXPRESSIONLISTVAR ) { STATEMENTLIST } ${
@@ -109,15 +110,18 @@ top -= 3;
 31: IFSTMT -> IF ( EXPRESSION ) LABEL IFBLOCK LABEL ELIFSTMT ${
 backpatch(stack[top-5].true, stack[top-3].addr);
 backpatch(stack[top-5].false, stack[top-1].addr);
-gen('goto if', stack[top-5].addr);
+gen('goto', stack[top-7].addr);
+gen('goto if', stack[top-5].true);
 gen('goto', stack[top-1].addr);
 top -= 7;
 }$
 32: ELIFSTMT -> ELSEIF ( EXPRESSION ) IFBLOCK ELIFSTMT ${
 
+top -= 5;
 }$
 33: ELIFSTMT -> ELSE IFBLOCK ${
-
+stack[top-1].addr = stack[top].addr;
+top -= 1;
 }$
 34: ELIFSTMT -> EPSILON ${
 
@@ -127,12 +131,12 @@ top -= 7;
 }$
 36: IFBLOCK -> { STATEMENTLIST } ${
 
+top -= 2;
 }$
 37: EXPRESSIONLIST -> EXPRESSION ${
 
 }$
 38: EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION ${
-
 top -= 2;
 }$
 39: EXPRESSIONLISTVAR -> EXPRESSION ${
@@ -146,7 +150,7 @@ top -= 2;
 
 }$
 42: EXPRESSION -> INT ${
-stack[top].addr = gen('var', identifier, "");
+
 }$
 43: EXPRESSION -> FLOAT ${
 
@@ -163,37 +167,36 @@ top -= 2;
 top -= 3;
 }$
 47: EXPRESSION -> EXPRESSION + EXPRESSION ${
-stack[top-2].addr = gen('+', stack[top-2].addr, stack[top].addr);
+tmp = temp();
+gen('+', stack[top-2].value, stack[top].value, tmp);
+stack[top-2].value = tmp;
 top -= 2;
 }$
 48: EXPRESSION -> EXPRESSION - EXPRESSION ${
 
-stack[top-2].addr = gen('-', stack[top-2].addr, stack[top].addr);
 top -= 2;
 }$
 49: EXPRESSION -> EXPRESSION * EXPRESSION ${
 
-stack[top-2].addr = gen('*', stack[top-2].addr, stack[top].addr);
 top -= 2;
 }$
 50: EXPRESSION -> EXPRESSION / EXPRESSION ${
 
-stack[top-2].addr = gen('/', stack[top-2].addr, stack[top].addr);
 top -= 2;
 }$
 51: EXPRESSION -> EXPRESSION < EXPRESSION ${
-stack[top-2].addr = gen('<', stack[top-2].addr, stack[top].addr);
-stack[top-2].true = stack[top-2].addr;
+stack[top-2].truelist = [nextinstr];
+stack[top-2].falselist = [nextinstr+1];
+gen('if', f"{stack[top-2].value} < {stack[top].value}", -1);
+gen('goto', -1);
 top -= 2;
 }$
 52: EXPRESSION -> EXPRESSION > EXPRESSION ${
-stack[top-2].addr = gen('>', stack[top-2].addr, stack[top].addr);
-stack[top-2].true = stack[top-2].addr;
+
 top -= 2;
 }$
 53: EXPRESSION -> EXPRESSION >= EXPRESSION ${
-stack[top-2].addr = gen('>=', stack[top-2].addr, stack[top].addr);
-stack[top-2].true = stack[top-2].addr;
+
 top -= 2;
 }$
 54: EXPRESSION -> EXPRESSION <= EXPRESSION ${
@@ -221,5 +224,5 @@ top -= 2;
 
 }$
 62: LABEL -> EPSILON ${
-stack[top].addr = gen('LABEL');
+stack[top].instr = nextinstr;
 }$

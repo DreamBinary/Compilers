@@ -1,21 +1,15 @@
-['$', 'STATEMENTLIST'] === reduce STATEMENTLIST -> EPSILON . 
-['$', 'STATEMENTLIST', 'do'] === shift 19
-['$', 'STATEMENTLIST', 'do', '{'] === shift 50
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL'] === reduce LABEL -> EPSILON . 
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST'] === reduce STATEMENTLIST -> EPSILON . 
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}'] === shift 101
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while'] === shift 111
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '('] === shift 119
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL'] === reduce LABEL -> EPSILON . 
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'TYPE'] === reduce TYPE -> EPSILON . 
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'TYPE', 'i'] === shift 41
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'VARIABLE'] === reduce VARIABLE ->  . TYPE IDENTIFIER
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION'] === reduce EXPRESSION ->  . VARIABLE
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<'] === shift 31
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', '10'] === shift 8
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'EXPRESSION'] === reduce EXPRESSION ->  . INT
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION'] === reduce EXPRESSION ->  . EXPRESSION < EXPRESSION
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', ')'] === shift 128
-['$', 'STATEMENTLIST', 'STATEMENT'] === reduce STATEMENT ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL EXPRESSION )
+['$', 'TYPE'] === reduce TYPE -> EPSILON . 
+['$', 'TYPE', 'float'] === shift 41
+['$', 'VARIABLE'] === reduce VARIABLE ->  . TYPE IDENTIFIER
+['$', 'EXPRESSION'] === reduce EXPRESSION ->  . VARIABLE
+['$', 'EXPRESSIONLIST'] === reduce EXPRESSIONLIST ->  . EXPRESSION
+['$', 'STATEMENT'] === reduce STATEMENT ->  . EXPRESSIONLIST
+['$', 'STATEMENTLIST'] === reduce STATEMENTLIST ->  . STATEMENT
+['$', 'STATEMENTLIST', 'TYPE'] === reduce TYPE -> EPSILON . 
+['$', 'STATEMENTLIST', 'TYPE', 'i'] === shift 41
+['$', 'STATEMENTLIST', 'VARIABLE'] === reduce VARIABLE ->  . TYPE IDENTIFIER
+['$', 'STATEMENTLIST', 'EXPRESSION'] === reduce EXPRESSION ->  . VARIABLE
+['$', 'STATEMENTLIST', 'EXPRESSIONLIST'] === reduce EXPRESSIONLIST ->  . EXPRESSION
+['$', 'STATEMENTLIST', 'STATEMENT'] === reduce STATEMENT ->  . EXPRESSIONLIST
 ['$', 'STATEMENTLIST'] === reduce STATEMENTLIST ->  . STATEMENTLIST STATEMENT
 ['$', 'PROGRAM'] === reduce PROGRAM ->  . STATEMENTLIST
