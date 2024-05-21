@@ -16,7 +16,7 @@ expressionList -> expression | expressionList , expression
 expressionListVar -> expression | expressionListVar ; expression
 
 expression -> computeExpr | partExpr | condition
-partExpr -> variable | int | float | identifier | ( expression ) | variable ( expressionList ) | computeExpr
+partExpr -> variable | int | float | identifier | partExpr = partExpr | ( expression ) | variable ( expressionList ) | computeExpr
 computeExpr -> partExpr + partExpr | partExpr - partExpr | partExpr * partExpr | partExpr / partExpr | partExpr ++ | partExpr --
 compareExpr -> partExpr < partExpr | partExpr > partExpr | partExpr <= partExpr | partExpr >= partExpr | partExpr == partExpr | partExpr != partExpr
 boolExpr -> compareExpr && compareExpr | compareExpr || compareExpr | boolExpr boolExpr
