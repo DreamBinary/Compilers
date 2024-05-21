@@ -71,7 +71,7 @@ do_while_stmt       -> DO M1 stmt_list WHILE ( M2 cond );
 {backpatch(stmt_list.nextlist, M2.instr); backpatch(cond.truelist, M1.instr);
 do_while_stmt.nextlist = cond.falselist;  gen('goto' M1.instr);}
 
-/* CONTINUE and BREAK statements */
+/* CONTINUE and BREA K statements */
 aug_stmt_list     -> aug_stmt aug_stmt_list | ɛ
 aug_stmt          -> base_stmt | aug_if_stmt | do_while_stmt | CONTINUE; | BREAK;
 

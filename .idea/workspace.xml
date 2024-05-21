@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tmp.in" beforeDir="false" afterPath="$PROJECT_DIR$/data/tmp.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/sdt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/sdt.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/sdt(2023）.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/sdt(2023）.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/sdt/slr_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/slr_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/slr/LR0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/LR0.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/slr/augmented_grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/augmented_grammar.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/slr/grammar.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/grammar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/slr/grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/grammar.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/slr/slr.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/slr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/slr/slr_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/slr_log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +92,7 @@
       <recent name="V:\Compilers\script\work_one" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sdt">
+  <component name="RunManager" selected="Python.slr (1)">
     <configuration name="grammar" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Compilers" />
       <option name="ENV_FILES" value="" />
@@ -205,8 +210,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.sdt" />
         <item itemvalue="Python.slr (1)" />
+        <item itemvalue="Python.sdt" />
         <item itemvalue="Python.o_sdt" />
         <item itemvalue="Python.tmp" />
         <item itemvalue="Python.grammar" />
@@ -274,7 +279,8 @@
       <workItem from="1716192145266" duration="21743000" />
       <workItem from="1716250847975" duration="5940000" />
       <workItem from="1716257444089" duration="6208000" />
-      <workItem from="1716266708681" duration="1417000" />
+      <workItem from="1716266708681" duration="3585000" />
+      <workItem from="1716278257274" duration="4217000" />
     </task>
     <servers />
   </component>
@@ -286,12 +292,12 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Compilers$slr__1_.coverage" NAME="slr (1) 覆盖结果" MODIFIED="1716251251802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/Compilers$slr__1_.coverage" NAME="slr (1) 覆盖结果" MODIFIED="1716282465596" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
     <SUITE FILE_PATH="coverage/Compilers$ui.coverage" NAME="ui 覆盖结果" MODIFIED="1716017058520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
     <SUITE FILE_PATH="coverage/Compilers$tmp.coverage" NAME="tmp 覆盖结果" MODIFIED="1716210201276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Compilers$preprocess.coverage" NAME="preprocess 覆盖结果" MODIFIED="1716034488763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
     <SUITE FILE_PATH="coverage/Compilers$slr.coverage" NAME="slr 覆盖结果" MODIFIED="1715955275141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_two" />
-    <SUITE FILE_PATH="coverage/Compilers$sdt.coverage" NAME="sdt 覆盖结果" MODIFIED="1716267938123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/sdt" />
+    <SUITE FILE_PATH="coverage/Compilers$sdt.coverage" NAME="sdt 覆盖结果" MODIFIED="1716270200741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/sdt" />
     <SUITE FILE_PATH="coverage/Compilers$lexer.coverage" NAME="lexer 覆盖结果" MODIFIED="1716013337716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
     <SUITE FILE_PATH="coverage/Compilers$grammar.coverage" NAME="grammar 覆盖结果" MODIFIED="1716091159901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
     <SUITE FILE_PATH="coverage/Compilers$ui__1_.coverage" NAME="ui (1) 覆盖结果" MODIFIED="1716034404235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/lexer" />

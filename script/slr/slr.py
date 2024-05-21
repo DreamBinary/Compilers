@@ -74,16 +74,18 @@ class SLR:
                 print("==>> ERROR")
                 print("idx", idx)
                 idx += 1
-                continue
-                # print("idx", idx)
-                # print(top)
-                # print(self.input[idx - 1], top, self.input[idx + 1])
-                # print(state)
-                # print(table[state])
-                # print("====>>>> Log")
-                # for sym, act in zip(log_symbols[-10:], log_action[-10:]):
-                #     print(sym, "===", act)
-                # break
+
+                print("idx", idx)
+                print(top)
+                for i in range(5, -1, -1):
+                    print(self.input[idx - i][0], end=" ")
+                print()
+                print(state)
+                print(table[state])
+                print("====>>>> Log")
+                for sym, act in zip(log_symbols[-10:], log_action[-10:]):
+                    print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
+                break
             action = table[state][top[-1]]
             if action == "acc":
                 # print("acc")
@@ -144,21 +146,7 @@ class SLR:
         priority = [
             EnumGrammar.ELIF, EnumGrammar.ELSE,  # if-else
             EnumGrammar.SEMI,  # ;
-            EnumGrammar.EQ,  # = 连等的时候
-            EnumGrammar.PLUS,
-            EnumGrammar.MINUS,
-            EnumGrammar.STAR,
-            EnumGrammar.SLASH,
-            # EnumGrammar.LT,
-            # EnumGrammar.GT,
-            # EnumGrammar.LE,
-            # EnumGrammar.GE,
-            # EnumGrammar.EQEQ,
-            # EnumGrammar.NE,
-            # EnumGrammar.AND,
-            # EnumGrammar.OR, #  先规约
-            EnumGrammar.INC,
-            EnumGrammar.DEC,
+
             EnumGrammar.LPAR,
             EnumGrammar.RPAR,
             EnumGrammar.LBRACE,
@@ -169,6 +157,24 @@ class SLR:
             EnumGrammar.SEMI,
             EnumGrammar.DOT,
             EnumGrammar.COMMENT,
+
+            EnumGrammar.INC,
+            EnumGrammar.DEC,
+
+            EnumGrammar.EQ,  # = 连等的时候
+            EnumGrammar.PLUS,
+            EnumGrammar.MINUS,
+            EnumGrammar.STAR,
+            EnumGrammar.SLASH,
+
+            EnumGrammar.LT,
+            EnumGrammar.GT,
+            EnumGrammar.LE,
+            EnumGrammar.GE,
+            EnumGrammar.EQEQ,
+            EnumGrammar.NE,
+            EnumGrammar.AND,
+            EnumGrammar.OR,
         ]
 
         for idx in range(il):
@@ -190,6 +196,15 @@ class SLR:
                                         if ((f in priority) and action[state].get(f) and
                                                 action[state][f][0] == 's'):  # 处理优先级
                                             continue
+                                        # if f in priority:
+                                        #     if action[state].get(f):
+                                        #         a_f = action[state][f]
+                                        #         if a_f[0] == 's':
+                                        #             if s in priority:
+                                        #                 if priority.index(f) > priority.index(s):  # f优先级低, 先规约
+                                        #                     continue
+                                        #             else:
+                                        #                 continue
                                         action[state][f] = f"r{r.label}"
                     else:
                         action[state][s] = f"s{goto}"
@@ -267,7 +282,7 @@ class SLR:
 if __name__ == '__main__':
     from ENV import PATH
 
-    path = PATH.DATA_PATH / "miniRC.in3"
+    path = PATH.DATA_PATH / "miniRC.in2"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")
