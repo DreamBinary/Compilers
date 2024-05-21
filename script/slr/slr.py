@@ -149,14 +149,14 @@ class SLR:
             EnumGrammar.MINUS,
             EnumGrammar.STAR,
             EnumGrammar.SLASH,
-            EnumGrammar.LT,
-            EnumGrammar.GT,
-            EnumGrammar.LE,
-            EnumGrammar.GE,
-            EnumGrammar.EQEQ,
-            EnumGrammar.NE,
-            EnumGrammar.AND,
-            EnumGrammar.OR,
+            # EnumGrammar.LT,
+            # EnumGrammar.GT,
+            # EnumGrammar.LE,
+            # EnumGrammar.GE,
+            # EnumGrammar.EQEQ,
+            # EnumGrammar.NE,
+            # EnumGrammar.AND,
+            # EnumGrammar.OR, #  先规约
             EnumGrammar.INC,
             EnumGrammar.DEC,
             EnumGrammar.LPAR,
@@ -267,7 +267,7 @@ class SLR:
 if __name__ == '__main__':
     from ENV import PATH
 
-    path = PATH.DATA_PATH / "tmp.in"
+    path = PATH.DATA_PATH / "miniRC.in3"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")

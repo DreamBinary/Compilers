@@ -14,6 +14,6 @@ ifBlock -> statementList | { statementList }
 
 expressionList -> expression | expressionList , expression
 expressionListVar -> expression | expressionListVar ; expression
-expression -> variable | int | float | identifier | expression = expression | variable ( expressionList ) | expression + expression | expression - expression | expression * expression | expression / expression | expression < expression | expression > expression | expression >= expression | expression <= expression | expression == expression | expression != expression | expression && expression | expression || expression | expression ++ | expression -- | ( expression )
+expression -> variable | int | float | identifier | expression = expression | variable ( expressionList ) | expression + expression | expression - expression | expression * expression | expression / expression | expression < expression | expression > expression | expression >= expression | expression <= expression | expression == expression | expression != expression | expression && expression | expression || label expression | expression ++ | expression -- | ( expression )
 
 label -> epsilon

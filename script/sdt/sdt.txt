@@ -25,7 +25,8 @@ stack[top-1].value = stack[top].value;
 top -= 1;
 }$
 8: VARIABLE -> VARIABLE [ INDEX ] ${
-
+table[stack[top-3].value] = f"{type}[]";
+stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
 top -= 3;
 }$
 9: VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
@@ -185,8 +186,8 @@ top -= 2;
 top -= 2;
 }$
 51: EXPRESSION -> EXPRESSION < EXPRESSION ${
-stack[top-2].truelist = [nextinstr];
-stack[top-2].falselist = [nextinstr+1];
+stack[top-2].truelist.append(nextinstr);
+stack[top-2].falselist.append(nextinstr+1);
 gen('if', f"{stack[top-2].value} < {stack[top].value}", -1);
 gen('goto', -1);
 top -= 2;
@@ -211,8 +212,11 @@ top -= 2;
 57: EXPRESSION -> EXPRESSION && EXPRESSION ${
 
 }$
-58: EXPRESSION -> EXPRESSION || EXPRESSION ${
-
+58: EXPRESSION -> EXPRESSION || LABEL EXPRESSION ${
+backpatch(stack[top-3].falselist, stack[top-1].instr);
+stack[top-3].truelist = merge(stack[top-3].truelist, stack[top].truelist);
+stack[top-3].falselist = stack[top].falselist;
+top -= 2;
 }$
 59: EXPRESSION -> EXPRESSION ++ ${
 

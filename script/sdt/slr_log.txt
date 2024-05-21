@@ -60,9 +60,9 @@
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', ';'] === shift 21
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', 'STATEMENT'] === reduce STATEMENT ->  . ;
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST'] === reduce STATEMENTLIST ->  . STATEMENTLIST STATEMENT
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}'] === shift 99
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while'] === shift 108
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '('] === shift 115
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}'] === shift 100
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while'] === shift 109
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '('] === shift 116
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL'] === reduce LABEL -> EPSILON . 
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'TYPE'] === reduce TYPE -> EPSILON . 
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'TYPE', 'x'] === shift 41
@@ -74,7 +74,20 @@
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'VARIABLE'] === reduce VARIABLE ->  . TYPE IDENTIFIER
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'EXPRESSION'] === reduce EXPRESSION ->  . VARIABLE
 ['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION'] === reduce EXPRESSION ->  . EXPRESSION < EXPRESSION
-['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', ')'] === shift 128
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '||'] === shift 38
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '||', 'LABEL'] === reduce LABEL -> EPSILON . 
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '||', 'LABEL', 'TYPE'] === reduce TYPE -> EPSILON . 
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '||', 'LABEL', 'TYPE', 'y'] === shift 41
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '||', 'LABEL', 'VARIABLE'] === reduce VARIABLE ->  . TYPE IDENTIFIER
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '||', 'LABEL', 'EXPRESSION'] === reduce EXPRESSION ->  . VARIABLE
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION'] === reduce EXPRESSION ->  . EXPRESSION || LABEL EXPRESSION
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<'] === shift 31
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'TYPE'] === reduce TYPE -> EPSILON . 
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'TYPE', 'x'] === shift 41
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'VARIABLE'] === reduce VARIABLE ->  . TYPE IDENTIFIER
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', '<', 'EXPRESSION'] === reduce EXPRESSION ->  . VARIABLE
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION'] === reduce EXPRESSION ->  . EXPRESSION < EXPRESSION
+['$', 'STATEMENTLIST', 'do', '{', 'LABEL', 'STATEMENTLIST', '}', 'while', '(', 'LABEL', 'EXPRESSION', ')'] === shift 129
 ['$', 'STATEMENTLIST', 'STATEMENT'] === reduce STATEMENT ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL EXPRESSION )
 ['$', 'STATEMENTLIST'] === reduce STATEMENTLIST ->  . STATEMENTLIST STATEMENT
 ['$', 'STATEMENTLIST', ';'] === shift 21

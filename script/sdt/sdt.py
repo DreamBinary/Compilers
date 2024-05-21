@@ -74,6 +74,10 @@ class SDT:
         for i in arg1:
             self.jump[i] = arg2
 
+    def merge(self, arg1, arg2):
+        result = arg1 + arg2
+        print(result)
+
     def gen(self, op, arg1=None, arg2=None, result=None):
         debugprint("==>> gen", op, arg1, arg2)
         if op == 'if':
@@ -124,7 +128,7 @@ class SDT:
             else:
                 raise ValueError(f"Unknown action: {a}")
             debugprint(s)
-            debugprint("==>> stack : ", [i.value for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack : ", [i.truelist for i in self.stack[:self.top + 1]])
 
     def get_exec(self, index):
         r = self.todo[index]
@@ -136,6 +140,7 @@ class SDT:
             'stack': 'self.stack',
             'top': 'self.top',
             'gen': 'self.gen',
+            'merge': 'self.merge',
             'temp': 'self.temp',
             'backpatch': 'self.backpatch',
         }
