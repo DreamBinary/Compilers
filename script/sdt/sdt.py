@@ -42,13 +42,13 @@ class SDT:
 
         self.top = -1
         self.stack = []
-        self.jump = defaultdict(lambda: None)
+        self.jump = defaultdict(lambda: -1)
 
         self.idx = 0
         self.idx_dict = defaultdict(lambda: None)
 
-        # self.log = []
         self.code = []
+        self.log_error = []
 
     def temp(self):
         self.idx += 1
@@ -72,11 +72,14 @@ class SDT:
 
     def backpatch(self, arg1, arg2):
         for i in arg1:
-            self.jump[i] = arg2
+            if self.jump[i] is None or self.jump[i] < 0:
+                self.jump[i] = arg2
+
 
     def merge(self, arg1, arg2):
         result = arg1 + arg2
         print(result)
+        return result
 
     def gen(self, op, arg1=None, arg2=None, result=None):
         debugprint("==>> gen", op, arg1, arg2)
@@ -128,9 +131,13 @@ class SDT:
             else:
                 raise ValueError(f"Unknown action: {a}")
             debugprint(s)
-            debugprint("==>> stack : ", [i.truelist for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack V: ", [i.value for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack I: ", [i.instr for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack F: ", [i.falselist for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack N: ", [i.nextlist for i in self.stack[:self.top + 1]])
 
-    def get_exec(self, index):
+    def get_exec(self, index):  # from txt to code
         r = self.todo[index]
         replace = {
             # ';': '\n',
@@ -142,11 +149,16 @@ class SDT:
             'gen': 'self.gen',
             'merge': 'self.merge',
             'temp': 'self.temp',
+            'error': 'self.error',
             'backpatch': 'self.backpatch',
         }
         for k, v in replace.items():
             r = r.replace(k, v)
         return r
+
+    def error(self, msg):
+        self.log_error.append(msg)
+        print("==>> ERROR", msg)
 
 
 if __name__ == '__main__':
@@ -166,3 +178,18 @@ if __name__ == '__main__':
     print("==>> idx_dict")
     for k, v in sdt.idx_dict.items():
         print(k, v)
+
+
+    print("==>> log_error")
+    for l in sdt.log_error:
+        print(l)
+
+# 100: t1 = i + 1
+# 101: i = t1
+# 102: if i < 5 goto 104
+# 103: goto None
+# 104: i = 71
+# 105: goto -1
+# 106: if i < 0 goto 100
+# 107: goto -1
+# 108: i = 0

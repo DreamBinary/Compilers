@@ -18,6 +18,7 @@ class EnumGrammar(Enum):
     VARIABLE = 'VARIABLE'
     FUNCTION = 'FUNCTION'  # Keyword
     STATEMENT = 'STATEMENT'
+    STATEMENTNO = 'STATEMENTNO'
     IFSTMT = 'IFSTMT'
     IFBLOCK = 'IFBLOCK'
     ELIFSTMT = 'ELIFSTMT'
@@ -54,6 +55,8 @@ class EnumGrammar(Enum):
     ASSIGN = 'ASSIGN'
     DO = 'DO'
     WHILE = 'WHILE'
+    GOTOLABEL = 'GOTOLABEL'
+
 
     LABEL = 'LABEL'  # for SDT
 
@@ -163,8 +166,8 @@ class Grammar:
                 new_grammar_dict.append((new_key, tv))
         new_grammar_dict.insert(0, (EnumGrammar.PROGRAM_, (new_grammar_dict[0][0],)))
         with open("./augmented_grammar.txt", "w") as f:
-            for k, v in new_grammar_dict:
-                s = k.value + " -> "
+            for i, (k, v) in enumerate(new_grammar_dict):
+                s = f"{i} : {k.value} -> "
                 for vv in v:
                     s += vv.value + " "
                 f.write(s + "\n")

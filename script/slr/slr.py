@@ -59,34 +59,33 @@ class SLR:
             else:
                 top = self.input[idx]
             state = stack[-1]
-            # print("==>> stack")
-            # print(stack)
-            # print("==>> top")
-            # print(top)
-            # print("==>> state")
-            # print(state)
-            # print("==>> table[state]")
-            # print(table[state])
-            # print("==>> log_symbols")
-            # for sym, act in zip(log_symbols[-10:], log_action[-10:]):
-            #     print(sym, "===", act)
+            print("==>> stack")
+            print(stack)
+            print("==>> top")
+            print(top)
+            print("==>> state")
+            print(state)
+            print("==>> table[state]")
+            print(table[state])
+            print("==>> log_symbols")
+            for sym, act in zip(log_symbols[-10:], log_action[-10:]):
+                print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
             if top[-1] not in table[state]:
                 print("==>> ERROR")
-                print("idx", idx)
                 idx += 1
-                continue
+                # continue
 
-                # print("idx", idx)
-                # print(top)
-                # for i in range(5, -1, -1):
-                #     print(self.input[idx - i][0], end=" ")
-                # print()
-                # print(state)
-                # print(table[state])
-                # print("====>>>> Log")
-                # for sym, act in zip(log_symbols[-10:], log_action[-10:]):
-                #     print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
-                # break
+                print("idx", idx)
+                print(top)
+                for i in range(5, -1, -1):
+                    print(self.input[idx - i][0], end=" ")
+                print()
+                print(state)
+                print(table[state])
+                print("====>>>> Log")
+                for sym, act in zip(log_symbols[-15:], log_action[-15:]):
+                    print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
+                break
             action = table[state][top[-1]]
             if action == "acc":
                 # print("acc")
@@ -146,6 +145,7 @@ class SLR:
         # 优先级
         priority = [
             EnumGrammar.ELIF, EnumGrammar.ELSE,  # if-else
+            EnumGrammar.ELIFSTMT,
             EnumGrammar.SEMI,  # ;
 
             EnumGrammar.LPAR,

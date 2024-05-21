@@ -4,12 +4,11 @@ type -> integer | double | epsilon
 variable -> type identifier | variable [ index ] | variable [ index ] [ index ]
 
 statementList -> statement | statementList statement | epsilon
-statement -> statementNo | statementNo ;
-statementNo -> variable | variable = assign | expressionList | ifStmt | repeat { statementList } until ( condition ) | do { statementList } while ( condition ) | for ( expressionListVar ) { statementList } | for ( expressionListVar ) statement | return expression | break ; | #
+statement -> variable | variable = assign | expressionList | ifStmt | repeat { statementList } until ( condition ) | do { label statementList } while ( label condition ) | for ( expressionListVar ) { statementList } | for ( expressionListVar ) statement | return expression | break ; | ; | #
 assign -> int | expression | identifier ( expressionList ) | fun
 fun -> function ( expressionList ) { statementList } | function ( expressionList )
 
-ifStmt -> if ( condition ) ifBlock elIfStmt
+ifStmt -> if ( condition ) label ifBlock gotoLabel label elIfStmt
 elIfStmt -> else if ( condition ) ifBlock elIfStmt | else ifBlock | epsilon
 ifBlock -> statement | { statementList }
 
@@ -20,5 +19,8 @@ expression -> computeExpr | partExpr | condition
 partExpr -> variable | int | float | identifier | partExpr = partExpr | ( expression ) | variable ( expressionList ) | computeExpr
 computeExpr -> partExpr + partExpr | partExpr - partExpr | partExpr * partExpr | partExpr / partExpr | partExpr ++ | partExpr --
 compareExpr -> partExpr < partExpr | partExpr > partExpr | partExpr <= partExpr | partExpr >= partExpr | partExpr == partExpr | partExpr != partExpr
-boolExpr -> compareExpr && compareExpr | compareExpr || compareExpr | boolExpr boolExpr
+boolExpr -> compareExpr && compareExpr | compareExpr || label compareExpr | boolExpr boolExpr
 condition -> compareExpr | boolExpr
+
+label -> epsilon
+gotoLabel -> epsilon
