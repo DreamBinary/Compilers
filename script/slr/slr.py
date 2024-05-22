@@ -14,7 +14,8 @@ from preprocess import PreProcess
 from typing import List
 from lr import ItemCluster
 
-
+import numpy as np
+import pandas as pd
 class SLR:
     def __init__(self, input_file):
         self.input = self.get_input(input_file)

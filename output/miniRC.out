@@ -17,19 +17,18 @@ rc         | IDENTIFIER      | 1          | 46
 integer    | KEYWORD         | 2          | 6         
 a          | IDENTIFIER      | 2          | 14        
 [          | [               | 2          | 15        
-15         | INT             | 2          | 16        
-$          | ERROR           | 2          | 18        
-]          | ]               | 2          | 19        
-[          | [               | 2          | 20        
-20         | INT             | 2          | 21        
-]          | ]               | 2          | 23        
-;          | ;               | 2          | 24        
+10         | INT             | 2          | 16        
+]          | ]               | 2          | 18        
+[          | [               | 2          | 19        
+20         | INT             | 2          | 20        
+]          | ]               | 2          | 22        
+;          | ;               | 2          | 23        
 double     | KEYWORD         | 3          | 6         
 b          | IDENTIFIER      | 3          | 13        
 [          | [               | 3          | 14        
-ABC19      | IDENTIFIER      | 3          | 15        
-]          | ]               | 3          | 20        
-;          | ;               | 3          | 21        
+19         | INT             | 3          | 15        
+]          | ]               | 3          | 17        
+;          | ;               | 3          | 18        
 if         | KEYWORD         | 5          | 6         
 (          | (               | 5          | 8         
 N          | IDENTIFIER      | 5          | 9         
@@ -63,9 +62,9 @@ KL         | IDENTIFIER      | 7          | 19
 (          | (               | 7          | 24        
 K          | IDENTIFIER      | 7          | 25        
 -          | -               | 7          | 26        
-11234      | INT             | 7          | 27        
-)          | )               | 7          | 32        
-)          | )               | 7          | 33        
+1          | INT             | 7          | 27        
+)          | )               | 7          | 28        
+)          | )               | 7          | 29        
 KL         | IDENTIFIER      | 8          | 13        
 =          | =               | 8          | 16        
 1          | INT             | 8          | 18        
@@ -84,9 +83,9 @@ KL         | IDENTIFIER      | 10         | 13
 ceiling    | IDENTIFIER      | 10         | 18        
 (          | (               | 10         | 25        
 KL         | IDENTIFIER      | 10         | 26        
-//         | //              | 10         | 28        
-2.0        | REAL            | 10         | 32        
-)          | )               | 10         | 35        
+/          | /               | 10         | 29        
+2.0        | REAL            | 10         | 31        
+)          | )               | 10         | 34        
 KR         | IDENTIFIER      | 12         | 6         
 =          | =               | 12         | 9         
 K          | IDENTIFIER      | 12         | 11        
@@ -143,5 +142,3 @@ N          | IDENTIFIER      | 17         | 70
 }          | }               | 19         | 1         
 
 --------------------------------------------------
-Error:
-line 2, column 18: unknown symbol $
