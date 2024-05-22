@@ -2,6 +2,10 @@
 # @FileName : sdt.py
 # @Time : 2024/5/21 8:21
 # @Author : fiv
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from collections import defaultdict
 
