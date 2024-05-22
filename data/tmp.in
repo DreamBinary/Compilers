@@ -2,8 +2,10 @@ integer i;
 do {
     i = i + 1;
     if (i < 5)
-        i = 71;
+        i = 1;
     else
-        i = 90
+        i = 2;
+    i = 3;
 } while (i < 0);
 i = 0;
+

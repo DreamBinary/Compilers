@@ -37,6 +37,7 @@ top -= 3;
 
 }$
 11 : STATEMENTLIST -> STATEMENTLIST STATEMENT ${
+backpatch(stack[top-1].nextlist, nextinstr - 1); # nextinstr - 1 is the last instruction of the previous statement
 stack[top-1].nextlist = merge(stack[top-1].nextlist, stack[top].nextlist);
 stack[top-1].value = stack[top].value;
 top -= 1;
@@ -44,201 +45,208 @@ top -= 1;
 12 : STATEMENTLIST -> EPSILON ${
 
 }$
-13 : STATEMENT -> VARIABLE ${
+13 : STATEMENT -> STATEMENTNO ${
 
 }$
-14 : STATEMENT -> VARIABLE = ASSIGN ${
+14 : STATEMENT -> STATEMENTNO ; ${
+top -= 1;
+}$
+15 : STATEMENTNO -> VARIABLE ${
+
+}$
+16 : STATEMENTNO -> VARIABLE = ASSIGN ${
 if stack[top-2].value not in table:
     error(f"Variable {stack[top-2].value} not declared.");
 else:
     gen('=', stack[top-2].value, stack[top].value);
 top -= 2;
 }$
-15 : STATEMENT -> EXPRESSIONLIST ${
+17 : STATEMENTNO -> EXPRESSIONLIST ${
 
 }$
-16 : STATEMENT -> IFSTMT ${
+18 : STATEMENTNO -> IFSTMT ${
 
 }$
-17 : STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( CONDITION ) ${
+19 : STATEMENTNO -> REPEAT { STATEMENTLIST } UNTIL ( CONDITION ) ${
 
 }$
-18 : STATEMENT -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION ) ${
+20 : STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION ) ${
 backpatch(stack[top-6].nextlist, stack[top-2].instr);
 backpatch(stack[top-1].truelist, stack[top-7].instr);
 stack[top-9].nextlist = stack[top-1].falselist;
 # gen('goto', stack[top-7].instr);
 top -= 9;
 }$
-19 : STATEMENT -> FOR ( EXPRESSIONLISTVAR ) { STATEMENTLIST } ${
+21 : STATEMENTNO -> FOR ( EXPRESSIONLISTVAR ) { STATEMENTLIST } ${
 
 }$
-20 : STATEMENT -> FOR ( EXPRESSIONLISTVAR ) STATEMENT ${
+22 : STATEMENTNO -> FOR ( EXPRESSIONLISTVAR ) STATEMENT ${
 
 }$
-21 : STATEMENT -> RETURN EXPRESSION ${
+23 : STATEMENTNO -> RETURN EXPRESSION ${
 
 }$
-22 : STATEMENT -> BREAK ; ${
+24 : STATEMENTNO -> BREAK ; ${
 
 }$
-23 : STATEMENT -> ; ${
+25 : STATEMENTNO -> ; ${
 
 }$
-24 : STATEMENT -> # ${
+26 : STATEMENTNO -> # ${
 
 }$
-25 : ASSIGN -> INT ${
+27 : ASSIGN -> INT ${
 
 }$
-26 : ASSIGN -> EXPRESSION ${
+28 : ASSIGN -> EXPRESSION ${
 
 }$
-27 : ASSIGN -> IDENTIFIER ( EXPRESSIONLIST ) ${
+29 : ASSIGN -> IDENTIFIER ( EXPRESSIONLIST ) ${
 
 }$
-28 : ASSIGN -> FUN ${
+30 : ASSIGN -> FUN ${
 
 }$
-29 : FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
+31 : FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
 
 }$
-30 : FUN -> FUNCTION ( EXPRESSIONLIST ) ${
+32 : FUN -> FUNCTION ( EXPRESSIONLIST ) ${
 
 }$
-31 : IFSTMT -> IF ( CONDITION ) LABEL IFBLOCK GOTOLABEL LABEL ELIFSTMT ${
+33 : IFSTMT -> IF ( CONDITION ) LABEL IFBLOCK GOTOLABEL LABEL ELIFSTMT ${
 backpatch(stack[top-6].truelist, stack[top-4].instr);
 backpatch(stack[top-6].falselist, stack[top-1].instr);
 tmp = merge(stack[top-3].nextlist, stack[top-2].nextlist);
 stack[top-8].nextlist = merge(tmp, stack[top].nextlist);
 top -= 8;
 }$
-32 : ELIFSTMT -> ELSEIF ( CONDITION ) IFBLOCK ELIFSTMT ${
+34 : ELIFSTMT -> ELSEIF ( CONDITION ) IFBLOCK ELIFSTMT ${
 
 }$
-33 : ELIFSTMT -> ELSE IFBLOCK ${
+35 : ELIFSTMT -> ELSE IFBLOCK ${
+stack[top-1] = stack[top]; # ELSE has no info
+top -= 1;
+}$
+36 : ELIFSTMT -> EPSILON ${
 
 }$
-34 : ELIFSTMT -> EPSILON ${
+37 : IFBLOCK -> STATEMENT ${
 
 }$
-35 : IFBLOCK -> STATEMENTLIST ${
+38 : IFBLOCK -> { STATEMENTLIST } ${
 
 }$
-36 : IFBLOCK -> { STATEMENTLIST } ${
+39 : EXPRESSIONLIST -> EXPRESSION ${
 
 }$
-37 : EXPRESSIONLIST -> EXPRESSION ${
+40 : EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION ${
 
 }$
-38 : EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION ${
+41 : EXPRESSIONLISTVAR -> EXPRESSION ${
 
 }$
-39 : EXPRESSIONLISTVAR -> EXPRESSION ${
+42 : EXPRESSIONLISTVAR -> EXPRESSIONLISTVAR ; EXPRESSION ${
 
 }$
-40 : EXPRESSIONLISTVAR -> EXPRESSIONLISTVAR ; EXPRESSION ${
+43 : EXPRESSION -> COMPUTEEXPR ${
 
 }$
-41 : EXPRESSION -> COMPUTEEXPR ${
+44 : EXPRESSION -> PARTEXPR ${
 
 }$
-42 : EXPRESSION -> PARTEXPR ${
+45 : EXPRESSION -> CONDITION ${
 
 }$
-43 : EXPRESSION -> CONDITION ${
+46 : PARTEXPR -> VARIABLE ${
 
 }$
-44 : PARTEXPR -> VARIABLE ${
+47 : PARTEXPR -> INT ${
 
 }$
-45 : PARTEXPR -> INT ${
+48 : PARTEXPR -> FLOAT ${
 
 }$
-46 : PARTEXPR -> FLOAT ${
+49 : PARTEXPR -> IDENTIFIER ${
 
 }$
-47 : PARTEXPR -> IDENTIFIER ${
-
-}$
-48 : PARTEXPR -> PARTEXPR = PARTEXPR ${
+50 : PARTEXPR -> PARTEXPR = PARTEXPR ${
 stack[top-2].addr = gen('=', stack[top-2].addr, stack[top].addr);
 top -= 2;
 }$
-49 : PARTEXPR -> ( EXPRESSION ) ${
+51 : PARTEXPR -> ( EXPRESSION ) ${
 
 }$
-50 : PARTEXPR -> VARIABLE ( EXPRESSIONLIST ) ${
+52 : PARTEXPR -> VARIABLE ( EXPRESSIONLIST ) ${
 
 }$
-51 : PARTEXPR -> COMPUTEEXPR ${
+53 : PARTEXPR -> COMPUTEEXPR ${
 
 }$
-52 : COMPUTEEXPR -> PARTEXPR + PARTEXPR ${
+54 : COMPUTEEXPR -> PARTEXPR + PARTEXPR ${
 tmp = temp();
 gen('+', stack[top-2].value, stack[top].value, tmp);
 stack[top-2].value = tmp;
 top -= 2;
 }$
-53 : COMPUTEEXPR -> PARTEXPR - PARTEXPR ${
+55 : COMPUTEEXPR -> PARTEXPR - PARTEXPR ${
 
 }$
-54 : COMPUTEEXPR -> PARTEXPR * PARTEXPR ${
+56 : COMPUTEEXPR -> PARTEXPR * PARTEXPR ${
 
 }$
-55 : COMPUTEEXPR -> PARTEXPR / PARTEXPR ${
+57 : COMPUTEEXPR -> PARTEXPR / PARTEXPR ${
 
 }$
-56 : COMPUTEEXPR -> PARTEXPR ++ ${
+58 : COMPUTEEXPR -> PARTEXPR ++ ${
 
 }$
-57 : COMPUTEEXPR -> PARTEXPR -- ${
+59 : COMPUTEEXPR -> PARTEXPR -- ${
 
 }$
-58 : COMPAREEXPR -> PARTEXPR < PARTEXPR ${
+60 : COMPAREEXPR -> PARTEXPR < PARTEXPR ${
 stack[top-2].truelist = [nextinstr];
 stack[top-2].falselist = [nextinstr+1];
 gen('if', f"{stack[top-2].value} < {stack[top].value}", -1);
 gen('goto', -1);
 top -= 2;
 }$
-59 : COMPAREEXPR -> PARTEXPR > PARTEXPR ${
+61 : COMPAREEXPR -> PARTEXPR > PARTEXPR ${
 
 }$
-60 : COMPAREEXPR -> PARTEXPR <= PARTEXPR ${
+62 : COMPAREEXPR -> PARTEXPR <= PARTEXPR ${
 
 }$
-61 : COMPAREEXPR -> PARTEXPR >= PARTEXPR ${
+63 : COMPAREEXPR -> PARTEXPR >= PARTEXPR ${
 
 }$
-62 : COMPAREEXPR -> PARTEXPR == PARTEXPR ${
+64 : COMPAREEXPR -> PARTEXPR == PARTEXPR ${
 
 }$
-63 : COMPAREEXPR -> PARTEXPR != PARTEXPR ${
-
-}$
-64 : BOOLEXPR -> COMPAREEXPR && COMPAREEXPR ${
-
-}$
-65 : BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR ${
+65 : COMPAREEXPR -> PARTEXPR != PARTEXPR ${
 backpatch(stack[top-3].falselist, stack[top-1].instr);
 stack[top-3].truelist = merge(stack[top-3].truelist, stack[top].truelist);
 stack[top-3].falselist = stack[top].falselist;
 top -= 3;
 }$
-66 : BOOLEXPR -> BOOLEXPR BOOLEXPR ${
+66 : BOOLEXPR -> COMPAREEXPR && COMPAREEXPR ${
 
 }$
-67 : CONDITION -> COMPAREEXPR ${
+67 : BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR ${
 
 }$
-68 : CONDITION -> BOOLEXPR ${
+68 : BOOLEXPR -> BOOLEXPR BOOLEXPR ${
 
 }$
-69 : LABEL -> EPSILON ${
+69 : CONDITION -> COMPAREEXPR ${
+
+}$
+70 : CONDITION -> BOOLEXPR ${
+
+}$
+71 : LABEL -> EPSILON ${
 stack[top].instr = nextinstr;
 }$
-70 : GOTOLABEL -> EPSILON ${
-# stack[top].nextlist = [nextinstr]; TODO
-gen('goto ignore now', -1);
+72 : GOTOLABEL -> EPSILON ${
+stack[top].nextlist = [nextinstr];
+gen('goto', -1);
 }$

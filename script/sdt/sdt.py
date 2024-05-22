@@ -68,6 +68,7 @@ class SDT:
             todo = f.read()
             todo = re.findall(r'\${(.*?)}\$', todo, re.DOTALL)
             todo = [t.strip() for t in todo]
+        # print("==>> get_todo", todo.__len__())
         return todo
 
     def backpatch(self, arg1, arg2):
@@ -131,6 +132,7 @@ class SDT:
             else:
                 raise ValueError(f"Unknown action: {a}")
             debugprint(s)
+            debugprint("==>> nextinstr: ", self.nextinstr)
             debugprint("==>> stack V: ", [i.value for i in self.stack[:self.top + 1]])
             debugprint("==>> stack I: ", [i.instr for i in self.stack[:self.top + 1]])
             debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
@@ -158,7 +160,7 @@ class SDT:
 
     def error(self, msg):
         self.log_error.append(msg)
-        print("==>> ERROR", msg)
+        print("==>> ERROR ", msg)
 
 
 if __name__ == '__main__':
@@ -169,8 +171,13 @@ if __name__ == '__main__':
     sdt = SDT(path)
     sdt.parse()
     print("==>> code")
-    for l in sdt.get_code():
-        print(l)
+    with open("code.txt", "w") as f:
+        with open(path, 'r') as f1:
+            for l in f1:
+                f.write(l)
+        f.write("\n")
+        for l in sdt.get_code():
+            f.write(l + "\n")
     print("==>> jump")
     for k, v in sdt.jump.items():
         print(k, v)

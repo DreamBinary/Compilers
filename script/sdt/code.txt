@@ -1,0 +1,23 @@
+integer i;
+do {
+    i = i + 1;
+    if (i < 5)
+        i = 1;
+    else
+        i = 2;
+    i = 3;
+} while (i < 0);
+i = 0;
+
+
+100: t1 = i + 1
+101: i = t1
+102: if i < 5 goto 104
+103: goto 106
+104: i = 1
+105: goto 107
+106: i = 2
+107: i = 3
+108: if i < 0 goto 100
+109: goto 110
+110: i = 0
