@@ -1,37 +1,73 @@
 miniRC=function(integer delta){
-    integer a[5][10], i;
-    double x, y;
-    i = 0;
-    do {
-        if(i>=5 || a[i][i] == 0 ) break;
-        x = delta / a[i][i] + y;
-        i= adapt(i, delta)
-    } while(x<y);
-    i=0;
+     integer a[5][10], b[5][10], i, j;
+     for(i=0; i<5; i++) for(j=0; j<10; j++){
+		a[i][j] = i + j;
+                if(i>j) b[i][j]=i*delta+j; else b[i][j]=i-j/delta;
+     }
+     integer sum;
+     sum = i = j = 0;
+     repeat{
+        if (i>j){
+           j++;
+           sum--;
+        }else i++;
+        if(i<5 && j<10) sum = sum + a[i][j]*b[i][j]; else break;
+    }until(sum>=100);
+    return(sum);
 }
 
-100: i = 0
-101: if i >= 5 goto 109
-102: goto 103
-103: t1 = 4 * i
-104: t2 = 4 * i
-105: t3 = t2 + t1
-106: t4 =  a[t3]
-107: if t4 == 0 goto 109
-108: goto 111
-109: goto 123
-110: goto 111
-111: t5 = 4 * i
-112: t6 = 4 * i
-113: t7 = t6 + t5
-114: t8 =  a[t7]
-115: t9 = t8 + y
-116: t10 = delta / t9
-117: x = t10
-118: param i
-119: param delta
-120: i = call adapt, 2
-121: if x < y goto 101
-122: goto 123
-123: i = 0
-124: miniRC = FUNCTION
+
+100: t1 = 4 * 5
+101: t2 = 4 * 10
+102: t3 = t2 + t1
+103: t4 =  b[t3]
+104: i = 0
+105: if i < 5 goto 110
+106: goto 129
+107: t5 = i + 1
+108: i = t5
+109: goto 105
+110: j = 0
+111: if j < 10 goto 116
+112: goto 107
+113: t6 = j + 1
+114: j = t6
+115: goto 111
+116: t7 = i + j
+117: a[]][j] = t7
+118: if i > j goto 120
+119: goto 124
+120: t8 = i * delta
+121: t9 = t8 + j
+122: b[]][j] = t9
+123: goto 127
+124: t10 = j / delta
+125: t11 = i - t10
+126: b[]][j] = t11
+127: goto 113
+128: goto 107
+129: j = 0
+130: i = j
+131: sum = i
+132: if i > j goto 134
+133: goto 139
+134: t12 = j + 1
+135: j = t12
+136: t13 = sum - 1
+137: sum = t13
+138: goto 141
+139: t14 = i + 1
+140: i = t14
+141: if i < 5 goto 143
+142: goto 149
+143: if j < 10 goto 145
+144: goto 149
+145: t15 = a[]][j] * b[]][j]
+146: t16 = sum + t15
+147: sum = t16
+148: goto 150
+149: goto 152
+150: if sum >= 100 goto 152
+151: goto 132
+152: goto 153
+153: miniRC = FUNCTION
