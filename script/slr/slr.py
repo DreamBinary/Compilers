@@ -59,21 +59,21 @@ class SLR:
             else:
                 top = self.input[idx]
             state = stack[-1]
-            print("==>> stack")
-            print(stack)
-            print("==>> top")
-            print(top)
-            print("==>> state")
-            print(state)
-            print("==>> table[state]")
-            print(table[state])
-            print("==>> log_symbols")
+            # print("==>> stack")
+            # print(stack)
+            # print("==>> top")
+            # print(top)
+            # print("==>> state")
+            # print(state)
+            # print("==>> table[state]")
+            # print(table[state])
+            # print("==>> log_symbols")
             for sym, act in zip(log_symbols[-10:], log_action[-10:]):
                 print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
             if top[-1] not in table[state]:
                 print("==>> ERROR")
                 idx += 1
-                # continue
+                continue
 
                 print("idx", idx)
                 print(top)
@@ -283,7 +283,7 @@ class SLR:
 if __name__ == '__main__':
     from ENV import PATH
 
-    path = PATH.DATA_PATH / "miniRC.in1"
+    path = PATH.DATA_PATH / "miniRC.in3"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")

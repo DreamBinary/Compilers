@@ -1,6 +1,6 @@
 miniRC=function(integer delta){
     integer a[5][10], i;
-    float x, y;
+    double x, y;
     i = 0;
     do {
         if(i>=5 || a[i][i] == 0 ) break;

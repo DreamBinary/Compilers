@@ -1,3 +1,6 @@
-# reversed range\
-for i in range(7, -1, -1):
-    print(i)
+
+
+a = []
+if a:
+    print("fadsfas")
+print(12)

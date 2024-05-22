@@ -17,13 +17,13 @@ def debugprint(*args):
 class Mem:
     def __init__(self, value=None):
         self.type = None
-        self.addr = None
+        # self.addr = None
         self.truelist = []
         self.falselist = []
         self.nextlist = []
         self.value = value
         self.instr = None
-        self.width = None
+        # self.width = None
 
 
 class SDT:
@@ -44,6 +44,7 @@ class SDT:
         self.top = -1
         self.stack = []
         self.jump = defaultdict(lambda: -1)
+        self.breaklist = []
 
         self.idx = 0
         self.idx_dict = defaultdict(lambda: None)
@@ -69,7 +70,7 @@ class SDT:
             todo = f.read()
             todo = re.findall(r'\${(.*?)}\$', todo, re.DOTALL)
             todo = [t.strip() for t in todo]
-        # print("==>> get_todo", todo.__len__())
+        print("==>> get_todo", todo.__len__())
         return todo
 
     def backpatch(self, arg1, arg2):
@@ -142,7 +143,7 @@ class SDT:
             debugprint(s)
             debugprint("==>> nextinstr: ", self.nextinstr)
             debugprint("==>> stack V: ", [i.value for i in self.stack[:self.top + 1]])
-            debugprint("==>> stack W: ", [i.width for i in self.stack[:self.top + 1]])
+            # debugprint("==>> stack W: ", [i.width for i in self.stack[:self.top + 1]])
             debugprint("==>> stack I: ", [i.instr for i in self.stack[:self.top + 1]])
             debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
             debugprint("==>> stack F: ", [i.falselist for i in self.stack[:self.top + 1]])
@@ -152,7 +153,7 @@ class SDT:
         r = self.todo[index]
         replace = {
             # ';': '\n',
-            'type': 'self.type',
+            # 'type': 'self.type',
             'table': 'self.table',
             'nextinstr': 'self.nextinstr',
             'stack': 'self.stack',
@@ -162,6 +163,7 @@ class SDT:
             'temp': 'self.temp',
             'error': 'self.error',
             'backpatch': 'self.backpatch',
+            'breaklist': 'self.breaklist',
         }
         for k, v in replace.items():
             r = r.replace(k, v)
@@ -184,9 +186,14 @@ if __name__ == '__main__':
         with open(path, 'r') as f1:
             for l in f1:
                 f.write(l)
-        f.write("\n")
+        f.write("\n\n")
         for l in sdt.get_code():
             f.write(l + "\n")
+            print(l)
+
+    print("==>> table")
+    for k, v in sdt.table.items():
+        print(k, v)
     print("==>> jump")
     for k, v in sdt.jump.items():
         print(k, v)
@@ -198,6 +205,7 @@ if __name__ == '__main__':
     print("==>> log_error")
     for l in sdt.log_error:
         print(l)
+
 
 # 100: t1 = i + 1
 # 101: i = t1
