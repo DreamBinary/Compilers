@@ -23,6 +23,7 @@ class Mem:
         self.nextlist = []
         self.value = value
         self.instr = None
+        self.width = None
 
 
 class SDT:
@@ -76,7 +77,6 @@ class SDT:
             if self.jump[i] is None or self.jump[i] < 0:
                 self.jump[i] = arg2
 
-
     def merge(self, arg1, arg2):
         result = arg1 + arg2
         print(result)
@@ -90,10 +90,18 @@ class SDT:
         elif op == 'goto':
             s = f"{self.nextinstr}: goto "
             self.jump[self.nextinstr] = arg1
-        elif result:
-            s = f"{self.nextinstr}: {result} = {arg1} {op} {arg2}"
+        elif arg1 and arg2:
+            if result:
+                s = f"{self.nextinstr}: {result} = {arg1} {op} {arg2}"
+            else:
+                s = f"{self.nextinstr}: {arg1} {op} {arg2}"
+        elif arg1:
+            if result:
+                s = f"{self.nextinstr}: {result} = {op} {arg1}"
+            else:
+                s = f"{self.nextinstr}: {op} {arg1}"
         else:
-            s = f"{self.nextinstr}: {arg1} {op} {arg2}"
+            s = "ERROR"
 
         self.nextinstr += 1
         self.code.append(s)
@@ -134,6 +142,7 @@ class SDT:
             debugprint(s)
             debugprint("==>> nextinstr: ", self.nextinstr)
             debugprint("==>> stack V: ", [i.value for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack W: ", [i.width for i in self.stack[:self.top + 1]])
             debugprint("==>> stack I: ", [i.instr for i in self.stack[:self.top + 1]])
             debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
             debugprint("==>> stack F: ", [i.falselist for i in self.stack[:self.top + 1]])
@@ -185,7 +194,6 @@ if __name__ == '__main__':
     print("==>> idx_dict")
     for k, v in sdt.idx_dict.items():
         print(k, v)
-
 
     print("==>> log_error")
     for l in sdt.log_error:

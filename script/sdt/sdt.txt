@@ -5,29 +5,45 @@
 
 }$
 2 : INDEX -> INT ${
-
+stack[top].value = int(stack[top].value);
 }$
 3 : INDEX -> VARIABLE ${
 
 }$
 4 : TYPE -> INTEGER ${
 type = 'integer';
+stack[top].width = 4;
 }$
 5 : TYPE -> DOUBLE ${
 type = 'double';
+stack[top].width = 8;
 }$
 6 : TYPE -> EPSILON ${
 type = None;
 }$
 7 : VARIABLE -> TYPE IDENTIFIER ${
 if type is not None:
-    table[stack[top].value] = type;
+    table[stack[top].value] = (type, stack[top-1].width);
 stack[top-1].value = stack[top].value;
+# stack[top-1].width = stack[top-1].width;
 top -= 1;
 }$
 8 : VARIABLE -> VARIABLE [ INDEX ] ${
-table[stack[top-3].value] = f"{type}[]";
-stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+if type is None:
+    if stack[top-3].value not in table:
+        error(f"Variable {stack[top-3].value} not declared.");
+    else:
+        type = table[stack[top-3].value][0];
+        stack[top-3].width = 4 if type.startswith('integer') else 8;
+    tmp = temp();
+    gen('*', stack[top-3].width, stack[top-1].value, tmp);
+    tmp2 = temp();
+    gen('', f"{stack[top-3].value}[{tmp}]", None, tmp2);
+    stack[top-3].value = tmp2;
+else:
+    stack[top-3].width = stack[top-3].width * stack[top-1].value;
+    table[stack[top-3].value] = (f"{type}[]", stack[top-3].width);
+    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
 top -= 3;
 }$
 9 : VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
