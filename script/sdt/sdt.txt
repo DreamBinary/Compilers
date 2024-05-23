@@ -33,8 +33,6 @@ else:
     else:
         stack[top-1].type = table[stack[top].value][0];
 stack[top-1].value = stack[top].value;
-# stack[top-1].type = stack[top-1].type;
-# stack[top-1].width = stack[top-1].width;
 top -= 1;
 }$
 8 : VARIABLE -> VARIABLE [ INDEX ] ${
@@ -98,13 +96,14 @@ top -= 2;
 
 }$
 14 : STATEMENT -> STATEMENTNO ${
-
+store = None;
 }$
 15 : STATEMENT -> STATEMENTNO ; ${
+store = None;
 top -= 1;
 }$
 16 : STATEMENTNO -> VARIABLELIST ${
-store = None;
+
 }$
 17 : STATEMENTNO -> VARIABLE = ASSIGN ${
 if stack[top-2].value not in table:

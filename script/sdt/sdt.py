@@ -74,7 +74,7 @@ class SDT:
 
     def widen(self, arg1: tuple, arg2):
         # arg1: (type, value)
-        if arg1[0][:6] == arg2[:6]: # double interge _r
+        if arg1[0][:6] == arg2[:6]:  # double interge _r
             return arg1[1]
         else:
             tmp = self.temp()
@@ -173,6 +173,7 @@ class SDT:
             debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
             debugprint("==>> stack F: ", [i.falselist for i in self.stack[:self.top + 1]])
             debugprint("==>> stack N: ", [i.nextlist for i in self.stack[:self.top + 1]])
+            debugprint("==>> S:", self.store, [(k, v) for k, v in self.table.items()])
 
     def get_exec(self, index):  # from txt to code
         r = self.todo[index]

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SshConfigs">
-    <configs>
-      <sshConfig authType="PASSWORD" host="ssh.cn-zhongwei-1.paracloud.com" id="ffd13c2f-03bf-4e59-809d-82449e2a8973" port="22" nameFormat="DESCRIPTIVE" username="scw6byb@NC-N40" useOpenSSHConfig="true" />
-    </configs>
-  </component>
-</project>
