@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Compilers.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,15 +65,15 @@
     "WebServerToolWindowPanel.toolwindow.show.size": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "V:/Compilers/script/sdt",
+    "last_opened_file_path": "V:/Compilers/script/sdt/sdt1.txt",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "two.files.diff.last.used.file": "V:/Compilers/data/work3/miniRC.in2"
+    "two.files.diff.last.used.file": "V:/Compilers/script/sdt/sdt1.txt"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="V:\Compilers\script\slr" />
       <recent name="V:\Compilers\script\sdt" />
+      <recent name="V:\Compilers\script\slr" />
       <recent name="V:\Compilers\data\work3" />
       <recent name="V:\Compilers\script\work_two" />
       <recent name="V:\Compilers\data\work2" />
@@ -263,7 +258,7 @@
       <workItem from="1716373838836" duration="14162000" />
       <workItem from="1716423580748" duration="4472000" />
       <workItem from="1716430561867" duration="2645000" />
-      <workItem from="1716433509058" duration="297000" />
+      <workItem from="1716433509058" duration="398000" />
     </task>
     <servers />
   </component>
