@@ -1,52 +1,53 @@
 import flet as ft
 import string
 
+import flet as ft
 
-async def main(page: ft.Page):
-    alphabets_upper = string.ascii_uppercase
-    alphabets_lower = string.ascii_lowercase
-    date_table = ft.DataTable(
-        columns=[
-            ft.DataColumn(ft.Text("Sl. No."), numeric=True),
-            ft.DataColumn(ft.Text("Alphabet_Upper")),
-            ft.DataColumn(ft.Text("Alphabet_Lower")),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True),
-            ft.DataColumn(ft.Text("Simply a column"), numeric=True)
+
+def main(page: ft.Page):
+    page.title = "Routes Example"
+    s = "HELLO"
+
+    text = ft.Text("Hello world")
+
+    def on_click(_):
+        global s
+
+        view.controls.append(text)
+        page.go("/store")
+
+    view = ft.View(
+        "/store",
+        [
+            ft.ElevatedButton(f"{s}", on_click=lambda _: page.go("/")),
         ],
-        rows=[ft.DataRow(cells=[ft.DataCell(ft.Text(str(i + 1))),
-                                ft.DataCell(ft.Text(alphabets_upper[i])),
-                                ft.DataCell(ft.Text(alphabets_lower[i])),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i))),
-                                ft.DataCell(ft.Text(str(i * i)))]) for i in range(len(alphabets_upper))]
     )
-    column = ft.Column(
-        controls=[
-            ft.Container(
-                content=ft.Column([ft.Row([date_table], scroll=ft.ScrollMode.ALWAYS)], scroll=ft.ScrollMode.ALWAYS),
-                expand=2),
-            ft.Container(ft.Text('Anything'), expand=1),
-            ft.Container(ft.Text('Anything'), expand=0)
-        ]
-    )
-    await page.add_async(ft.SafeArea(column, expand=True))
+
+    def route_change(route):
+        page.views.clear()
+        page.views.append(
+            ft.View(
+                "/",
+                [
+                    ft.AppBar(title=ft.Text("Flet app"), bgcolor=ft.colors.SURFACE_VARIANT),
+                    ft.ElevatedButton("GO", on_click=on_click),
+                ],
+            )
+        )
+        if page.route == "/store":
+            page.views.append(
+                view
+            )
+        page.update()
+
+    def view_pop(view):
+        page.views.pop()
+        top_view = page.views[-1]
+        page.go(top_view.route)
+
+    page.on_route_change = route_change
+    page.on_view_pop = view_pop
+    page.go(page.route)
 
 
 ft.app(target=main)

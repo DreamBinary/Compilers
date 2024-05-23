@@ -6,19 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tmp.in" beforeDir="false" afterPath="$PROJECT_DIR$/data/tmp.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/LR0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/LR0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/augmented_grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/augmented_grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/code.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/code.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/sdt.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/sdt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/sdt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/sdt.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/slr_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/slr_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/LR0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/LR0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/augmented_grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/augmented_grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/grammar.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/grammar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/slr.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/slr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/slr_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/slr_log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +29,7 @@
     <setting file="file://$USER_HOME$/AppData/Local/JetBrains/PyCharm2023.3/python_stubs/-842111597/math.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../ENV/mambaforge/Lib/enum.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../ENV/mambaforge/Lib/pathlib.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../ENV/mambaforge/Lib/site-packages/flet_core/view.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -57,34 +46,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.grammar.executor": "Run",
-    "Python.lexer.executor": "Run",
-    "Python.lr.executor": "Run",
-    "Python.out_log.executor": "Run",
-    "Python.out_parsing.executor": "Run",
-    "Python.preprocess.executor": "Run",
-    "Python.sdt.executor": "Run",
-    "Python.slr (1).executor": "Run",
-    "Python.slr.executor": "Run",
-    "Python.tmp.executor": "Run",
-    "Python.ui (1).executor": "Run",
-    "Python.ui.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
-    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
-    "WebServerToolWindowPanel.toolwindow.show.date": "false",
-    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
-    "WebServerToolWindowPanel.toolwindow.show.size": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "V:/Compilers/data/miniRC.in&out3",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "two.files.diff.last.used.file": "V:/Compilers/data/miniRC.in&out3"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.grammar.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lexer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.lr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.out_log.executor&quot;: &quot;Run&quot;,
+    &quot;Python.out_parsing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocess.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sdt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.slr (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.slr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tmp.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ui (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.ui.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;V:/Compilers/data/miniRC.in&amp;out3&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;V:/Compilers/data/miniRC.in&amp;out3&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="V:\Compilers\script\sdt" />
@@ -99,7 +88,7 @@
       <recent name="V:\Compilers\script\work_one" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sdt">
+  <component name="RunManager" selected="Python.tmp">
     <configuration name="out_parsing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Compilers" />
       <option name="ENV_FILES" value="" />
@@ -217,11 +206,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tmp" />
         <item itemvalue="Python.sdt" />
         <item itemvalue="Python.slr (1)" />
         <item itemvalue="Python.preprocess" />
         <item itemvalue="Python.out_parsing" />
-        <item itemvalue="Python.tmp" />
       </list>
     </recent_temporary>
   </component>
@@ -298,7 +287,9 @@
       <workItem from="1716423580748" duration="4472000" />
       <workItem from="1716430561867" duration="2645000" />
       <workItem from="1716433509058" duration="398000" />
-      <workItem from="1716437422285" duration="3663000" />
+      <workItem from="1716437422285" duration="4454000" />
+      <workItem from="1716458134084" duration="778000" />
+      <workItem from="1716460598284" duration="1540000" />
     </task>
     <servers />
   </component>
@@ -310,7 +301,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Compilers$tmp.coverage" NAME="tmp 覆盖结果" MODIFIED="1716376946338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Compilers$tmp.coverage" NAME="tmp 覆盖结果" MODIFIED="1716458861084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Compilers$preprocess.coverage" NAME="preprocess 覆盖结果" MODIFIED="1716441397156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
     <SUITE FILE_PATH="coverage/Compilers$slr.coverage" NAME="slr 覆盖结果" MODIFIED="1715955275141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_two" />
     <SUITE FILE_PATH="coverage/Compilers$lexer.coverage" NAME="lexer 覆盖结果" MODIFIED="1716013337716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
@@ -320,7 +311,7 @@
     <SUITE FILE_PATH="coverage/Compilers$slr__1_.coverage" NAME="slr (1) 覆盖结果" MODIFIED="1716441561603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
     <SUITE FILE_PATH="coverage/Compilers$ui.coverage" NAME="ui 覆盖结果" MODIFIED="1716017058520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
     <SUITE FILE_PATH="coverage/Compilers$out_parsing.coverage" NAME="out_parsing 覆盖结果" MODIFIED="1716432807449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
-    <SUITE FILE_PATH="coverage/Compilers$sdt.coverage" NAME="sdt 覆盖结果" MODIFIED="1716442317245" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/sdt" />
+    <SUITE FILE_PATH="coverage/Compilers$sdt.coverage" NAME="sdt 覆盖结果" MODIFIED="1716443209358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/sdt" />
     <SUITE FILE_PATH="coverage/Compilers$out_log.coverage" NAME="out_log 覆盖结果" MODIFIED="1716432664535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
   </component>
 </project>
