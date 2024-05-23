@@ -6,22 +6,30 @@ variableList -> variable | variable , variableList
 
 statementList -> statement label statementList | epsilon
 statement -> statementNo | statementNo ;
-statementNo -> variableList | variable = assign | expressionList | ifStmt | repeat { statementList } until ( condition ) | do { label statementList } while ( label condition ) | for ( expressionListVar ) { statementList } | for ( expressionListVar ) statement | return expression | break | #
+statementNo -> variableList | variable = assign | expressionList | ifStmt | forStmt | repeat { label statementList } until ( label condition ) | do { label statementList } while ( label condition ) | return expression | break | #
 assign -> int | expression | fun
+
 fun -> function ( expressionList ) { statementList } | function ( expressionList )
 
-ifStmt -> if ( condition ) label ifBlock gotoLabel label elIfStmt
-elIfStmt -> else if ( condition ) ifBlock elIfStmt | else ifBlock | epsilon
-ifBlock -> statement | { statementList }
+forStmt -> for ( expression ; label condition ; label expression gotoLabel ) label block
+
+ifStmt -> if ( condition ) label block gotoLabel label elIfStmt
+elIfStmt -> else if ( condition ) label block gotoLabel label elIfStmt | else block | epsilon
+
+block -> statement | { statementList }
 
 expressionList -> expression | expression , expressionList
-expressionListVar -> expression | expression ; expressionListVar
 
 expression -> computeExpr | partExpr | condition
-partExpr -> variable | int | float | identifier | partExpr = partExpr | ( expression ) | variable ( expressionList ) | computeExpr
-computeExpr -> partExpr + partExpr | partExpr - partExpr | partExpr * partExpr | partExpr / partExpr | partExpr ++ | partExpr --
-compareExpr -> partExpr < partExpr | partExpr > partExpr | partExpr <= partExpr | partExpr >= partExpr | partExpr == partExpr | partExpr != partExpr
-boolExpr -> compareExpr && compareExpr | compareExpr || label compareExpr | boolExpr boolExpr
+partExpr -> variable | int | float | identifier | partExpr = partExpr | ( expression ) | variable ( expressionList )
+
+computeExpr -> sumExpr | incExpr
+sumExpr -> sumExpr + mulExpr | sumExpr - mulExpr | mulExpr
+mulExpr -> mulExpr * partExpr | mulExpr / partExpr | partExpr
+incExpr -> partExpr | partExpr ++ | partExpr --
+
+compareExpr -> computeExpr < computeExpr | computeExpr > computeExpr | computeExpr <= computeExpr | computeExpr >= computeExpr | computeExpr == computeExpr | computeExpr != computeExpr
+boolExpr -> compareExpr && label compareExpr | compareExpr || label compareExpr | boolExpr boolExpr
 condition -> compareExpr | boolExpr
 
 label -> epsilon

@@ -13,26 +13,38 @@ stack[top].value = int(stack[top].value);
 4 : TYPE -> INTEGER ${
 stack[top].type = 'integer';
 stack[top].width = 4;
+store = 'integer';
 }$
 5 : TYPE -> DOUBLE ${
 stack[top].type = 'double';
 stack[top].width = 8;
+store = 'double';
 }$
 6 : TYPE -> EPSILON ${
 stack[top].type = None;
 }$
 7 : VARIABLE -> TYPE IDENTIFIER ${
-if stack[top-1].type is not None:
-    table[stack[top].value] = (stack[top-1].type, stack[top-1].width);
+if store is not None:
+    table[stack[top].value] = (store, );
+else:
+    if stack[top].value not in table:
+        error(f"Variable {stack[top].value} not declared.");
+        stack[top-1].type = 'integer' # for continuing parsing
+    else:
+        stack[top-1].type = table[stack[top].value][0];
 stack[top-1].value = stack[top].value;
 # stack[top-1].type = stack[top-1].type;
 # stack[top-1].width = stack[top-1].width;
 top -= 1;
 }$
 8 : VARIABLE -> VARIABLE [ INDEX ] ${
-if stack[top-3].type is None:
+if store is not None:
+    table[stack[top-3].value] = (f"{store}[]", stack[top-1].value);
+    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+else:
     if stack[top-3].value not in table:
         error(f"Variable {stack[top-3].value} not declared.");
+        stack[top-3].type = 'integer' # for continuing parsing
     else:
         stack[top-3].type = table[stack[top-3].value][0];
         # stack[top-3].width = 4 if stack[top-3].type else 8;
@@ -42,16 +54,16 @@ if stack[top-3].type is None:
     tmp2 = temp();
     gen('', f"{stack[top-3].value}[{tmp}]", None, tmp2);
     stack[top-3].value = tmp2;
-else:
-    table[stack[top-3].value] = (f"{stack[top-3].type}[]", stack[top-1].value);
-    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+# else:
+#    table[stack[top-3].value] = (f"{stack[top-3].type}[]", stack[top-1].value);
+#    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
 top -= 3;
 }$
 9 : VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
 if store is not None:
-    table[stack[top-6].value] = (f"{stack[top-6].type}[][]", stack[top-4].value, stack[top-1].value);
+    table[stack[top-6].value] = (f"{store}[][]", stack[top-4].value, stack[top-1].value);
     stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
-elif stack[top-6].type is None: # use variable
+else : # use variable
     if stack[top-6].value not in table:
         error(f"Variable {stack[top-6].value} not declared.");
         stack[top-6].type = 'integer' # for continuing parsing
@@ -66,17 +78,14 @@ elif stack[top-6].type is None: # use variable
     tmp4 = temp();
     gen('', f"{stack[top-6].value}[{tmp3}]", None, tmp4);
     stack[top-6].value = tmp4;
-else: # declare variable
-    table[stack[top-6].value] = (f"{stack[top-6].type}[][]", stack[top-4].value, stack[top-1].value);
-    stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
+# else: # declare variable
+#    table[stack[top-6].value] = (f"{stack[top-6].type}[][]", stack[top-4].value, stack[top-1].value);
+#    stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
 top -= 6;
 }$
 10 : VARIABLELIST -> VARIABLE ${
-
 }$
 11 : VARIABLELIST -> VARIABLE , VARIABLELIST ${
-store = stack[top-2].type;
-stack[top-2].type = stack[top].type;
 top -= 2;
 }$
 12 : STATEMENTLIST -> STATEMENT LABEL STATEMENTLIST ${
@@ -95,7 +104,7 @@ top -= 2;
 top -= 1;
 }$
 16 : STATEMENTNO -> VARIABLELIST ${
-
+store = None;
 }$
 17 : STATEMENTNO -> VARIABLE = ASSIGN ${
 if stack[top-2].value not in table:
@@ -205,6 +214,7 @@ top -= 2;
 stack[top].value = stack[top].value if isinstance(stack[top].value, list) else [stack[top].value];
 }$
 39 : EXPRESSIONLIST -> EXPRESSION , EXPRESSIONLIST ${
+store = None;
 tmp = stack[top-2].value if isinstance(stack[top-2].value, list) else [stack[top-2].value];
 tmp += stack[top].value if isinstance(stack[top].value, list) else [stack[top].value];
 stack[top-2].value = tmp;
@@ -255,14 +265,22 @@ top -= 3;
 
 }$
 54 : SUMEXPR -> SUMEXPR + MULEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
-gen('+', stack[top-2].value, stack[top].value, tmp);
+gen('+', a1, a2, tmp);
+stack[top-2].type = typ;
 stack[top-2].value = tmp;
 top -= 2;
 }$
 55 : SUMEXPR -> SUMEXPR - MULEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
-gen('-', stack[top-2].value, stack[top].value, tmp);
+gen('-', a1, a2, tmp);
+stack[top-2].type = typ;
 stack[top-2].value = tmp;
 top -= 2;
 }$
@@ -270,14 +288,22 @@ top -= 2;
 
 }$
 57 : MULEXPR -> MULEXPR * PARTEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
-gen('*', stack[top-2].value, stack[top].value, tmp);
+gen('*', a1, a2, tmp);
+stack[top-2].type = typ;
 stack[top-2].value = tmp;
 top -= 2;
 }$
 58 : MULEXPR -> MULEXPR / PARTEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
-gen('/', stack[top-2].value, stack[top].value, tmp);
+gen('/', a1, a2, tmp);
+stack[top-2].type = typ;
 stack[top-2].value = tmp;
 top -= 2;
 }$

@@ -62,6 +62,25 @@ class SDT:
         self.idx += 1
         return f"t{self.idx}"
 
+    def max(self, arg1, arg2):
+        print("==>> max", arg1, arg2)
+        if arg1[:6] == arg2[:6]:  # double interge _r
+            if arg1[:6] == 'double':
+                return 'double'
+            else:
+                return 'integer'
+        else:
+            return 'double'
+
+    def widen(self, arg1: tuple, arg2):
+        # arg1: (type, value)
+        if arg1[0][:6] == arg2[:6]: # double interge _r
+            return arg1[1]
+        else:
+            tmp = self.temp()
+            self.gen('', f"({arg2}) {arg1[1]}", None, tmp)
+            return tmp
+
     def get_code(self):
         length = len(self.code)
         for i in range(length):
@@ -86,7 +105,7 @@ class SDT:
 
     def merge(self, arg1, arg2):
         result = arg1 + arg2
-        print(result)
+        # print(result)
         return result
 
     def gen(self, op, arg1=None, arg2=None, result=None):
@@ -149,7 +168,7 @@ class SDT:
             debugprint(s)
             debugprint("==>> nextinstr: ", self.nextinstr)
             debugprint("==>> stack V: ", [i.value for i in self.stack[:self.top + 1]])
-            # debugprint("==>> stack W: ", [i.width for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack Y: ", [i.type for i in self.stack[:self.top + 1]])
             debugprint("==>> stack I: ", [i.instr for i in self.stack[:self.top + 1]])
             debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
             debugprint("==>> stack F: ", [i.falselist for i in self.stack[:self.top + 1]])
@@ -172,6 +191,8 @@ class SDT:
             'breaklist': 'self.breaklist',
             'returnlist': 'self.returnlist',
             'store': 'self.store',
+            'max': 'self.max',
+            'widen': 'self.widen',
         }
         for k, v in replace.items():
             r = r.replace(k, v)
