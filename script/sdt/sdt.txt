@@ -118,9 +118,9 @@ top -= 1;
 if stack[top-2].value not in table:
     error(f"Variable {stack[top-2].value} not declared."); # give error but continue parsing
 backpatch(stack[top].nextlist, nextinstr);
-if stack[top-2].type == 'integer' and stack[top].type == 'double':
-    a1 = widen((stack[top-2].type, stack[top-2].value), 'integer');
-    a2 = widen((stack[top].type, stack[top].value), 'integer');
+if stack[top-2].type != stack[top].type:
+    a1 = widen((stack[top-2].type, stack[top-2].value), stack[top-2].type);
+    a2 = widen((stack[top].type, stack[top].value), stack[top-2].type);
     gen('=', a1, a2);
 else:
     gen('=', stack[top-2].value, stack[top].value);
