@@ -170,10 +170,8 @@ class LR:
                    enumerate(grammar)]
         return grammar, sym
 
-
-if __name__ == "__main__":
     from ENV import PATH
-
+if __name__ == '__main__':
     lr = LR()
 
     # TODO 检查LR0自动机

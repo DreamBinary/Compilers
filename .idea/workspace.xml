@@ -4,21 +4,6 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b94a642-4671-471f-af81-d01d944f18f4" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/script/sdt/code2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tmp.in" beforeDir="false" afterPath="$PROJECT_DIR$/data/tmp.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/code.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/sdt.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/sdt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/sdt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/sdt.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sdt/slr_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/sdt/slr_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/LR0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/LR0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/augmented_grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/augmented_grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/grammar.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/grammar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/slr.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/slr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/slr/slr_log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/script/slr/slr_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,19 +21,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/PyCharm2023.3/python_stubs/-842111597/builtins.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/PyCharm2023.3/python_stubs/-842111597/math.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/../ENV/mambaforge/Lib/enum.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/../ENV/mambaforge/Lib/pathlib.py" root0="SKIP_INSPECTION" />
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0
-}</component>
   <component name="ProjectId" id="2fiPvEGmvp7TcAoOgYoi5CfHCgX" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -57,32 +40,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.grammar.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lexer.executor&quot;: &quot;Run&quot;,
-    &quot;Python.lr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.preprocess.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sdt.executor&quot;: &quot;Run&quot;,
-    &quot;Python.slr (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.slr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tmp.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ui (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.ui.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;V:/Compilers/script/slr&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;V:/Compilers/data/work3/miniRC.in2&quot;
-  }
-}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="V:\Compilers\script\slr" />
@@ -97,10 +54,6 @@
       <recent name="V:\Compilers\script\work_one" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sdt">
-    <configuration name="grammar" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Compilers" />
-      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -112,7 +65,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/slr/grammar.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/slr/lr.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -121,55 +74,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="o_sdt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Compilers" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/sdt" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="V:\Compilers\script\sdt\o_sdt.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="sdt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Compilers" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/sdt" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/sdt/sdt.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="slr (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Compilers" />
-      <option name="ENV_FILES" value="" />
+    <configuration name="out_log (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -178,6 +84,72 @@
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/slr" />
       <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/slr/out_log.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="out_log" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\miniconda\envs\muti-view\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/slr" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="D:\FYS\桌面\com\code\script\slr\out_log.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="out_parsing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\miniconda\envs\muti-view\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/slr" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/slr/out_parsing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="slr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\miniconda\envs\muti-view\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/slr" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -190,36 +162,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tmp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Compilers" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tmp.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+    <list>
+      <item itemvalue="Python.slr" />
+      <item itemvalue="Python.lr" />
+      <item itemvalue="Python.out_log" />
+      <item itemvalue="Python.out_parsing" />
+      <item itemvalue="Python.out_log (1)" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.sdt" />
-        <item itemvalue="Python.slr (1)" />
-        <item itemvalue="Python.tmp" />
-        <item itemvalue="Python.grammar" />
-        <item itemvalue="Python.o_sdt" />
       </list>
     </recent_temporary>
   </component>
@@ -285,17 +236,11 @@
       <workItem from="1716250847975" duration="5940000" />
       <workItem from="1716257444089" duration="6208000" />
       <workItem from="1716266708681" duration="3585000" />
-      <workItem from="1716278257274" duration="20569000" />
-      <workItem from="1716337390249" duration="2410000" />
-      <workItem from="1716339842716" duration="9836000" />
-      <workItem from="1716356746159" duration="11797000" />
-      <workItem from="1716369138518" duration="119000" />
-      <workItem from="1716369441305" duration="528000" />
-      <workItem from="1716370396099" duration="1443000" />
-      <workItem from="1716373838836" duration="14162000" />
-      <workItem from="1716423580748" duration="2897000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -305,15 +250,18 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Compilers$slr__1_.coverage" NAME="slr (1) 覆盖结果" MODIFIED="1716383947018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
-    <SUITE FILE_PATH="coverage/Compilers$ui.coverage" NAME="ui 覆盖结果" MODIFIED="1716017058520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
-    <SUITE FILE_PATH="coverage/Compilers$tmp.coverage" NAME="tmp 覆盖结果" MODIFIED="1716376946338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Compilers$preprocess.coverage" NAME="preprocess 覆盖结果" MODIFIED="1716034488763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
-    <SUITE FILE_PATH="coverage/Compilers$slr.coverage" NAME="slr 覆盖结果" MODIFIED="1715955275141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_two" />
-    <SUITE FILE_PATH="coverage/Compilers$sdt.coverage" NAME="sdt 覆盖结果" MODIFIED="1716426423915" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/sdt" />
-    <SUITE FILE_PATH="coverage/Compilers$lexer.coverage" NAME="lexer 覆盖结果" MODIFIED="1716013337716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
-    <SUITE FILE_PATH="coverage/Compilers$grammar.coverage" NAME="grammar 覆盖结果" MODIFIED="1716286614628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
     <SUITE FILE_PATH="coverage/Compilers$ui__1_.coverage" NAME="ui (1) 覆盖结果" MODIFIED="1716034404235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/lexer" />
+    <SUITE FILE_PATH="coverage/code$ui.coverage" NAME="ui Coverage Results" MODIFIED="1716341453577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/lexer" />
+    <SUITE FILE_PATH="coverage/Compilers$preprocess.coverage" NAME="preprocess 覆盖结果" MODIFIED="1716034488763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/Compilers$ui.coverage" NAME="ui 覆盖结果" MODIFIED="1716017058520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_one" />
+    <SUITE FILE_PATH="coverage/Compilers$tmp.coverage" NAME="tmp 覆盖结果" MODIFIED="1716210201276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Compilers$lr.coverage" NAME="lr 覆盖结果" MODIFIED="1715869310748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/work_two" />
+    <SUITE FILE_PATH="coverage/Compilers$slr__1_.coverage" NAME="slr (1) 覆盖结果" MODIFIED="1716300066173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/code$lr.coverage" NAME="lr Coverage Results" MODIFIED="1716385120754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/code$out1.coverage" NAME="out1 Coverage Results" MODIFIED="1716384470665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/code$construction.coverage" NAME="construction Coverage Results" MODIFIED="1716362450501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../../../miniconda/envs/muti-view/Lib/site-packages/pandas/core/internals" />
+    <SUITE FILE_PATH="coverage/Compilers$grammar.coverage" NAME="grammar 覆盖结果" MODIFIED="1716286614628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/code$preprocess.coverage" NAME="preprocess Coverage Results" MODIFIED="1716301746348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
+    <SUITE FILE_PATH="coverage/code$out_parsing.coverage" NAME="out_parsing Coverage Results" MODIFIED="1716386159137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/slr" />
   </component>
 </project>
