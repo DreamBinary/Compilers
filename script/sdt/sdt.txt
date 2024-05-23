@@ -264,7 +264,7 @@ top -= 3;
 
 }$
 54 : SUMEXPR -> SUMEXPR + MULEXPR ${
-typ = max(stack[top-2].type, stack[top].type);
+typ = min(stack[top-2].type, stack[top].type);
 a1 = widen((stack[top-2].type, stack[top-2].value), typ);
 a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
@@ -274,7 +274,7 @@ stack[top-2].value = tmp;
 top -= 2;
 }$
 55 : SUMEXPR -> SUMEXPR - MULEXPR ${
-typ = max(stack[top-2].type, stack[top].type);
+typ = min(stack[top-2].type, stack[top].type);
 a1 = widen((stack[top-2].type, stack[top-2].value), typ);
 a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
@@ -287,7 +287,7 @@ top -= 2;
 
 }$
 57 : MULEXPR -> MULEXPR * PARTEXPR ${
-typ = max(stack[top-2].type, stack[top].type);
+typ = min(stack[top-2].type, stack[top].type);
 a1 = widen((stack[top-2].type, stack[top-2].value), typ);
 a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
@@ -297,7 +297,7 @@ stack[top-2].value = tmp;
 top -= 2;
 }$
 58 : MULEXPR -> MULEXPR / PARTEXPR ${
-typ = max(stack[top-2].type, stack[top].type);
+typ = min(stack[top-2].type, stack[top].type);
 a1 = widen((stack[top-2].type, stack[top-2].value), typ);
 a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();

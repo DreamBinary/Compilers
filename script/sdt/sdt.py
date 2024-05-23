@@ -71,7 +71,17 @@ class SDT:
                 return 'integer'
         else:
             return 'double'
-
+    
+    def min(self, arg1, arg2):
+        print("==>> max", arg1, arg2)
+        if arg1[:6] == arg2[:6]:  # double interge _r
+            if arg1[:6] == 'double':
+                return 'double'
+            else:
+                return 'integer'
+        else:
+            return 'integer'
+        
     def widen(self, arg1: tuple, arg2):
         # arg1: (type, value)
         if arg1[0][:6] == arg2[:6]:  # double interge _r
@@ -193,6 +203,7 @@ class SDT:
             'returnlist': 'self.returnlist',
             'store': 'self.store',
             'max': 'self.max',
+            'min': "self.min",
             'widen': 'self.widen',
         }
         for k, v in replace.items():
