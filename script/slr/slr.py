@@ -14,8 +14,7 @@ from preprocess import PreProcess
 from typing import List
 from lr import ItemCluster
 
-import numpy as np
-import pandas as pd
+
 class SLR:
     def __init__(self, input_file):
         self.input = self.get_input(input_file)
@@ -69,25 +68,23 @@ class SLR:
             # print("==>> table[state]")
             # print(table[state])
             # print("==>> log_symbols")
-            for sym, act in zip(log_symbols[-10:], log_action[-10:]):
-                print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
             if top[-1] not in table[state]:
                 print("==>> ERROR")
                 print("idx", idx)
                 print("top", top)
                 idx += 1
-                # continue
-                print("idx", idx)
-                print(top)
-                for i in range(5, -1, -1):
-                    print(self.input[idx - i][0], end=" ")
-                print()
-                print(state)
-                print(table[state])
-                print("====>>>> Log")
-                for sym, act in zip(log_symbols[-15:], log_action[-15:]):
-                    print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
-                break
+                continue
+                # print("idx", idx)
+                # print(top)
+                # for i in range(5, -1, -1):
+                #     print(self.input[idx - i][0], end=" ")
+                # print()
+                # print(state)
+                # print(table[state])
+                # print("====>>>> Log")
+                # for sym, act in zip(log_symbols[-15:], log_action[-15:]):
+                #     print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
+                # break
             action = table[state][top[-1]]
             if action == "acc":
                 # print("acc")
@@ -275,7 +272,7 @@ class SLR:
 if __name__ == '__main__':
     from ENV import PATH
 
-    path = PATH.DATA_PATH / "miniRC.in1"
+    path = PATH.DATA_PATH / "miniRC.in3"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")

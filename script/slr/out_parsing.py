@@ -70,7 +70,7 @@ async def app(page: ft.Page):
                 expand=2),
         ]
     )
-    await page.add_async(ft.SafeArea(column, expand=True))
+    page.add(ft.SafeArea(column, expand=True))
 
 
 ft.app(target=app)
