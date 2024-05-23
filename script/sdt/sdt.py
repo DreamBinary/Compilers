@@ -73,7 +73,7 @@ class SDT:
             return 'double'
     
     def min(self, arg1, arg2):
-        # print("==>> max", arg1, arg2)
+        # print("==>> min", arg1, arg2)
         if arg1[:6] == arg2[:6]:  # double interge _r
             if arg1[:6] == 'double':
                 return 'double'
