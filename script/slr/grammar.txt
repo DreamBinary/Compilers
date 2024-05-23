@@ -7,7 +7,7 @@ variableList -> variable | variable , variableList
 statementList -> statement label statementList | epsilon
 statement -> statementNo | statementNo ;
 statementNo -> variableList | variable = assign | expressionList | ifStmt | forStmt | repeat { label statementList } until ( label condition ) | do { label statementList } while ( label condition ) | return expression | break | #
-assign -> int | expression | fun
+assign -> expression | fun
 
 fun -> function ( expressionList ) { statementList } | function ( expressionList )
 
@@ -19,17 +19,20 @@ elIfStmt -> else if ( condition ) label block gotoLabel label elIfStmt | else bl
 block -> statement | { statementList }
 
 expressionList -> expression | expression , expressionList
-
 expression -> computeExpr | partExpr | condition
 partExpr -> variable | int | float | identifier | partExpr = partExpr | ( expression ) | variable ( expressionList )
 
 computeExpr -> sumExpr | incExpr
-sumExpr -> sumExpr + mulExpr | sumExpr - mulExpr | mulExpr
-mulExpr -> mulExpr * partExpr | mulExpr / partExpr | partExpr
-incExpr -> partExpr | partExpr ++ | partExpr --
+sumOp -> + | -
+sumExpr -> sumExpr sumOp mulExpr | mulExpr
+mulOp -> * | /
+mulExpr -> mulExpr mulOp partExpr | partExpr
+incOp -> ++ | --
+incExpr -> partExpr | partExpr incOp
 
-compareExpr -> computeExpr < computeExpr | computeExpr > computeExpr | computeExpr <= computeExpr | computeExpr >= computeExpr | computeExpr == computeExpr | computeExpr != computeExpr
-boolExpr -> compareExpr && label compareExpr | compareExpr || label compareExpr | boolExpr boolExpr
+compareOp -> < | > | <= | >= | == | !=
+compareExpr -> computeExpr compareOp computeExpr
+boolExpr -> compareExpr && label compareExpr | compareExpr || label compareExpr
 condition -> compareExpr | boolExpr
 
 label -> epsilon

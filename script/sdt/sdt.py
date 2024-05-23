@@ -73,7 +73,7 @@ class SDT:
             return 'double'
     
     def min(self, arg1, arg2):
-        print("==>> max", arg1, arg2)
+        # print("==>> max", arg1, arg2)
         if arg1[:6] == arg2[:6]:  # double interge _r
             if arg1[:6] == 'double':
                 return 'double'
@@ -96,7 +96,10 @@ class SDT:
         for i in range(length):
             if 'goto' in self.code[i]:
                 instr = int(self.code[i].split(':')[0])
-                self.code[i] = self.code[i] + str(self.jump[instr])
+                jump = self.jump[instr]
+                if jump is None or jump < 0:
+                    jump = self.nextinstr
+                self.code[i] = self.code[i] + str(jump)
         return self.code
 
     def get_todo(self):

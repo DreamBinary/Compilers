@@ -24,49 +24,61 @@ store = 'double';
 stack[top].type = None;
 }$
 7 : VARIABLE -> TYPE IDENTIFIER ${
-if store is not None:
+if stack[top].value in table:
+    stack[top-1].type = table[stack[top].value][0];
+elif store is not None:
     table[stack[top].value] = (store, );
+    stack[top-1].type = store;
 else:
-    if stack[top].value not in table:
-        error(f"Variable {stack[top].value} not declared.");
-        stack[top-1].type = 'integer' # for continuing parsing
-    else:
-        stack[top-1].type = table[stack[top].value][0];
+    error(f"Variable {stack[top].value} not declared.");
+    stack[top-1].type = 'integer' # for continuing parsing
 stack[top-1].value = stack[top].value;
 top -= 1;
 }$
 8 : VARIABLE -> VARIABLE [ INDEX ] ${
-if store is not None:
+use = False;
+if stack[top-3].value in table: # use variable
+    if store and table[stack[top-3].value][0] == store: # when reduce variable, type is set
+        table[stack[top-3].value] = (f"{store}[]", stack[top-1].value);
+    else:
+        use = True;
+    stack[top-3].type = table[stack[top-3].value][0];
+elif store is not None:
     table[stack[top-3].value] = (f"{store}[]", stack[top-1].value);
     stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+    stack[top-3].type = store;
 else:
-    if stack[top-3].value not in table:
-        error(f"Variable {stack[top-3].value} not declared.");
-        stack[top-3].type = 'integer' # for continuing parsing
-    else:
-        stack[top-3].type = table[stack[top-3].value][0];
-        # stack[top-3].width = 4 if stack[top-3].type else 8;
+    error(f"Variable {stack[top-3].value} not declared.");
+    stack[top-3].type = 'integer' # for continuing parsing
+    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+    use = True;
+if use:
     tmp = temp();
     # gen('*', stack[top-3].width, stack[top-1].value, tmp);
     gen('*', 4 if stack[top-3].type else 8, stack[top-1].value, tmp);
     tmp2 = temp();
     gen('', f"{stack[top-3].value}[{tmp}]", None, tmp2);
     stack[top-3].value = tmp2;
-# else:
-#    table[stack[top-3].value] = (f"{stack[top-3].type}[]", stack[top-1].value);
-#    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
 top -= 3;
 }$
 9 : VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
-if store is not None:
-    table[stack[top-6].value] = (f"{store}[][]", stack[top-4].value, stack[top-1].value);
-    stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
-else : # use variable
-    if stack[top-6].value not in table:
-        error(f"Variable {stack[top-6].value} not declared.");
-        stack[top-6].type = 'integer' # for continuing parsing
+use = False;
+if stack[top-6].value in table: # use variable
+    if store and table[stack[top-6].value][0] == store: # when reduce variable, type is set
+        table[stack[top-6].value] = (f"{store}[][]", stack[top-4].value, stack[top-1].value);
     else:
-        stack[top-6].type = table[stack[top-6].value][0];
+        use = True;
+    stack[top-6].type = table[stack[top-6].value][0];
+elif store is not None:
+    table[stack[top-6].value] = (f"{store}[][]", stack[top-4].value, stack[top-1].value);
+    stack[top-6].value = f"{stack[top-6].value}[{stack[top-4].value}][{stack[top-1].value}]";
+    stack[top-6].type = store;
+else:
+    error(f"Variable {stack[top-6].value} not declared.");
+    stack[top-6].type = 'integer' # for continuing parsing
+    stack[top-6].value = f"{stack[top-6].value}[{stack[top-4].value}][{stack[top-1].value}]";
+    use = True;
+if use:
     tmp1 = temp();
     gen('*', 4 if stack[top-6].type else 8, stack[top-4].value, tmp1);
     tmp2 = temp();
@@ -76,9 +88,6 @@ else : # use variable
     tmp4 = temp();
     gen('', f"{stack[top-6].value}[{tmp3}]", None, tmp4);
     stack[top-6].value = tmp4;
-# else: # declare variable
-#    table[stack[top-6].value] = (f"{stack[top-6].type}[][]", stack[top-4].value, stack[top-1].value);
-#    stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
 top -= 6;
 }$
 10 : VARIABLELIST -> VARIABLE ${
@@ -109,7 +118,12 @@ top -= 1;
 if stack[top-2].value not in table:
     error(f"Variable {stack[top-2].value} not declared."); # give error but continue parsing
 backpatch(stack[top].nextlist, nextinstr);
-gen('=', stack[top-2].value, stack[top].value);
+if stack[top-2].type == 'integer' and stack[top].type == 'double':
+    a1 = widen((stack[top-2].type, stack[top-2].value), 'integer');
+    a2 = widen((stack[top].type, stack[top].value), 'integer');
+    gen('=', a1, a2);
+else:
+    gen('=', stack[top-2].value, stack[top].value);
 top -= 2;
 }$
 18 : STATEMENTNO -> EXPRESSIONLIST ${
@@ -152,9 +166,6 @@ breaklist.append(nextinstr);
 gen('goto', -1);
 }$
 26 : STATEMENTNO -> # ${
-
-}$
-27 : ASSIGN -> INT ${
 
 }$
 28 : ASSIGN -> EXPRESSION ${
@@ -232,10 +243,10 @@ top -= 2;
 
 }$
 46 : PARTEXPR -> INT ${
-
+stack[top].type = 'integer';
 }$
 47 : PARTEXPR -> FLOAT ${
-
+stack[top].type = 'double';
 }$
 48 : PARTEXPR -> IDENTIFIER ${
 
@@ -263,45 +274,38 @@ top -= 3;
 53 : COMPUTEEXPR -> INCEXPR ${
 
 }$
-54 : SUMEXPR -> SUMEXPR + MULEXPR ${
-typ = min(stack[top-2].type, stack[top].type);
-a1 = widen((stack[top-2].type, stack[top-2].value), typ);
-a2 = widen((stack[top].type, stack[top].value), typ);
-tmp = temp();
-gen('+', a1, a2, tmp);
-stack[top-2].type = typ;
-stack[top-2].value = tmp;
-top -= 2;
-}$
-55 : SUMEXPR -> SUMEXPR - MULEXPR ${
-typ = min(stack[top-2].type, stack[top].type);
-a1 = widen((stack[top-2].type, stack[top-2].value), typ);
-a2 = widen((stack[top].type, stack[top].value), typ);
-tmp = temp();
-gen('-', a1, a2, tmp);
-stack[top-2].type = typ;
-stack[top-2].value = tmp;
-top -= 2;
-}$
-56 : SUMEXPR -> MULEXPR ${
+
+52 : SUMOP -> + ${
 
 }$
-57 : MULEXPR -> MULEXPR * PARTEXPR ${
-typ = min(stack[top-2].type, stack[top].type);
+53 : SUMOP -> - ${
+
+}$
+54 : SUMEXPR -> SUMEXPR SUMOP MULEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
 a1 = widen((stack[top-2].type, stack[top-2].value), typ);
 a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
-gen('*', a1, a2, tmp);
+gen(stack[top-1].value, a1, a2, tmp);
 stack[top-2].type = typ;
 stack[top-2].value = tmp;
 top -= 2;
 }$
-58 : MULEXPR -> MULEXPR / PARTEXPR ${
-typ = min(stack[top-2].type, stack[top].type);
+55 : SUMEXPR -> MULEXPR ${
+
+}$
+56 : MULOP -> * ${
+
+}$
+57 : MULOP -> / ${
+
+}$
+58 : MULEXPR -> MULEXPR MULOP PARTEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
 a1 = widen((stack[top-2].type, stack[top-2].value), typ);
 a2 = widen((stack[top].type, stack[top].value), typ);
 tmp = temp();
-gen('/', a1, a2, tmp);
+gen(stack[top-1].value, a1, a2, tmp);
 stack[top-2].type = typ;
 stack[top-2].value = tmp;
 top -= 2;
@@ -309,78 +313,63 @@ top -= 2;
 59 : MULEXPR -> PARTEXPR ${
 
 }$
-60 : INCEXPR -> PARTEXPR ${
+60 : INCOP -> ++ ${
 
 }$
-61 : INCEXPR -> PARTEXPR ++ ${
+61 : INCOP -> -- ${
+
+}$
+62 : INCEXPR -> PARTEXPR ${
+
+}$
+63 : INCEXPR -> PARTEXPR INCOP ${
 tmp = temp();
-gen('+', stack[top-1].value, 1, tmp);
+gen(stack[top].value[0], stack[top-1].value, 1, tmp);
 gen('=', stack[top-1].value, tmp);
 top -= 1;
 }$
-62 : INCEXPR -> PARTEXPR -- ${
-tmp = temp();
-gen('-', stack[top-1].value, 1, tmp);
-gen('=', stack[top-1].value, tmp);
-top -= 1;
+64 : COMPAREOP -> < ${
+
 }$
-63 : COMPAREEXPR -> PARTEXPR < PARTEXPR ${
+65 : COMPAREOP -> > ${
+
+}$
+66 : COMPAREOP -> <= ${
+
+}$
+67 : COMPAREOP -> >= ${
+
+}$
+68 : COMPAREOP -> == ${
+
+}$
+69 : COMPAREOP -> != ${
+
+}$
+72 : COMPAREEXPR -> COMPUTEEXPR COMPAREOP COMPUTEEXPR ${
 stack[top-2].truelist = [nextinstr];
 stack[top-2].falselist = [nextinstr+1];
-gen('if', f"{stack[top-2].value} < {stack[top].value}", -1);
+gen('if', f"{stack[top-2].value} {stack[top-1].value} {stack[top].value}", -1);
 gen('goto', -1);
+stack[top-2].value = 'integer';
 top -= 2;
 }$
-64 : COMPAREEXPR -> PARTEXPR > PARTEXPR ${
-stack[top-2].truelist = [nextinstr];
-stack[top-2].falselist = [nextinstr+1];
-gen('if', f"{stack[top-2].value} > {stack[top].value}", -1);
-gen('goto', -1);
-top -= 2;
-}$
-65 : COMPAREEXPR -> PARTEXPR <= PARTEXPR ${
-stack[top-2].truelist = [nextinstr];
-stack[top-2].falselist = [nextinstr+1];
-gen('if', f"{stack[top-2].value} <= {stack[top].value}", -1);
-gen('goto', -1);
-top -= 2;
-}$
-66 : COMPAREEXPR -> PARTEXPR >= PARTEXPR ${
-stack[top-2].truelist = [nextinstr];
-stack[top-2].falselist = [nextinstr+1];
-gen('if', f"{stack[top-2].value} >= {stack[top].value}", -1);
-gen('goto', -1);
-top -= 2;
-}$
-67 : COMPAREEXPR -> PARTEXPR == PARTEXPR ${
-stack[top-2].truelist = [nextinstr];
-stack[top-2].falselist = [nextinstr+1];
-gen('if', f"{stack[top-2].value} == {stack[top].value}", -1);
-gen('goto', -1);
-top -= 2;
-}$
-68 : COMPAREEXPR -> PARTEXPR != PARTEXPR ${
-stack[top-2].truelist = [nextinstr];
-stack[top-2].falselist = [nextinstr+1];
-gen('if', f"{stack[top-2].value} != {stack[top].value}", -1);
-gen('goto', -1);
-top -= 2;
-}$
+
 69 : BOOLEXPR -> COMPAREEXPR && LABEL COMPAREEXPR ${
 backpatch(stack[top-3].truelist, stack[top-1].instr);
 stack[top-3].truelist = stack[top].truelist;
 stack[top-3].falselist = merge(stack[top-3].falselist, stack[top].falselist);
+stack[top-3].value = 'integer';
 top -= 3;
 }$
 70 : BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR ${
 backpatch(stack[top-3].falselist, stack[top-1].instr);
 stack[top-3].truelist = merge(stack[top-3].truelist, stack[top].truelist);
 stack[top-3].falselist = stack[top].falselist;
+stack[top-3].value = 'integer';
 top -= 3;
 }$
-71 : BOOLEXPR -> BOOLEXPR BOOLEXPR ${
 
-}$
 72 : CONDITION -> COMPAREEXPR ${
 
 }$

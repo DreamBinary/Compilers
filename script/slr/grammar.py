@@ -62,6 +62,10 @@ class EnumGrammar(Enum):
     DO = 'DO'
     WHILE = 'WHILE'
     GOTOLABEL = 'GOTOLABEL'
+    SUMOP = 'SUMOP'
+    MULOP = 'MULOP'
+    INCOP = 'INCOP'
+    COMPAREOP = 'COMPAREOP'
 
 
     LABEL = 'LABEL'  # for SDT
