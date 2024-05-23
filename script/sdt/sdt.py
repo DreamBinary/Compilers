@@ -60,7 +60,9 @@ class SDT:
 
     def temp(self):
         self.idx += 1
-        return f"t{self.idx}"
+        t = f"t{self.idx}"
+        self.table[t] = "tmp"
+        return t
 
     def max(self, arg1, arg2):
         print("==>> max", arg1, arg2)
@@ -71,9 +73,9 @@ class SDT:
                 return 'integer'
         else:
             return 'double'
-    
+
     def min(self, arg1, arg2):
-        # print("==>> max", arg1, arg2)
+        # print("==>> min", arg1, arg2)
         if arg1[:6] == arg2[:6]:  # double interge _r
             if arg1[:6] == 'double':
                 return 'double'
@@ -81,7 +83,7 @@ class SDT:
                 return 'integer'
         else:
             return 'integer'
-        
+
     def widen(self, arg1: tuple, arg2):
         # arg1: (type, value)
         if arg1[0][:6] == arg2[:6]:  # double interge _r

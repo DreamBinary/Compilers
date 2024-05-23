@@ -1,5 +1,11 @@
-double a, b;
-a = 1;
-b = 1;
-integer c;
-c = a / b;
+miniRC=function(integer delta){
+    integer a[5][10], i;
+    double x, y;
+    i = 0;
+    do {
+        if(i>=5 || a[i][i] == 0 ) break;
+        x = delta / a[i][i] + y;
+        i= adapt(i, delta)
+    } while(x<y);
+    i=0;
+}
