@@ -52,30 +52,31 @@ class SLR:
 
         # print(table[8])
         # print(EnumGrammar.FUNCTION in table[8])
-        cnt = 0
+        # cnt = 0
         while True:
-            cnt += 1
+            # cnt += 1
             if idx >= self.midx:
                 top = self.dollar
             else:
                 top = self.input[idx]
             state = stack[-1]
-            print("==>> stack")
-            print(stack)
-            print("==>> top")
-            print(top)
-            print("==>> state")
-            print(state)
-            print("==>> table[state]")
-            print(table[state])
-            print("==>> log_symbols")
+            # print("==>> stack")
+            # print(stack)
+            # print("==>> top")
+            # print(top)
+            # print("==>> state")
+            # print(state)
+            # print("==>> table[state]")
+            # print(table[state])
+            # print("==>> log_symbols")
             for sym, act in zip(log_symbols[-10:], log_action[-10:]):
                 print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
             if top[-1] not in table[state]:
                 print("==>> ERROR")
+                print("idx", idx)
+                print("top", top)
                 idx += 1
                 # continue
-
                 print("idx", idx)
                 print(top)
                 for i in range(5, -1, -1):
@@ -162,7 +163,6 @@ class SLR:
 
             EnumGrammar.INC,
             EnumGrammar.DEC,
-
             EnumGrammar.EQ,  # = 连等的时候
             EnumGrammar.PLUS,
             EnumGrammar.MINUS,
@@ -198,15 +198,6 @@ class SLR:
                                         if ((f in priority) and action[state].get(f) and
                                                 action[state][f][0] == 's'):  # 处理优先级
                                             continue
-                                        # if f in priority:
-                                        #     if action[state].get(f):
-                                        #         a_f = action[state][f]
-                                        #         if a_f[0] == 's':
-                                        #             if s in priority:
-                                        #                 if priority.index(f) > priority.index(s):  # f优先级低, 先规约
-                                        #                     continue
-                                        #             else:
-                                        #                 continue
                                         action[state][f] = f"r{r.label}"
                     else:
                         action[state][s] = f"s{goto}"
@@ -284,7 +275,7 @@ class SLR:
 if __name__ == '__main__':
     from ENV import PATH
 
-    path = PATH.DATA_PATH / "miniRC.in3"
+    path = PATH.DATA_PATH / "miniRC.in1"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
     print("==>> non_term")

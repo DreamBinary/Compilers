@@ -2,6 +2,10 @@
 # @FileName : sdt.py
 # @Time : 2024/5/21 8:21
 # @Author : fiv
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from collections import defaultdict
 
@@ -17,12 +21,13 @@ def debugprint(*args):
 class Mem:
     def __init__(self, value=None):
         self.type = None
-        self.addr = None
+        # self.addr = None
         self.truelist = []
         self.falselist = []
         self.nextlist = []
         self.value = value
         self.instr = None
+        # self.width = None
 
 
 class SDT:
@@ -43,6 +48,9 @@ class SDT:
         self.top = -1
         self.stack = []
         self.jump = defaultdict(lambda: -1)
+        self.breaklist = []
+        self.returnlist = []
+        self.store = None  # 传递变量类型
 
         self.idx = 0
         self.idx_dict = defaultdict(lambda: None)
@@ -53,6 +61,25 @@ class SDT:
     def temp(self):
         self.idx += 1
         return f"t{self.idx}"
+
+    def max(self, arg1, arg2):
+        print("==>> max", arg1, arg2)
+        if arg1[:6] == arg2[:6]:  # double interge _r
+            if arg1[:6] == 'double':
+                return 'double'
+            else:
+                return 'integer'
+        else:
+            return 'double'
+
+    def widen(self, arg1: tuple, arg2):
+        # arg1: (type, value)
+        if arg1[0][:6] == arg2[:6]: # double interge _r
+            return arg1[1]
+        else:
+            tmp = self.temp()
+            self.gen('', f"({arg2}) {arg1[1]}", None, tmp)
+            return tmp
 
     def get_code(self):
         length = len(self.code)
@@ -68,6 +95,7 @@ class SDT:
             todo = f.read()
             todo = re.findall(r'\${(.*?)}\$', todo, re.DOTALL)
             todo = [t.strip() for t in todo]
+        print("==>> get_todo", todo.__len__())
         return todo
 
     def backpatch(self, arg1, arg2):
@@ -75,10 +103,9 @@ class SDT:
             if self.jump[i] is None or self.jump[i] < 0:
                 self.jump[i] = arg2
 
-
     def merge(self, arg1, arg2):
         result = arg1 + arg2
-        print(result)
+        # print(result)
         return result
 
     def gen(self, op, arg1=None, arg2=None, result=None):
@@ -89,10 +116,18 @@ class SDT:
         elif op == 'goto':
             s = f"{self.nextinstr}: goto "
             self.jump[self.nextinstr] = arg1
-        elif result:
-            s = f"{self.nextinstr}: {result} = {arg1} {op} {arg2}"
+        elif arg1 and arg2:
+            if result:
+                s = f"{self.nextinstr}: {result} = {arg1} {op} {arg2}"
+            else:
+                s = f"{self.nextinstr}: {arg1} {op} {arg2}"
+        elif arg1:
+            if result:
+                s = f"{self.nextinstr}: {result} = {op} {arg1}"
+            else:
+                s = f"{self.nextinstr}: {op} {arg1}"
         else:
-            s = f"{self.nextinstr}: {arg1} {op} {arg2}"
+            s = "ERROR"
 
         self.nextinstr += 1
         self.code.append(s)
@@ -131,7 +166,9 @@ class SDT:
             else:
                 raise ValueError(f"Unknown action: {a}")
             debugprint(s)
+            debugprint("==>> nextinstr: ", self.nextinstr)
             debugprint("==>> stack V: ", [i.value for i in self.stack[:self.top + 1]])
+            debugprint("==>> stack Y: ", [i.type for i in self.stack[:self.top + 1]])
             debugprint("==>> stack I: ", [i.instr for i in self.stack[:self.top + 1]])
             debugprint("==>> stack T: ", [i.truelist for i in self.stack[:self.top + 1]])
             debugprint("==>> stack F: ", [i.falselist for i in self.stack[:self.top + 1]])
@@ -141,7 +178,7 @@ class SDT:
         r = self.todo[index]
         replace = {
             # ';': '\n',
-            'type': 'self.type',
+            # 'type': 'self.type',
             'table': 'self.table',
             'nextinstr': 'self.nextinstr',
             'stack': 'self.stack',
@@ -151,6 +188,11 @@ class SDT:
             'temp': 'self.temp',
             'error': 'self.error',
             'backpatch': 'self.backpatch',
+            'breaklist': 'self.breaklist',
+            'returnlist': 'self.returnlist',
+            'store': 'self.store',
+            'max': 'self.max',
+            'widen': 'self.widen',
         }
         for k, v in replace.items():
             r = r.replace(k, v)
@@ -158,7 +200,7 @@ class SDT:
 
     def error(self, msg):
         self.log_error.append(msg)
-        print("==>> ERROR", msg)
+        print("==>> ERROR ", msg)
 
 
 if __name__ == '__main__':
@@ -169,8 +211,18 @@ if __name__ == '__main__':
     sdt = SDT(path)
     sdt.parse()
     print("==>> code")
-    for l in sdt.get_code():
-        print(l)
+    with open("code.txt", "w") as f:
+        with open(path, 'r') as f1:
+            for l in f1:
+                f.write(l)
+        f.write("\n\n")
+        for l in sdt.get_code():
+            f.write(l + "\n")
+            print(l)
+
+    print("==>> table")
+    for k, v in sdt.table.items():
+        print(k, v)
     print("==>> jump")
     for k, v in sdt.jump.items():
         print(k, v)
@@ -179,17 +231,6 @@ if __name__ == '__main__':
     for k, v in sdt.idx_dict.items():
         print(k, v)
 
-
     print("==>> log_error")
     for l in sdt.log_error:
         print(l)
-
-# 100: t1 = i + 1
-# 101: i = t1
-# 102: if i < 5 goto 104
-# 103: goto None
-# 104: i = 71
-# 105: goto -1
-# 106: if i < 0 goto 100
-# 107: goto -1
-# 108: i = 0

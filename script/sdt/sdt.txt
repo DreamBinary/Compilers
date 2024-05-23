@@ -5,240 +5,393 @@
 
 }$
 2 : INDEX -> INT ${
-
+stack[top].value = int(stack[top].value);
 }$
 3 : INDEX -> VARIABLE ${
 
 }$
 4 : TYPE -> INTEGER ${
-type = 'integer';
+stack[top].type = 'integer';
+stack[top].width = 4;
+store = 'integer';
 }$
 5 : TYPE -> DOUBLE ${
-type = 'double';
+stack[top].type = 'double';
+stack[top].width = 8;
+store = 'double';
 }$
 6 : TYPE -> EPSILON ${
-type = None;
+stack[top].type = None;
 }$
 7 : VARIABLE -> TYPE IDENTIFIER ${
-if type is not None:
-    table[stack[top].value] = type;
+if store is not None:
+    table[stack[top].value] = (store, );
+else:
+    if stack[top].value not in table:
+        error(f"Variable {stack[top].value} not declared.");
+        stack[top-1].type = 'integer' # for continuing parsing
+    else:
+        stack[top-1].type = table[stack[top].value][0];
 stack[top-1].value = stack[top].value;
+# stack[top-1].type = stack[top-1].type;
+# stack[top-1].width = stack[top-1].width;
 top -= 1;
 }$
 8 : VARIABLE -> VARIABLE [ INDEX ] ${
-table[stack[top-3].value] = f"{type}[]";
-stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+if store is not None:
+    table[stack[top-3].value] = (f"{store}[]", stack[top-1].value);
+    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
+else:
+    if stack[top-3].value not in table:
+        error(f"Variable {stack[top-3].value} not declared.");
+        stack[top-3].type = 'integer' # for continuing parsing
+    else:
+        stack[top-3].type = table[stack[top-3].value][0];
+        # stack[top-3].width = 4 if stack[top-3].type else 8;
+    tmp = temp();
+    # gen('*', stack[top-3].width, stack[top-1].value, tmp);
+    gen('*', 4 if stack[top-3].type else 8, stack[top-1].value, tmp);
+    tmp2 = temp();
+    gen('', f"{stack[top-3].value}[{tmp}]", None, tmp2);
+    stack[top-3].value = tmp2;
+# else:
+#    table[stack[top-3].value] = (f"{stack[top-3].type}[]", stack[top-1].value);
+#    stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
 top -= 3;
 }$
 9 : VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] ${
-
+if store is not None:
+    table[stack[top-6].value] = (f"{store}[][]", stack[top-4].value, stack[top-1].value);
+    stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
+else : # use variable
+    if stack[top-6].value not in table:
+        error(f"Variable {stack[top-6].value} not declared.");
+        stack[top-6].type = 'integer' # for continuing parsing
+    else:
+        stack[top-6].type = table[stack[top-6].value][0];
+    tmp1 = temp();
+    gen('*', 4 if stack[top-6].type else 8, stack[top-4].value, tmp1);
+    tmp2 = temp();
+    gen('*', 4 if stack[top-6].type else 8, stack[top-1].value, tmp2);
+    tmp3 = temp();
+    gen('+', tmp2, tmp1, tmp3);
+    tmp4 = temp();
+    gen('', f"{stack[top-6].value}[{tmp3}]", None, tmp4);
+    stack[top-6].value = tmp4;
+# else: # declare variable
+#    table[stack[top-6].value] = (f"{stack[top-6].type}[][]", stack[top-4].value, stack[top-1].value);
+#    stack[top-6].value = f"{stack[top-6].value}[{stack[top-3].value}][{stack[top-1].value}]";
+top -= 6;
 }$
-10 : STATEMENTLIST -> STATEMENT ${
-
+10 : VARIABLELIST -> VARIABLE ${
 }$
-11 : STATEMENTLIST -> STATEMENTLIST STATEMENT ${
-stack[top-1].nextlist = merge(stack[top-1].nextlist, stack[top].nextlist);
-stack[top-1].value = stack[top].value;
-top -= 1;
-}$
-12 : STATEMENTLIST -> EPSILON ${
-
-}$
-13 : STATEMENT -> VARIABLE ${
-
-}$
-14 : STATEMENT -> VARIABLE = ASSIGN ${
-if stack[top-2].value not in table:
-    error(f"Variable {stack[top-2].value} not declared.");
-else:
-    gen('=', stack[top-2].value, stack[top].value);
+11 : VARIABLELIST -> VARIABLE , VARIABLELIST ${
 top -= 2;
 }$
-15 : STATEMENT -> EXPRESSIONLIST ${
+12 : STATEMENTLIST -> STATEMENT LABEL STATEMENTLIST ${
+backpatch(stack[top-2].nextlist, stack[top-1].instr);
+stack[top-2].nextlist = merge(stack[top-2].nextlist, stack[top].nextlist);
+stack[top-2].value = stack[top].value;
+top -= 2;
+}$
+13 : STATEMENTLIST -> EPSILON ${
 
 }$
-16 : STATEMENT -> IFSTMT ${
+14 : STATEMENT -> STATEMENTNO ${
 
 }$
-17 : STATEMENT -> REPEAT { STATEMENTLIST } UNTIL ( CONDITION ) ${
+15 : STATEMENT -> STATEMENTNO ; ${
+top -= 1;
+}$
+16 : STATEMENTNO -> VARIABLELIST ${
+store = None;
+}$
+17 : STATEMENTNO -> VARIABLE = ASSIGN ${
+if stack[top-2].value not in table:
+    error(f"Variable {stack[top-2].value} not declared."); # give error but continue parsing
+backpatch(stack[top].nextlist, nextinstr);
+gen('=', stack[top-2].value, stack[top].value);
+top -= 2;
+}$
+18 : STATEMENTNO -> EXPRESSIONLIST ${
 
 }$
-18 : STATEMENT -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION ) ${
+19 : STATEMENTNO -> IFSTMT ${
+
+}$
+22 : STATEMENTNO -> FORSTMT ${
+
+}$
+20 : STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION ) ${
 backpatch(stack[top-6].nextlist, stack[top-2].instr);
-backpatch(stack[top-1].truelist, stack[top-7].instr);
-stack[top-9].nextlist = stack[top-1].falselist;
+backpatch(stack[top-1].falselist, stack[top-7].instr);
+stack[top-9].nextlist = stack[top-1].truelist;
+
+if breaklist:
+    stack[top-9].nextlist.append(breaklist.pop());
 # gen('goto', stack[top-7].instr);
 top -= 9;
 }$
-19 : STATEMENT -> FOR ( EXPRESSIONLISTVAR ) { STATEMENTLIST } ${
+21 : STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION ) ${
+backpatch(stack[top-6].nextlist, stack[top-2].instr);
+backpatch(stack[top-1].truelist, stack[top-7].instr);
+stack[top-9].nextlist = stack[top-1].falselist;
+
+if breaklist:
+    stack[top-9].nextlist.append(breaklist.pop());
+# gen('goto', stack[top-7].instr);
+top -= 9;
+}$
+24 : STATEMENTNO -> RETURN EXPRESSION ${
+stack[top-1] = stack[top];
+returnlist.append(nextinstr);
+gen('goto', -1);
+top -= 1;
+}$
+25 : STATEMENTNO -> BREAK ${
+breaklist.append(nextinstr);
+gen('goto', -1);
+}$
+26 : STATEMENTNO -> # ${
 
 }$
-20 : STATEMENT -> FOR ( EXPRESSIONLISTVAR ) STATEMENT ${
+27 : ASSIGN -> INT ${
 
 }$
-21 : STATEMENT -> RETURN EXPRESSION ${
+28 : ASSIGN -> EXPRESSION ${
 
 }$
-22 : STATEMENT -> BREAK ; ${
+29 : ASSIGN -> FUN ${
 
 }$
-23 : STATEMENT -> ; ${
-
+30 : FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
+stack[top-6].nextlist = merge(stack[top-1].nextlist, returnlist);
+stack[top-6].value = 'FUNCTION';
+top -= 6;
 }$
-24 : STATEMENT -> # ${
-
+31 : FUN -> FUNCTION ( EXPRESSIONLIST ) ${
+stack[top-3].value = 'FUNCTION';
+top -= 3;
 }$
-25 : ASSIGN -> INT ${
-
+               -12 -11 -10      -9 -8    -7        -6 -5     -4           -3   -2  -1
+31 : FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK ${
+backpatch(stack[top-7].truelist, stack[top-1].instr);
+backpatch(stack[top].nextlist, stack[top-5].instr);
+backpatch(stack[top-3].nextlist, stack[top-8].instr);
+stack[top-12].nextlist = stack[top-7].falselist;
+gen('goto', stack[top-5].instr);
+top -= 12;
 }$
-26 : ASSIGN -> EXPRESSION ${
-
-}$
-27 : ASSIGN -> IDENTIFIER ( EXPRESSIONLIST ) ${
-
-}$
-28 : ASSIGN -> FUN ${
-
-}$
-29 : FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
-
-}$
-30 : FUN -> FUNCTION ( EXPRESSIONLIST ) ${
-
-}$
-31 : IFSTMT -> IF ( CONDITION ) LABEL IFBLOCK GOTOLABEL LABEL ELIFSTMT ${
+32 : IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT ${
 backpatch(stack[top-6].truelist, stack[top-4].instr);
 backpatch(stack[top-6].falselist, stack[top-1].instr);
 tmp = merge(stack[top-3].nextlist, stack[top-2].nextlist);
 stack[top-8].nextlist = merge(tmp, stack[top].nextlist);
 top -= 8;
 }$
-32 : ELIFSTMT -> ELSEIF ( CONDITION ) IFBLOCK ELIFSTMT ${
+33 : ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT ${
+backpatch(stack[top-6].truelist, stack[top-4].instr);
+backpatch(stack[top-6].falselist, stack[top-1].instr);
+tmp = merge(stack[top-3].nextlist, stack[top-2].nextlist);
+stack[top-8].nextlist = merge(tmp, stack[top].nextlist);
+top -= 8;
+}$
+34 : ELIFSTMT -> ELSE BLOCK ${
+stack[top-1] = stack[top]; # ELSE has no info
+top -= 1;
+}$
+35 : ELIFSTMT -> EPSILON ${
 
 }$
-33 : ELIFSTMT -> ELSE IFBLOCK ${
+36 : BLOCK -> STATEMENT ${
 
 }$
-34 : ELIFSTMT -> EPSILON ${
-
-}$
-35 : IFBLOCK -> STATEMENTLIST ${
-
-}$
-36 : IFBLOCK -> { STATEMENTLIST } ${
-
-}$
-37 : EXPRESSIONLIST -> EXPRESSION ${
-
-}$
-38 : EXPRESSIONLIST -> EXPRESSIONLIST , EXPRESSION ${
-
-}$
-39 : EXPRESSIONLISTVAR -> EXPRESSION ${
-
-}$
-40 : EXPRESSIONLISTVAR -> EXPRESSIONLISTVAR ; EXPRESSION ${
-
-}$
-41 : EXPRESSION -> COMPUTEEXPR ${
-
-}$
-42 : EXPRESSION -> PARTEXPR ${
-
-}$
-43 : EXPRESSION -> CONDITION ${
-
-}$
-44 : PARTEXPR -> VARIABLE ${
-
-}$
-45 : PARTEXPR -> INT ${
-
-}$
-46 : PARTEXPR -> FLOAT ${
-
-}$
-47 : PARTEXPR -> IDENTIFIER ${
-
-}$
-48 : PARTEXPR -> PARTEXPR = PARTEXPR ${
-stack[top-2].addr = gen('=', stack[top-2].addr, stack[top].addr);
+37 : BLOCK -> { STATEMENTLIST } ${
+stack[top-2] = stack[top-1];
 top -= 2;
 }$
-49 : PARTEXPR -> ( EXPRESSION ) ${
-
+38 : EXPRESSIONLIST -> EXPRESSION ${
+stack[top].value = stack[top].value if isinstance(stack[top].value, list) else [stack[top].value];
 }$
-50 : PARTEXPR -> VARIABLE ( EXPRESSIONLIST ) ${
-
-}$
-51 : PARTEXPR -> COMPUTEEXPR ${
-
-}$
-52 : COMPUTEEXPR -> PARTEXPR + PARTEXPR ${
-tmp = temp();
-gen('+', stack[top-2].value, stack[top].value, tmp);
+39 : EXPRESSIONLIST -> EXPRESSION , EXPRESSIONLIST ${
+store = None;
+tmp = stack[top-2].value if isinstance(stack[top-2].value, list) else [stack[top-2].value];
+tmp += stack[top].value if isinstance(stack[top].value, list) else [stack[top].value];
 stack[top-2].value = tmp;
 top -= 2;
 }$
-53 : COMPUTEEXPR -> PARTEXPR - PARTEXPR ${
+42 : EXPRESSION -> COMPUTEEXPR ${
 
 }$
-54 : COMPUTEEXPR -> PARTEXPR * PARTEXPR ${
+43 : EXPRESSION -> PARTEXPR ${
 
 }$
-55 : COMPUTEEXPR -> PARTEXPR / PARTEXPR ${
+44 : EXPRESSION -> CONDITION ${
 
 }$
-56 : COMPUTEEXPR -> PARTEXPR ++ ${
+45 : PARTEXPR -> VARIABLE ${
 
 }$
-57 : COMPUTEEXPR -> PARTEXPR -- ${
+46 : PARTEXPR -> INT ${
 
 }$
-58 : COMPAREEXPR -> PARTEXPR < PARTEXPR ${
+47 : PARTEXPR -> FLOAT ${
+
+}$
+48 : PARTEXPR -> IDENTIFIER ${
+
+}$
+49 : PARTEXPR -> PARTEXPR = PARTEXPR ${
+gen('=', stack[top-2].value, stack[top].value);
+top -= 2;
+}$
+50 : PARTEXPR -> ( EXPRESSION ) ${
+stack[top-2] = stack[top-1];
+top -= 2;
+}$
+51 : PARTEXPR -> VARIABLE ( EXPRESSIONLIST ) ${
+for i in stack[top-1].value:
+    gen('param', i);
+tmp = temp();
+gen('', f"call {stack[top-3].value}, {len(stack[top-1].value)}", None, tmp);
+stack[top-3].value = tmp;
+stack[top-1].value = [];
+top -= 3;
+}$
+52 : COMPUTEEXPR -> SUMEXPR ${
+
+}$
+53 : COMPUTEEXPR -> INCEXPR ${
+
+}$
+54 : SUMEXPR -> SUMEXPR + MULEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
+tmp = temp();
+gen('+', a1, a2, tmp);
+stack[top-2].type = typ;
+stack[top-2].value = tmp;
+top -= 2;
+}$
+55 : SUMEXPR -> SUMEXPR - MULEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
+tmp = temp();
+gen('-', a1, a2, tmp);
+stack[top-2].type = typ;
+stack[top-2].value = tmp;
+top -= 2;
+}$
+56 : SUMEXPR -> MULEXPR ${
+
+}$
+57 : MULEXPR -> MULEXPR * PARTEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
+tmp = temp();
+gen('*', a1, a2, tmp);
+stack[top-2].type = typ;
+stack[top-2].value = tmp;
+top -= 2;
+}$
+58 : MULEXPR -> MULEXPR / PARTEXPR ${
+typ = max(stack[top-2].type, stack[top].type);
+a1 = widen((stack[top-2].type, stack[top-2].value), typ);
+a2 = widen((stack[top].type, stack[top].value), typ);
+tmp = temp();
+gen('/', a1, a2, tmp);
+stack[top-2].type = typ;
+stack[top-2].value = tmp;
+top -= 2;
+}$
+59 : MULEXPR -> PARTEXPR ${
+
+}$
+60 : INCEXPR -> PARTEXPR ${
+
+}$
+61 : INCEXPR -> PARTEXPR ++ ${
+tmp = temp();
+gen('+', stack[top-1].value, 1, tmp);
+gen('=', stack[top-1].value, tmp);
+top -= 1;
+}$
+62 : INCEXPR -> PARTEXPR -- ${
+tmp = temp();
+gen('-', stack[top-1].value, 1, tmp);
+gen('=', stack[top-1].value, tmp);
+top -= 1;
+}$
+63 : COMPAREEXPR -> PARTEXPR < PARTEXPR ${
 stack[top-2].truelist = [nextinstr];
 stack[top-2].falselist = [nextinstr+1];
 gen('if', f"{stack[top-2].value} < {stack[top].value}", -1);
 gen('goto', -1);
 top -= 2;
 }$
-59 : COMPAREEXPR -> PARTEXPR > PARTEXPR ${
-
+64 : COMPAREEXPR -> PARTEXPR > PARTEXPR ${
+stack[top-2].truelist = [nextinstr];
+stack[top-2].falselist = [nextinstr+1];
+gen('if', f"{stack[top-2].value} > {stack[top].value}", -1);
+gen('goto', -1);
+top -= 2;
 }$
-60 : COMPAREEXPR -> PARTEXPR <= PARTEXPR ${
-
+65 : COMPAREEXPR -> PARTEXPR <= PARTEXPR ${
+stack[top-2].truelist = [nextinstr];
+stack[top-2].falselist = [nextinstr+1];
+gen('if', f"{stack[top-2].value} <= {stack[top].value}", -1);
+gen('goto', -1);
+top -= 2;
 }$
-61 : COMPAREEXPR -> PARTEXPR >= PARTEXPR ${
-
+66 : COMPAREEXPR -> PARTEXPR >= PARTEXPR ${
+stack[top-2].truelist = [nextinstr];
+stack[top-2].falselist = [nextinstr+1];
+gen('if', f"{stack[top-2].value} >= {stack[top].value}", -1);
+gen('goto', -1);
+top -= 2;
 }$
-62 : COMPAREEXPR -> PARTEXPR == PARTEXPR ${
-
+67 : COMPAREEXPR -> PARTEXPR == PARTEXPR ${
+stack[top-2].truelist = [nextinstr];
+stack[top-2].falselist = [nextinstr+1];
+gen('if', f"{stack[top-2].value} == {stack[top].value}", -1);
+gen('goto', -1);
+top -= 2;
 }$
-63 : COMPAREEXPR -> PARTEXPR != PARTEXPR ${
-
+68 : COMPAREEXPR -> PARTEXPR != PARTEXPR ${
+stack[top-2].truelist = [nextinstr];
+stack[top-2].falselist = [nextinstr+1];
+gen('if', f"{stack[top-2].value} != {stack[top].value}", -1);
+gen('goto', -1);
+top -= 2;
 }$
-64 : BOOLEXPR -> COMPAREEXPR && COMPAREEXPR ${
-
+69 : BOOLEXPR -> COMPAREEXPR && LABEL COMPAREEXPR ${
+backpatch(stack[top-3].truelist, stack[top-1].instr);
+stack[top-3].truelist = stack[top].truelist;
+stack[top-3].falselist = merge(stack[top-3].falselist, stack[top].falselist);
+top -= 3;
 }$
-65 : BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR ${
+70 : BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR ${
 backpatch(stack[top-3].falselist, stack[top-1].instr);
 stack[top-3].truelist = merge(stack[top-3].truelist, stack[top].truelist);
 stack[top-3].falselist = stack[top].falselist;
 top -= 3;
 }$
-66 : BOOLEXPR -> BOOLEXPR BOOLEXPR ${
+71 : BOOLEXPR -> BOOLEXPR BOOLEXPR ${
 
 }$
-67 : CONDITION -> COMPAREEXPR ${
+72 : CONDITION -> COMPAREEXPR ${
 
 }$
-68 : CONDITION -> BOOLEXPR ${
+73 : CONDITION -> BOOLEXPR ${
 
 }$
-69 : LABEL -> EPSILON ${
+74 : LABEL -> EPSILON ${
 stack[top].instr = nextinstr;
 }$
-70 : GOTOLABEL -> EPSILON ${
-# stack[top].nextlist = [nextinstr]; TODO
-gen('goto ignore now', -1);
+75 : GOTOLABEL -> EPSILON ${
+stack[top].nextlist = [nextinstr];
+gen('goto', -1);
 }$
