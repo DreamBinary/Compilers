@@ -3,6 +3,6 @@ double x;
 x = delta / x;
 
 100: delta = 1
-101: t1 =  (double) delta
-102: t2 = t1 / x
+101: t1 =  (integer) x
+102: t2 = delta / t1
 103: x = t2
