@@ -96,6 +96,8 @@ class EnumGrammar(Enum):
     DOT = '.'
     COMMENT = '#'
 
+    ERROR = 'ERROR'
+
 
 # class EnumSymbol(Enum):
 #     def __hash__(self):
