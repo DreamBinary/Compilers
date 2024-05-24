@@ -73,18 +73,18 @@ class SLR:
                 print("idx", idx)
                 print("top", top)
                 idx += 1
-                # continue
-                print("idx", idx)
-                print(top)
-                for i in range(5, -1, -1):
-                    print(self.input[idx - i][0], end=" ")
-                print()
-                print(state)
-                print(table[state])
-                print("====>>>> Log")
-                for sym, act in zip(log_symbols[-15:], log_action[-15:]):
-                    print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
-                break
+                continue
+                # print("idx", idx)
+                # print(top)
+                # for i in range(5, -1, -1):
+                #     print(self.input[idx - i][0], end=" ")
+                # print()
+                # print(state)
+                # print(table[state])
+                # print("====>>>> Log")
+                # for sym, act in zip(log_symbols[-15:], log_action[-15:]):
+                #     print(f"{[i[0] for i in sym]} === {act[0]} {str(act[1])}")
+                # break
             action = table[state][top[-1]]
             if action == "acc":
                 # print("acc")
