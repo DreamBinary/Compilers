@@ -175,12 +175,16 @@ gen('goto', -1);
 
 }$
 30 : FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } ${
+for i in stack[top-4].value:
+    gen('param', i);
 stack[top-6].nextlist = merge(stack[top-1].nextlist, returnlist);
-stack[top-6].value = 'FUNCTION';
+stack[top-6].value = f"call function, {len(stack[top-4].value)}";
 top -= 6;
 }$
 31 : FUN -> FUNCTION ( EXPRESSIONLIST ) ${
-stack[top-3].value = 'FUNCTION';
+for i in stack[top-2].value:
+    gen('param', i);
+stack[top-3].value = f"call function, {len(stack[top-2].value)}";
 top -= 3;
 }$
                -12 -11 -10      -9 -8    -7        -6 -5     -4           -3   -2  -1

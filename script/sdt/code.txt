@@ -36,4 +36,5 @@ miniRC=function(integer delta){
 123: if x < y goto 101
 124: goto 125
 125: i = 0
-126: miniRC = FUNCTION
+126: param delta
+127: miniRC = call function, 1

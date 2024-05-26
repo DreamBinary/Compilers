@@ -105,7 +105,7 @@ class SLR:
                         stack.pop()
                         symbols.pop()
                 state = stack[-1]
-                if grammar.pre in table[state]:
+                if grammar.pre in table[state]:#{k, v}
                     next_state = table[state][grammar.pre]
                     stack.append(int(next_state[1:]))
                     symbols.append((grammar.pre.value, grammar.pre))

@@ -354,4 +354,7 @@ def app(page: ft.Page):
 
 
 if __name__ == '__main__':
-    ft.app(target=app, view=ft.AppView.WEB_BROWSER)
+    try:
+        ft.app(target=app, view=ft.AppView.WEB_BROWSER)
+    except Exception as e:
+        print(e)

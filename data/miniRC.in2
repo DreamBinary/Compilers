@@ -1,6 +1,6 @@
 miniRC=function(integer delta){
      integer a[5][10], b[5][10], i, j;
-     for(i=0; i<5; i++) for(j=0; j<10; j++){
+     for(i=0; i<5+id*id+7; i++) for(j=0; j<10; j++){
 		a[i][j] = i + j;
                 if(i>j) b[i][j]=i*delta+j; else b[i][j]=i-j/delta;
      }
