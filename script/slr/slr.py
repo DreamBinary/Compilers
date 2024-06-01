@@ -32,6 +32,30 @@ class SLR:
         self.midx = len(self.input)
         self.action = self.get_action()
         self.goto = self.get_goto()
+        self.table = None
+
+    def write_table(self):
+        import pandas as pd
+        table = defaultdict(dict)
+        for k, v in self.table.items():
+            for kk, vv in v.items():
+                table[k][(kk if isinstance(kk, str) else kk.value)] = vv
+
+        df = pd.DataFrame(table).T
+        # reset first row of df
+        df.fillna("", inplace=True)
+        # save to excel
+        df.to_excel("./slr_table.xlsx")
+
+    def read_table(self):
+        import pandas as pd
+        df = pd.read_excel("./slr_table.xlsx", index_col=0)
+        table = defaultdict(dict)
+        for k in df.index:
+            for kk in df.columns:
+                if df.loc[k, kk]:
+                    table[k][kk] = df.loc
+        self.table = table
 
     def process(self):
         # merge self.action and self.goto
@@ -42,6 +66,7 @@ class SLR:
         for k, v in self.goto.items():
             for kk, vv in v.items():
                 table[k][kk] = vv
+        self.table = table
         idx = 0
         stack = [0]
         symbols = [self.dollar[-1]]
@@ -105,7 +130,7 @@ class SLR:
                         stack.pop()
                         symbols.pop()
                 state = stack[-1]
-                if grammar.pre in table[state]:#{k, v}
+                if grammar.pre in table[state]:  # {k, v}
                     next_state = table[state][grammar.pre]
                     stack.append(int(next_state[1:]))
                     symbols.append((grammar.pre.value, grammar.pre))
@@ -275,6 +300,8 @@ if __name__ == '__main__':
     path = PATH.DATA_PATH / "miniRC_error.in"
     slr = SLR(path)
     log_symbols, log_action = slr.process()
+    slr.write_table()
+
     print("==>> non_term")
     print(slr.non_term)
     print("==>> term")

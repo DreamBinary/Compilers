@@ -93,7 +93,7 @@ class SDT:
             self.gen('', f"({arg2}) {arg1[1]}", None, tmp)
             return tmp
 
-    def get_code(self):
+    def get_code(self):  # fill backpatch
         length = len(self.code)
         for i in range(length):
             if 'goto' in self.code[i]:
@@ -104,7 +104,7 @@ class SDT:
                 self.code[i] = self.code[i] + str(jump)
         return self.code
 
-    def get_todo(self):
+    def get_todo(self):  # get code from sdt.txt
         with open("sdt.txt", 'r') as f:
             import re
             todo = f.read()
@@ -161,7 +161,6 @@ class SDT:
                     self.stack.append(Mem(s[-1][0]))
                 else:
                     self.stack[self.top] = Mem(s[-1][0])
-
                 # self.stack = s
             elif a[0].startswith("reduce"):
                 # debugprint(f"reduce: {self.grammar.index(a[1])} {a[1]}")
@@ -177,7 +176,7 @@ class SDT:
                 if code != "":
                     # debugprint("===>>", "code", index)
                     # debugprint(code)
-                    exec(code, {}, {'self': self})
+                    exec(code, {}, {'self': self})  # exec code in sdt.txt
             else:
                 raise ValueError(f"Unknown action: {a}")
             debugprint(s)

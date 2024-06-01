@@ -13,7 +13,7 @@ miniRC=function(integer delta){
 100: i = 0
 101: if i >= 5 goto 109
 102: goto 103
-103: t1 = 4 * i
+103: t1 = 40 * i
 104: t2 = 4 * i
 105: t3 = t2 + t1
 106: t4 =  a[t3]
@@ -21,7 +21,7 @@ miniRC=function(integer delta){
 108: goto 111
 109: goto 125
 110: goto 111
-111: t5 = 4 * i
+111: t5 = 40 * i
 112: t6 = 4 * i
 113: t7 = t6 + t5
 114: t8 =  a[t7]

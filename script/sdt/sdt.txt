@@ -43,7 +43,7 @@ if stack[top-3].value in table: # use variable
     else:
         use = True;
     stack[top-3].type = table[stack[top-3].value][0];
-elif store is not None:
+elif store is not None: # declare variable  / var store save declare type
     table[stack[top-3].value] = (f"{store}[]", stack[top-1].value);
     stack[top-3].value = f"{stack[top-3].value}[{stack[top-1].value}]";
     stack[top-3].type = store;
@@ -69,7 +69,7 @@ if stack[top-6].value in table: # use variable
     else:
         use = True;
     stack[top-6].type = table[stack[top-6].value][0];
-elif store is not None:
+elif store is not None: # declare variable  / var store save declare type
     table[stack[top-6].value] = (f"{store}[][]", stack[top-4].value, stack[top-1].value);
     stack[top-6].value = f"{stack[top-6].value}[{stack[top-4].value}][{stack[top-1].value}]";
     stack[top-6].type = store;
@@ -80,7 +80,7 @@ else:
     use = True;
 if use:
     tmp1 = temp();
-    gen('*', 4 if stack[top-6].type else 8, stack[top-4].value, tmp1);
+    gen('*', (4 if stack[top-6].type else 8) * table[stack[top-6].value][-1], stack[top-4].value, tmp1);
     tmp2 = temp();
     gen('*', 4 if stack[top-6].type else 8, stack[top-1].value, tmp2);
     tmp3 = temp();
