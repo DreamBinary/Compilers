@@ -14,7 +14,7 @@ from script.slr.grammar import EnumGrammar
 
 
 def debugprint(*args):
-    print(*args)
+    # print(*args)
     pass
 
 
@@ -236,6 +236,12 @@ if __name__ == '__main__':
             f.write(l + "\n")
             print(l)
 
+        f.write("\n\n")
+        f.write("==>> log_error\n")
+        for l in sdt.log_error:
+            f.write(l + "\n")
+            print(l)
+
     print("==>> table")
     for k, v in sdt.table.items():
         print(k, v)
@@ -246,7 +252,3 @@ if __name__ == '__main__':
     print("==>> idx_dict")
     for k, v in sdt.idx_dict.items():
         print(k, v)
-
-    print("==>> log_error")
-    for l in sdt.log_error:
-        print(l)

@@ -38,3 +38,9 @@ miniRC=function(integer delta){
 125: i = 0
 126: param delta
 127: miniRC = call function, 1
+
+
+==>> log_error
+Variable miniRC not declared.
+Variable adapt not declared.
+Variable miniRC not declared.
