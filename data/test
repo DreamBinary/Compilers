@@ -1,0 +1,27 @@
+integer x, y;
+do {
+    x = x + 1;
+    continue;
+} while(x<y);
+
+integer x, y;
+for (x = 0; x < 10; x++) {
+    y = y + 1;
+    continue;
+}
+
+integer x, y;
+do {
+    x = x + 1;
+    break;
+} while(x<y);
+x = 0;
+
+integer x, y, a[10], b[10][10];
+x = a[4];
+y = b[4][5];
+
+integer x;
+double y;
+integer z;
+z = x + y;

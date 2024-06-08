@@ -6,7 +6,7 @@ variableList -> variable | variable , variableList
 
 statementList -> statement label statementList | epsilon
 statement -> statementNo | statementNo ;
-statementNo -> variableList | variable = assign | expressionList | ifStmt | forStmt | repeat { label statementList } until ( label condition ) | do { label statementList } while ( label condition ) | return expression | break | #
+statementNo -> variableList | variable = assign | expressionList | ifStmt | forStmt | repeat { label statementList } until ( label condition ) | do { label statementList } while ( label condition ) | return expression | break | continue | #
 assign -> expression | fun
 
 fun -> function ( expressionList ) { statementList } | function ( expressionList )

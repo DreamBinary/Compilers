@@ -139,7 +139,8 @@ top -= 2;
 backpatch(stack[top-6].nextlist, stack[top-2].instr);
 backpatch(stack[top-1].falselist, stack[top-7].instr);
 stack[top-9].nextlist = stack[top-1].truelist;
-
+if continuelist:
+    backpatch([continuelist.pop()], stack[top-7].instr);
 if breaklist:
     stack[top-9].nextlist.append(breaklist.pop());
 # gen('goto', stack[top-7].instr);
@@ -150,6 +151,8 @@ backpatch(stack[top-6].nextlist, stack[top-2].instr);
 backpatch(stack[top-1].truelist, stack[top-7].instr);
 stack[top-9].nextlist = stack[top-1].falselist;
 
+if continuelist:
+    backpatch([continuelist.pop()], stack[top-7].instr);
 if breaklist:
     stack[top-9].nextlist.append(breaklist.pop());
 # gen('goto', stack[top-7].instr);
@@ -163,6 +166,10 @@ top -= 1;
 }$
 25 : STATEMENTNO -> BREAK ${
 breaklist.append(nextinstr);
+gen('goto', -1);
+}$
+25 : STATEMENTNO -> CONTINUE ${
+continuelist.append(nextinstr);
 gen('goto', -1);
 }$
 26 : STATEMENTNO -> # ${
@@ -193,6 +200,12 @@ backpatch(stack[top-7].truelist, stack[top-1].instr);
 backpatch(stack[top].nextlist, stack[top-5].instr);
 backpatch(stack[top-3].nextlist, stack[top-8].instr);
 stack[top-12].nextlist = stack[top-7].falselist;
+
+if continuelist:
+    backpatch([continuelist.pop()], stack[top-8].instr);
+if breaklist:
+    stack[top-12].nextlist.append(breaklist.pop());
+
 gen('goto', stack[top-5].instr);
 top -= 12;
 }$

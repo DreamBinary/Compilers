@@ -1,20 +1,21 @@
 ==>> state: 0
 PROGRAM_ ->  . PROGRAM  index: 0 1    goto: 1
-PROGRAM ->  . STATEMENTLIST  index: 0 1    goto: 20
+PROGRAM ->  . STATEMENTLIST  index: 0 1    goto: 21
 STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
 STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
 STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
 STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
 STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
 STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
 STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
 STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
 STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
 STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
 VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
@@ -27,54 +28,54 @@ FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) 
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
 PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
 PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 Reduce: STATEMENTLIST -> EPSILON
 Reduce: TYPE -> EPSILON
 ==>> state: 1
 PROGRAM_ -> PROGRAM .   index: 1 1    goto: -2
 Reduce: PROGRAM_ -> PROGRAM
 ==>> state: 2
-STATEMENTNO -> VARIABLE . = ASSIGN  index: 1 3    goto: 33
+STATEMENTNO -> VARIABLE . = ASSIGN  index: 1 3    goto: 34
 VARIABLELIST -> VARIABLE .   index: 1 1    goto: -2
-VARIABLELIST -> VARIABLE . , VARIABLELIST  index: 1 3    goto: 36
-VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 35
-VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 35
+VARIABLELIST -> VARIABLE . , VARIABLELIST  index: 1 3    goto: 37
+VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 36
+VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 36
 PARTEXPR -> VARIABLE .   index: 1 1    goto: -2
-PARTEXPR -> VARIABLE . ( EXPRESSIONLIST )  index: 1 4    goto: 34
+PARTEXPR -> VARIABLE . ( EXPRESSIONLIST )  index: 1 4    goto: 35
 Reduce: VARIABLELIST -> VARIABLE
 Reduce: PARTEXPR -> VARIABLE
 ==>> state: 3
 STATEMENTNO -> VARIABLELIST .   index: 1 1    goto: -2
 Reduce: STATEMENTNO -> VARIABLELIST
 ==>> state: 4
-STATEMENTLIST -> STATEMENT . LABEL STATEMENTLIST  index: 1 3    goto: 37
+STATEMENTLIST -> STATEMENT . LABEL STATEMENTLIST  index: 1 3    goto: 38
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
 ==>> state: 5
 STATEMENT -> STATEMENTNO .   index: 1 1    goto: -2
-STATEMENT -> STATEMENTNO . ;  index: 1 2    goto: 38
+STATEMENT -> STATEMENTNO . ;  index: 1 2    goto: 39
 Reduce: STATEMENT -> STATEMENTNO
 ==>> state: 6
 STATEMENTNO -> IFSTMT .   index: 1 1    goto: -2
@@ -84,10 +85,10 @@ STATEMENTNO -> FORSTMT .   index: 1 1    goto: -2
 Reduce: STATEMENTNO -> FORSTMT
 ==>> state: 8
 EXPRESSIONLIST -> EXPRESSION .   index: 1 1    goto: -2
-EXPRESSIONLIST -> EXPRESSION . , EXPRESSIONLIST  index: 1 3    goto: 39
+EXPRESSIONLIST -> EXPRESSION . , EXPRESSIONLIST  index: 1 3    goto: 40
 Reduce: EXPRESSIONLIST -> EXPRESSION
 ==>> state: 9
-VARIABLE -> TYPE . IDENTIFIER  index: 1 2    goto: 40
+VARIABLE -> TYPE . IDENTIFIER  index: 1 2    goto: 41
 ==>> state: 10
 TYPE -> INTEGER .   index: 1 1    goto: -2
 Reduce: TYPE -> INTEGER
@@ -104,245 +105,249 @@ Reduce: PARTEXPR -> FLOAT
 PARTEXPR -> IDENTIFIER .   index: 1 1    goto: -2
 Reduce: PARTEXPR -> IDENTIFIER
 ==>> state: 15
-IFSTMT -> IF . ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 1 9    goto: 41
+IFSTMT -> IF . ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 1 9    goto: 42
 ==>> state: 16
-STATEMENTNO -> REPEAT . { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 1 10    goto: 42
+STATEMENTNO -> REPEAT . { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 1 10    goto: 43
 ==>> state: 17
-FORSTMT -> FOR . ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 1 13    goto: 43
+FORSTMT -> FOR . ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 1 13    goto: 44
 ==>> state: 18
 STATEMENTNO -> BREAK .   index: 1 1    goto: -2
 Reduce: STATEMENTNO -> BREAK
 ==>> state: 19
-STATEMENTNO -> RETURN . EXPRESSION  index: 1 2    goto: 45
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+STATEMENTNO -> CONTINUE .   index: 1 1    goto: -2
+Reduce: STATEMENTNO -> CONTINUE
+==>> state: 20
+STATEMENTNO -> RETURN . EXPRESSION  index: 1 2    goto: 46
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 20
+==>> state: 21
 PROGRAM -> STATEMENTLIST .   index: 1 1    goto: -2
 Reduce: PROGRAM -> STATEMENTLIST
-==>> state: 21
+==>> state: 22
 STATEMENTNO -> EXPRESSIONLIST .   index: 1 1    goto: -2
 Reduce: STATEMENTNO -> EXPRESSIONLIST
-==>> state: 22
-EXPRESSION -> COMPUTEEXPR .   index: 1 1    goto: -2
-COMPAREEXPR -> COMPUTEEXPR . COMPAREOP COMPUTEEXPR  index: 1 3    goto: 46
-COMPAREOP ->  . <  index: 0 1    goto: 47
-COMPAREOP ->  . >  index: 0 1    goto: 48
-COMPAREOP ->  . <=  index: 0 1    goto: 49
-COMPAREOP ->  . >=  index: 0 1    goto: 50
-COMPAREOP ->  . ==  index: 0 1    goto: 51
-COMPAREOP ->  . !=  index: 0 1    goto: 52
-Reduce: EXPRESSION -> COMPUTEEXPR
 ==>> state: 23
-CONDITION -> COMPAREEXPR .   index: 1 1    goto: -2
-BOOLEXPR -> COMPAREEXPR . && LABEL COMPAREEXPR  index: 1 4    goto: 53
-BOOLEXPR -> COMPAREEXPR . || LABEL COMPAREEXPR  index: 1 4    goto: 54
-Reduce: CONDITION -> COMPAREEXPR
+EXPRESSION -> COMPUTEEXPR .   index: 1 1    goto: -2
+COMPAREEXPR -> COMPUTEEXPR . COMPAREOP COMPUTEEXPR  index: 1 3    goto: 47
+COMPAREOP ->  . <  index: 0 1    goto: 48
+COMPAREOP ->  . >  index: 0 1    goto: 49
+COMPAREOP ->  . <=  index: 0 1    goto: 50
+COMPAREOP ->  . >=  index: 0 1    goto: 51
+COMPAREOP ->  . ==  index: 0 1    goto: 52
+COMPAREOP ->  . !=  index: 0 1    goto: 53
+Reduce: EXPRESSION -> COMPUTEEXPR
 ==>> state: 24
+CONDITION -> COMPAREEXPR .   index: 1 1    goto: -2
+BOOLEXPR -> COMPAREEXPR . && LABEL COMPAREEXPR  index: 1 4    goto: 54
+BOOLEXPR -> COMPAREEXPR . || LABEL COMPAREEXPR  index: 1 4    goto: 55
+Reduce: CONDITION -> COMPAREEXPR
+==>> state: 25
 EXPRESSION -> CONDITION .   index: 1 1    goto: -2
 Reduce: EXPRESSION -> CONDITION
-==>> state: 25
+==>> state: 26
 EXPRESSION -> PARTEXPR .   index: 1 1    goto: -2
-PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 56
+PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 57
 INCEXPR -> PARTEXPR .   index: 1 1    goto: -2
-INCEXPR -> PARTEXPR . INCOP  index: 1 2    goto: 55
+INCEXPR -> PARTEXPR . INCOP  index: 1 2    goto: 56
 MULEXPR -> PARTEXPR .   index: 1 1    goto: -2
-INCOP ->  . ++  index: 0 1    goto: 57
-INCOP ->  . --  index: 0 1    goto: 58
+INCOP ->  . ++  index: 0 1    goto: 58
+INCOP ->  . --  index: 0 1    goto: 59
 Reduce: EXPRESSION -> PARTEXPR
 Reduce: INCEXPR -> PARTEXPR
 Reduce: MULEXPR -> PARTEXPR
-==>> state: 26
-COMPUTEEXPR -> SUMEXPR .   index: 1 1    goto: -2
-SUMEXPR -> SUMEXPR . SUMOP MULEXPR  index: 1 3    goto: 59
-SUMOP ->  . +  index: 0 1    goto: 60
-SUMOP ->  . -  index: 0 1    goto: 61
-Reduce: COMPUTEEXPR -> SUMEXPR
 ==>> state: 27
-SUMEXPR -> MULEXPR .   index: 1 1    goto: -2
-MULEXPR -> MULEXPR . MULOP PARTEXPR  index: 1 3    goto: 62
-MULOP ->  . *  index: 0 1    goto: 63
-MULOP ->  . /  index: 0 1    goto: 64
-Reduce: SUMEXPR -> MULEXPR
+COMPUTEEXPR -> SUMEXPR .   index: 1 1    goto: -2
+SUMEXPR -> SUMEXPR . SUMOP MULEXPR  index: 1 3    goto: 60
+SUMOP ->  . +  index: 0 1    goto: 61
+SUMOP ->  . -  index: 0 1    goto: 62
+Reduce: COMPUTEEXPR -> SUMEXPR
 ==>> state: 28
+SUMEXPR -> MULEXPR .   index: 1 1    goto: -2
+MULEXPR -> MULEXPR . MULOP PARTEXPR  index: 1 3    goto: 63
+MULOP ->  . *  index: 0 1    goto: 64
+MULOP ->  . /  index: 0 1    goto: 65
+Reduce: SUMEXPR -> MULEXPR
+==>> state: 29
 COMPUTEEXPR -> INCEXPR .   index: 1 1    goto: -2
 Reduce: COMPUTEEXPR -> INCEXPR
-==>> state: 29
+==>> state: 30
 CONDITION -> BOOLEXPR .   index: 1 1    goto: -2
 Reduce: CONDITION -> BOOLEXPR
-==>> state: 30
-STATEMENTNO -> DO . { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 1 10    goto: 65
 ==>> state: 31
-PARTEXPR -> ( . EXPRESSION )  index: 1 3    goto: 66
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+STATEMENTNO -> DO . { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 1 10    goto: 66
+==>> state: 32
+PARTEXPR -> ( . EXPRESSION )  index: 1 3    goto: 67
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 32
+==>> state: 33
 STATEMENTNO -> # .   index: 1 1    goto: -2
 Reduce: STATEMENTNO -> #
-==>> state: 33
-STATEMENTNO -> VARIABLE = . ASSIGN  index: 2 3    goto: 70
-ASSIGN ->  . EXPRESSION  index: 0 1    goto: 69
-ASSIGN ->  . FUN  index: 0 1    goto: 67
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-FUN ->  . FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 68
-FUN ->  . FUNCTION ( EXPRESSIONLIST )  index: 0 4    goto: 68
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
 ==>> state: 34
-PARTEXPR -> VARIABLE ( . EXPRESSIONLIST )  index: 2 4    goto: 71
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
-EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+STATEMENTNO -> VARIABLE = . ASSIGN  index: 2 3    goto: 71
+ASSIGN ->  . EXPRESSION  index: 0 1    goto: 70
+ASSIGN ->  . FUN  index: 0 1    goto: 68
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+FUN ->  . FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 0 7    goto: 69
+FUN ->  . FUNCTION ( EXPRESSIONLIST )  index: 0 4    goto: 69
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 35
-VARIABLE -> VARIABLE [ . INDEX ]  index: 2 4    goto: 74
-VARIABLE -> VARIABLE [ . INDEX ] [ INDEX ]  index: 2 7    goto: 74
-INDEX ->  . INT  index: 0 1    goto: 73
-INDEX ->  . VARIABLE  index: 0 1    goto: 72
+PARTEXPR -> VARIABLE ( . EXPRESSIONLIST )  index: 2 4    goto: 72
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
+EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 72
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 72
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 36
-VARIABLELIST -> VARIABLE , . VARIABLELIST  index: 2 3    goto: 76
-VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 75
-VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 75
+VARIABLE -> VARIABLE [ . INDEX ]  index: 2 4    goto: 75
+VARIABLE -> VARIABLE [ . INDEX ] [ INDEX ]  index: 2 7    goto: 75
+INDEX ->  . INT  index: 0 1    goto: 74
+INDEX ->  . VARIABLE  index: 0 1    goto: 73
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 75
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 75
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 73
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 73
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 37
-STATEMENTLIST -> STATEMENT LABEL . STATEMENTLIST  index: 2 3    goto: 77
+VARIABLELIST -> VARIABLE , . VARIABLELIST  index: 2 3    goto: 77
+VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 76
+VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 76
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 76
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 76
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 38
+STATEMENTLIST -> STATEMENT LABEL . STATEMENTLIST  index: 2 3    goto: 78
 STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
 STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
 STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
 STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
 STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
 STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
 STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
 STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
 STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
 STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
 VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
@@ -355,347 +360,348 @@ FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) 
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
 PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
 PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 Reduce: STATEMENTLIST -> EPSILON
 Reduce: TYPE -> EPSILON
-==>> state: 38
+==>> state: 39
 STATEMENT -> STATEMENTNO ; .   index: 2 2    goto: -2
 Reduce: STATEMENT -> STATEMENTNO ;
-==>> state: 39
-EXPRESSIONLIST -> EXPRESSION , . EXPRESSIONLIST  index: 2 3    goto: 78
+==>> state: 40
+EXPRESSIONLIST -> EXPRESSION , . EXPRESSIONLIST  index: 2 3    goto: 79
 EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
 EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 40
+==>> state: 41
 VARIABLE -> TYPE IDENTIFIER .   index: 2 2    goto: -2
 Reduce: VARIABLE -> TYPE IDENTIFIER
-==>> state: 41
-IFSTMT -> IF ( . CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 2 9    goto: 80
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+==>> state: 42
+IFSTMT -> IF ( . CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 2 9    goto: 81
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 42
-STATEMENTNO -> REPEAT { . LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 2 10    goto: 82
+==>> state: 43
+STATEMENTNO -> REPEAT { . LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 2 10    goto: 83
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
-==>> state: 43
-FORSTMT -> FOR ( . EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 2 13    goto: 83
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+==>> state: 44
+FORSTMT -> FOR ( . EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 2 13    goto: 84
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 44
-PARTEXPR -> VARIABLE .   index: 1 1    goto: -2
-PARTEXPR -> VARIABLE . ( EXPRESSIONLIST )  index: 1 4    goto: 34
-VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 35
-VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 35
-Reduce: PARTEXPR -> VARIABLE
 ==>> state: 45
+PARTEXPR -> VARIABLE .   index: 1 1    goto: -2
+PARTEXPR -> VARIABLE . ( EXPRESSIONLIST )  index: 1 4    goto: 35
+VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 36
+VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 36
+Reduce: PARTEXPR -> VARIABLE
+==>> state: 46
 STATEMENTNO -> RETURN EXPRESSION .   index: 2 2    goto: -2
 Reduce: STATEMENTNO -> RETURN EXPRESSION
-==>> state: 46
-COMPAREEXPR -> COMPUTEEXPR COMPAREOP . COMPUTEEXPR  index: 2 3    goto: 84
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+==>> state: 47
+COMPAREEXPR -> COMPUTEEXPR COMPAREOP . COMPUTEEXPR  index: 2 3    goto: 85
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 47
+==>> state: 48
 COMPAREOP -> < .   index: 1 1    goto: -2
 Reduce: COMPAREOP -> <
-==>> state: 48
+==>> state: 49
 COMPAREOP -> > .   index: 1 1    goto: -2
 Reduce: COMPAREOP -> >
-==>> state: 49
+==>> state: 50
 COMPAREOP -> <= .   index: 1 1    goto: -2
 Reduce: COMPAREOP -> <=
-==>> state: 50
+==>> state: 51
 COMPAREOP -> >= .   index: 1 1    goto: -2
 Reduce: COMPAREOP -> >=
-==>> state: 51
+==>> state: 52
 COMPAREOP -> == .   index: 1 1    goto: -2
 Reduce: COMPAREOP -> ==
-==>> state: 52
+==>> state: 53
 COMPAREOP -> != .   index: 1 1    goto: -2
 Reduce: COMPAREOP -> !=
-==>> state: 53
-BOOLEXPR -> COMPAREEXPR && . LABEL COMPAREEXPR  index: 2 4    goto: 85
-LABEL -> EPSILON .   index: 1 1    goto: -2
-Reduce: LABEL -> EPSILON
 ==>> state: 54
-BOOLEXPR -> COMPAREEXPR || . LABEL COMPAREEXPR  index: 2 4    goto: 86
+BOOLEXPR -> COMPAREEXPR && . LABEL COMPAREEXPR  index: 2 4    goto: 86
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
 ==>> state: 55
+BOOLEXPR -> COMPAREEXPR || . LABEL COMPAREEXPR  index: 2 4    goto: 87
+LABEL -> EPSILON .   index: 1 1    goto: -2
+Reduce: LABEL -> EPSILON
+==>> state: 56
 INCEXPR -> PARTEXPR INCOP .   index: 2 2    goto: -2
 Reduce: INCEXPR -> PARTEXPR INCOP
-==>> state: 56
-PARTEXPR -> PARTEXPR = . PARTEXPR  index: 2 3    goto: 87
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 87
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
 ==>> state: 57
-INCOP -> ++ .   index: 1 1    goto: -2
-Reduce: INCOP -> ++
-==>> state: 58
-INCOP -> -- .   index: 1 1    goto: -2
-Reduce: INCOP -> --
-==>> state: 59
-SUMEXPR -> SUMEXPR SUMOP . MULEXPR  index: 2 3    goto: 89
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 89
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 88
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+PARTEXPR -> PARTEXPR = . PARTEXPR  index: 2 3    goto: 88
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
 PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 88
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
+==>> state: 58
+INCOP -> ++ .   index: 1 1    goto: -2
+Reduce: INCOP -> ++
+==>> state: 59
+INCOP -> -- .   index: 1 1    goto: -2
+Reduce: INCOP -> --
 ==>> state: 60
-SUMOP -> + .   index: 1 1    goto: -2
-Reduce: SUMOP -> +
-==>> state: 61
-SUMOP -> - .   index: 1 1    goto: -2
-Reduce: SUMOP -> -
-==>> state: 62
-MULEXPR -> MULEXPR MULOP . PARTEXPR  index: 2 3    goto: 90
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+SUMEXPR -> SUMEXPR SUMOP . MULEXPR  index: 2 3    goto: 90
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 90
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 89
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 90
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 89
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
+==>> state: 61
+SUMOP -> + .   index: 1 1    goto: -2
+Reduce: SUMOP -> +
+==>> state: 62
+SUMOP -> - .   index: 1 1    goto: -2
+Reduce: SUMOP -> -
 ==>> state: 63
+MULEXPR -> MULEXPR MULOP . PARTEXPR  index: 2 3    goto: 91
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 91
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 64
 MULOP -> * .   index: 1 1    goto: -2
 Reduce: MULOP -> *
-==>> state: 64
+==>> state: 65
 MULOP -> / .   index: 1 1    goto: -2
 Reduce: MULOP -> /
-==>> state: 65
-STATEMENTNO -> DO { . LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 2 10    goto: 91
+==>> state: 66
+STATEMENTNO -> DO { . LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 2 10    goto: 92
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
-==>> state: 66
-PARTEXPR -> ( EXPRESSION . )  index: 2 3    goto: 92
 ==>> state: 67
+PARTEXPR -> ( EXPRESSION . )  index: 2 3    goto: 93
+==>> state: 68
 ASSIGN -> FUN .   index: 1 1    goto: -2
 Reduce: ASSIGN -> FUN
-==>> state: 68
-FUN -> FUNCTION . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 7    goto: 93
-FUN -> FUNCTION . ( EXPRESSIONLIST )  index: 1 4    goto: 93
 ==>> state: 69
+FUN -> FUNCTION . ( EXPRESSIONLIST ) { STATEMENTLIST }  index: 1 7    goto: 94
+FUN -> FUNCTION . ( EXPRESSIONLIST )  index: 1 4    goto: 94
+==>> state: 70
 ASSIGN -> EXPRESSION .   index: 1 1    goto: -2
 Reduce: ASSIGN -> EXPRESSION
-==>> state: 70
+==>> state: 71
 STATEMENTNO -> VARIABLE = ASSIGN .   index: 3 3    goto: -2
 Reduce: STATEMENTNO -> VARIABLE = ASSIGN
-==>> state: 71
-PARTEXPR -> VARIABLE ( EXPRESSIONLIST . )  index: 3 4    goto: 94
 ==>> state: 72
-INDEX -> VARIABLE .   index: 1 1    goto: -2
-VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 35
-VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 35
-Reduce: INDEX -> VARIABLE
+PARTEXPR -> VARIABLE ( EXPRESSIONLIST . )  index: 3 4    goto: 95
 ==>> state: 73
+INDEX -> VARIABLE .   index: 1 1    goto: -2
+VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 36
+VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 36
+Reduce: INDEX -> VARIABLE
+==>> state: 74
 INDEX -> INT .   index: 1 1    goto: -2
 Reduce: INDEX -> INT
-==>> state: 74
-VARIABLE -> VARIABLE [ INDEX . ]  index: 3 4    goto: 95
-VARIABLE -> VARIABLE [ INDEX . ] [ INDEX ]  index: 3 7    goto: 95
 ==>> state: 75
-VARIABLELIST -> VARIABLE .   index: 1 1    goto: -2
-VARIABLELIST -> VARIABLE . , VARIABLELIST  index: 1 3    goto: 36
-VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 35
-VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 35
-Reduce: VARIABLELIST -> VARIABLE
+VARIABLE -> VARIABLE [ INDEX . ]  index: 3 4    goto: 96
+VARIABLE -> VARIABLE [ INDEX . ] [ INDEX ]  index: 3 7    goto: 96
 ==>> state: 76
+VARIABLELIST -> VARIABLE .   index: 1 1    goto: -2
+VARIABLELIST -> VARIABLE . , VARIABLELIST  index: 1 3    goto: 37
+VARIABLE -> VARIABLE . [ INDEX ]  index: 1 4    goto: 36
+VARIABLE -> VARIABLE . [ INDEX ] [ INDEX ]  index: 1 7    goto: 36
+Reduce: VARIABLELIST -> VARIABLE
+==>> state: 77
 VARIABLELIST -> VARIABLE , VARIABLELIST .   index: 3 3    goto: -2
 Reduce: VARIABLELIST -> VARIABLE , VARIABLELIST
-==>> state: 77
+==>> state: 78
 STATEMENTLIST -> STATEMENT LABEL STATEMENTLIST .   index: 3 3    goto: -2
 Reduce: STATEMENTLIST -> STATEMENT LABEL STATEMENTLIST
-==>> state: 78
+==>> state: 79
 EXPRESSIONLIST -> EXPRESSION , EXPRESSIONLIST .   index: 3 3    goto: -2
 Reduce: EXPRESSIONLIST -> EXPRESSION , EXPRESSIONLIST
-==>> state: 79
-COMPAREEXPR -> COMPUTEEXPR . COMPAREOP COMPUTEEXPR  index: 1 3    goto: 46
-COMPAREOP ->  . <  index: 0 1    goto: 47
-COMPAREOP ->  . >  index: 0 1    goto: 48
-COMPAREOP ->  . <=  index: 0 1    goto: 49
-COMPAREOP ->  . >=  index: 0 1    goto: 50
-COMPAREOP ->  . ==  index: 0 1    goto: 51
-COMPAREOP ->  . !=  index: 0 1    goto: 52
 ==>> state: 80
-IFSTMT -> IF ( CONDITION . ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 3 9    goto: 96
+COMPAREEXPR -> COMPUTEEXPR . COMPAREOP COMPUTEEXPR  index: 1 3    goto: 47
+COMPAREOP ->  . <  index: 0 1    goto: 48
+COMPAREOP ->  . >  index: 0 1    goto: 49
+COMPAREOP ->  . <=  index: 0 1    goto: 50
+COMPAREOP ->  . >=  index: 0 1    goto: 51
+COMPAREOP ->  . ==  index: 0 1    goto: 52
+COMPAREOP ->  . !=  index: 0 1    goto: 53
 ==>> state: 81
+IFSTMT -> IF ( CONDITION . ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 3 9    goto: 97
+==>> state: 82
 INCEXPR -> PARTEXPR .   index: 1 1    goto: -2
-INCEXPR -> PARTEXPR . INCOP  index: 1 2    goto: 55
+INCEXPR -> PARTEXPR . INCOP  index: 1 2    goto: 56
 MULEXPR -> PARTEXPR .   index: 1 1    goto: -2
-PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 56
-INCOP ->  . ++  index: 0 1    goto: 57
-INCOP ->  . --  index: 0 1    goto: 58
+PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 57
+INCOP ->  . ++  index: 0 1    goto: 58
+INCOP ->  . --  index: 0 1    goto: 59
 Reduce: INCEXPR -> PARTEXPR
 Reduce: MULEXPR -> PARTEXPR
-==>> state: 82
-STATEMENTNO -> REPEAT { LABEL . STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 3 10    goto: 97
+==>> state: 83
+STATEMENTNO -> REPEAT { LABEL . STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 3 10    goto: 98
 STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
 STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
 STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
 STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
 STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
 STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
 STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
 STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
 STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
 STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
 VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
@@ -708,120 +714,121 @@ FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) 
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
 PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
 PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 Reduce: STATEMENTLIST -> EPSILON
 Reduce: TYPE -> EPSILON
-==>> state: 83
-FORSTMT -> FOR ( EXPRESSION . ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 3 13    goto: 98
 ==>> state: 84
+FORSTMT -> FOR ( EXPRESSION . ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 3 13    goto: 99
+==>> state: 85
 COMPAREEXPR -> COMPUTEEXPR COMPAREOP COMPUTEEXPR .   index: 3 3    goto: -2
 Reduce: COMPAREEXPR -> COMPUTEEXPR COMPAREOP COMPUTEEXPR
-==>> state: 85
-BOOLEXPR -> COMPAREEXPR && LABEL . COMPAREEXPR  index: 3 4    goto: 99
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
 ==>> state: 86
-BOOLEXPR -> COMPAREEXPR || LABEL . COMPAREEXPR  index: 3 4    goto: 100
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+BOOLEXPR -> COMPAREEXPR && LABEL . COMPAREEXPR  index: 3 4    goto: 100
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 87
-PARTEXPR -> PARTEXPR = PARTEXPR .   index: 3 3    goto: -2
-PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 56
-Reduce: PARTEXPR -> PARTEXPR = PARTEXPR
+BOOLEXPR -> COMPAREEXPR || LABEL . COMPAREEXPR  index: 3 4    goto: 101
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
 ==>> state: 88
-MULEXPR -> PARTEXPR .   index: 1 1    goto: -2
-PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 56
-Reduce: MULEXPR -> PARTEXPR
+PARTEXPR -> PARTEXPR = PARTEXPR .   index: 3 3    goto: -2
+PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 57
+Reduce: PARTEXPR -> PARTEXPR = PARTEXPR
 ==>> state: 89
-SUMEXPR -> SUMEXPR SUMOP MULEXPR .   index: 3 3    goto: -2
-MULEXPR -> MULEXPR . MULOP PARTEXPR  index: 1 3    goto: 62
-MULOP ->  . *  index: 0 1    goto: 63
-MULOP ->  . /  index: 0 1    goto: 64
-Reduce: SUMEXPR -> SUMEXPR SUMOP MULEXPR
+MULEXPR -> PARTEXPR .   index: 1 1    goto: -2
+PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 57
+Reduce: MULEXPR -> PARTEXPR
 ==>> state: 90
-MULEXPR -> MULEXPR MULOP PARTEXPR .   index: 3 3    goto: -2
-PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 56
-Reduce: MULEXPR -> MULEXPR MULOP PARTEXPR
+SUMEXPR -> SUMEXPR SUMOP MULEXPR .   index: 3 3    goto: -2
+MULEXPR -> MULEXPR . MULOP PARTEXPR  index: 1 3    goto: 63
+MULOP ->  . *  index: 0 1    goto: 64
+MULOP ->  . /  index: 0 1    goto: 65
+Reduce: SUMEXPR -> SUMEXPR SUMOP MULEXPR
 ==>> state: 91
-STATEMENTNO -> DO { LABEL . STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 3 10    goto: 101
+MULEXPR -> MULEXPR MULOP PARTEXPR .   index: 3 3    goto: -2
+PARTEXPR -> PARTEXPR . = PARTEXPR  index: 1 3    goto: 57
+Reduce: MULEXPR -> MULEXPR MULOP PARTEXPR
+==>> state: 92
+STATEMENTNO -> DO { LABEL . STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 3 10    goto: 102
 STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
 STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
 STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
 STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
 STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
 STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
 STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
 STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
 STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
 STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
 VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
@@ -834,281 +841,224 @@ FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) 
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
 PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
 PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 Reduce: STATEMENTLIST -> EPSILON
 Reduce: TYPE -> EPSILON
-==>> state: 92
+==>> state: 93
 PARTEXPR -> ( EXPRESSION ) .   index: 3 3    goto: -2
 Reduce: PARTEXPR -> ( EXPRESSION )
-==>> state: 93
-FUN -> FUNCTION ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 7    goto: 102
-FUN -> FUNCTION ( . EXPRESSIONLIST )  index: 2 4    goto: 102
+==>> state: 94
+FUN -> FUNCTION ( . EXPRESSIONLIST ) { STATEMENTLIST }  index: 2 7    goto: 103
+FUN -> FUNCTION ( . EXPRESSIONLIST )  index: 2 4    goto: 103
 EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
 EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 94
+==>> state: 95
 PARTEXPR -> VARIABLE ( EXPRESSIONLIST ) .   index: 4 4    goto: -2
 Reduce: PARTEXPR -> VARIABLE ( EXPRESSIONLIST )
-==>> state: 95
-VARIABLE -> VARIABLE [ INDEX ] .   index: 4 4    goto: -2
-VARIABLE -> VARIABLE [ INDEX ] . [ INDEX ]  index: 4 7    goto: 103
-Reduce: VARIABLE -> VARIABLE [ INDEX ]
 ==>> state: 96
-IFSTMT -> IF ( CONDITION ) . LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 4 9    goto: 104
-LABEL -> EPSILON .   index: 1 1    goto: -2
-Reduce: LABEL -> EPSILON
+VARIABLE -> VARIABLE [ INDEX ] .   index: 4 4    goto: -2
+VARIABLE -> VARIABLE [ INDEX ] . [ INDEX ]  index: 4 7    goto: 104
+Reduce: VARIABLE -> VARIABLE [ INDEX ]
 ==>> state: 97
-STATEMENTNO -> REPEAT { LABEL STATEMENTLIST . } UNTIL ( LABEL CONDITION )  index: 4 10    goto: 105
-==>> state: 98
-FORSTMT -> FOR ( EXPRESSION ; . LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 4 13    goto: 106
+IFSTMT -> IF ( CONDITION ) . LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 4 9    goto: 105
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
+==>> state: 98
+STATEMENTNO -> REPEAT { LABEL STATEMENTLIST . } UNTIL ( LABEL CONDITION )  index: 4 10    goto: 106
 ==>> state: 99
+FORSTMT -> FOR ( EXPRESSION ; . LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 4 13    goto: 107
+LABEL -> EPSILON .   index: 1 1    goto: -2
+Reduce: LABEL -> EPSILON
+==>> state: 100
 BOOLEXPR -> COMPAREEXPR && LABEL COMPAREEXPR .   index: 4 4    goto: -2
 Reduce: BOOLEXPR -> COMPAREEXPR && LABEL COMPAREEXPR
-==>> state: 100
+==>> state: 101
 BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR .   index: 4 4    goto: -2
 Reduce: BOOLEXPR -> COMPAREEXPR || LABEL COMPAREEXPR
-==>> state: 101
-STATEMENTNO -> DO { LABEL STATEMENTLIST . } WHILE ( LABEL CONDITION )  index: 4 10    goto: 107
 ==>> state: 102
-FUN -> FUNCTION ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 3 7    goto: 108
-FUN -> FUNCTION ( EXPRESSIONLIST . )  index: 3 4    goto: 108
+STATEMENTNO -> DO { LABEL STATEMENTLIST . } WHILE ( LABEL CONDITION )  index: 4 10    goto: 108
 ==>> state: 103
-VARIABLE -> VARIABLE [ INDEX ] [ . INDEX ]  index: 5 7    goto: 109
-INDEX ->  . INT  index: 0 1    goto: 73
-INDEX ->  . VARIABLE  index: 0 1    goto: 72
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 72
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 72
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
+FUN -> FUNCTION ( EXPRESSIONLIST . ) { STATEMENTLIST }  index: 3 7    goto: 109
+FUN -> FUNCTION ( EXPRESSIONLIST . )  index: 3 4    goto: 109
 ==>> state: 104
-IFSTMT -> IF ( CONDITION ) LABEL . BLOCK GOTOLABEL LABEL ELIFSTMT  index: 5 9    goto: 111
-BLOCK ->  . STATEMENT  index: 0 1    goto: 110
-BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 112
-STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
-STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
-STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
-STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
-STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
-STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
-STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
-STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
-VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
-VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
+VARIABLE -> VARIABLE [ INDEX ] [ . INDEX ]  index: 5 7    goto: 110
+INDEX ->  . INT  index: 0 1    goto: 74
+INDEX ->  . VARIABLE  index: 0 1    goto: 73
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
-EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
-FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 73
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 73
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
 Reduce: TYPE -> EPSILON
 ==>> state: 105
-STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } . UNTIL ( LABEL CONDITION )  index: 5 10    goto: 113
-==>> state: 106
-FORSTMT -> FOR ( EXPRESSION ; LABEL . CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 5 13    goto: 114
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+IFSTMT -> IF ( CONDITION ) LABEL . BLOCK GOTOLABEL LABEL ELIFSTMT  index: 5 9    goto: 112
+BLOCK ->  . STATEMENT  index: 0 1    goto: 111
+BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 113
+STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
+STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
+STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
+STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
+STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
+STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
+STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
+STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
+VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
+VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
+EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
+IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
+FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+Reduce: TYPE -> EPSILON
+==>> state: 106
+STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } . UNTIL ( LABEL CONDITION )  index: 5 10    goto: 114
+==>> state: 107
+FORSTMT -> FOR ( EXPRESSION ; LABEL . CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 5 13    goto: 115
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 107
-STATEMENTNO -> DO { LABEL STATEMENTLIST } . WHILE ( LABEL CONDITION )  index: 5 10    goto: 115
 ==>> state: 108
-FUN -> FUNCTION ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 4 7    goto: 116
+STATEMENTNO -> DO { LABEL STATEMENTLIST } . WHILE ( LABEL CONDITION )  index: 5 10    goto: 116
+==>> state: 109
+FUN -> FUNCTION ( EXPRESSIONLIST ) . { STATEMENTLIST }  index: 4 7    goto: 117
 FUN -> FUNCTION ( EXPRESSIONLIST ) .   index: 4 4    goto: -2
 Reduce: FUN -> FUNCTION ( EXPRESSIONLIST )
-==>> state: 109
-VARIABLE -> VARIABLE [ INDEX ] [ INDEX . ]  index: 6 7    goto: 117
 ==>> state: 110
+VARIABLE -> VARIABLE [ INDEX ] [ INDEX . ]  index: 6 7    goto: 118
+==>> state: 111
 BLOCK -> STATEMENT .   index: 1 1    goto: -2
 Reduce: BLOCK -> STATEMENT
-==>> state: 111
-IFSTMT -> IF ( CONDITION ) LABEL BLOCK . GOTOLABEL LABEL ELIFSTMT  index: 6 9    goto: 118
+==>> state: 112
+IFSTMT -> IF ( CONDITION ) LABEL BLOCK . GOTOLABEL LABEL ELIFSTMT  index: 6 9    goto: 119
 GOTOLABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: GOTOLABEL -> EPSILON
-==>> state: 112
-BLOCK -> { . STATEMENTLIST }  index: 1 3    goto: 119
-STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
-STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
-STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
-STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
-STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
-STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
-STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
-STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
-STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
-STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
-VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
-VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
-EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
-FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-Reduce: STATEMENTLIST -> EPSILON
-Reduce: TYPE -> EPSILON
 ==>> state: 113
-STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL . ( LABEL CONDITION )  index: 6 10    goto: 120
-==>> state: 114
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION . ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 6 13    goto: 121
-==>> state: 115
-STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE . ( LABEL CONDITION )  index: 6 10    goto: 122
-==>> state: 116
-FUN -> FUNCTION ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 5 7    goto: 123
+BLOCK -> { . STATEMENTLIST }  index: 1 3    goto: 120
 STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
 STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
 STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
 STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
 STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
 STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
 STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
 STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
 STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
 STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
 VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
@@ -1121,175 +1071,236 @@ FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) 
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
 PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
 PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 Reduce: STATEMENTLIST -> EPSILON
 Reduce: TYPE -> EPSILON
+==>> state: 114
+STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL . ( LABEL CONDITION )  index: 6 10    goto: 121
+==>> state: 115
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION . ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 6 13    goto: 122
+==>> state: 116
+STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE . ( LABEL CONDITION )  index: 6 10    goto: 123
 ==>> state: 117
+FUN -> FUNCTION ( EXPRESSIONLIST ) { . STATEMENTLIST }  index: 5 7    goto: 124
+STATEMENTLIST ->  . STATEMENT LABEL STATEMENTLIST  index: 0 3    goto: 4
+STATEMENTLIST -> EPSILON .   index: 1 1    goto: -2
+STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
+STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
+STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
+STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
+STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
+STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
+STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
+STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
+VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
+VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
+EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
+IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
+FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+Reduce: STATEMENTLIST -> EPSILON
+Reduce: TYPE -> EPSILON
+==>> state: 118
 VARIABLE -> VARIABLE [ INDEX ] [ INDEX ] .   index: 7 7    goto: -2
 Reduce: VARIABLE -> VARIABLE [ INDEX ] [ INDEX ]
-==>> state: 118
-IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL . LABEL ELIFSTMT  index: 7 9    goto: 124
-LABEL -> EPSILON .   index: 1 1    goto: -2
-Reduce: LABEL -> EPSILON
 ==>> state: 119
-BLOCK -> { STATEMENTLIST . }  index: 2 3    goto: 125
-==>> state: 120
-STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( . LABEL CONDITION )  index: 7 10    goto: 126
+IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL . LABEL ELIFSTMT  index: 7 9    goto: 125
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
+==>> state: 120
+BLOCK -> { STATEMENTLIST . }  index: 2 3    goto: 126
 ==>> state: 121
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; . LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 7 13    goto: 127
+STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( . LABEL CONDITION )  index: 7 10    goto: 127
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
 ==>> state: 122
-STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( . LABEL CONDITION )  index: 7 10    goto: 128
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; . LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 7 13    goto: 128
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
 ==>> state: 123
-FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 6 7    goto: 129
+STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( . LABEL CONDITION )  index: 7 10    goto: 129
+LABEL -> EPSILON .   index: 1 1    goto: -2
+Reduce: LABEL -> EPSILON
 ==>> state: 124
-IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL . ELIFSTMT  index: 8 9    goto: 130
-ELIFSTMT ->  . ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 132
-ELIFSTMT ->  . ELSE BLOCK  index: 0 2    goto: 131
+FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST . }  index: 6 7    goto: 130
+==>> state: 125
+IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL . ELIFSTMT  index: 8 9    goto: 131
+ELIFSTMT ->  . ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 133
+ELIFSTMT ->  . ELSE BLOCK  index: 0 2    goto: 132
 ELIFSTMT -> EPSILON .   index: 1 1    goto: -2
 Reduce: ELIFSTMT -> EPSILON
-==>> state: 125
+==>> state: 126
 BLOCK -> { STATEMENTLIST } .   index: 3 3    goto: -2
 Reduce: BLOCK -> { STATEMENTLIST }
-==>> state: 126
-STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL . CONDITION )  index: 8 10    goto: 133
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-Reduce: TYPE -> EPSILON
 ==>> state: 127
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL . EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 8 13    goto: 134
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL . CONDITION )  index: 8 10    goto: 134
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 128
-STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL . CONDITION )  index: 8 10    goto: 135
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL . EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 8 13    goto: 135
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
 ==>> state: 129
+STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL . CONDITION )  index: 8 10    goto: 136
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+Reduce: TYPE -> EPSILON
+==>> state: 130
 FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST } .   index: 7 7    goto: -2
 Reduce: FUN -> FUNCTION ( EXPRESSIONLIST ) { STATEMENTLIST }
-==>> state: 130
+==>> state: 131
 IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT .   index: 9 9    goto: -2
 Reduce: IFSTMT -> IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT
-==>> state: 131
-ELIFSTMT -> ELSE . BLOCK  index: 1 2    goto: 136
-BLOCK ->  . STATEMENT  index: 0 1    goto: 110
-BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 112
+==>> state: 132
+ELIFSTMT -> ELSE . BLOCK  index: 1 2    goto: 137
+BLOCK ->  . STATEMENT  index: 0 1    goto: 111
+BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 113
 STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
 STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
 STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
 STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
 STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
 STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
 STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
 STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
 VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
 VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
@@ -1302,211 +1313,213 @@ FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) 
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
 PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
 PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
 Reduce: TYPE -> EPSILON
-==>> state: 132
-ELIFSTMT -> ELSEIF . ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 1 9    goto: 137
 ==>> state: 133
-STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION . )  index: 9 10    goto: 138
+ELIFSTMT -> ELSEIF . ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 1 9    goto: 138
 ==>> state: 134
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION . GOTOLABEL ) LABEL BLOCK  index: 9 13    goto: 139
+STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION . )  index: 9 10    goto: 139
+==>> state: 135
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION . GOTOLABEL ) LABEL BLOCK  index: 9 13    goto: 140
 GOTOLABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: GOTOLABEL -> EPSILON
-==>> state: 135
-STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION . )  index: 9 10    goto: 140
 ==>> state: 136
+STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION . )  index: 9 10    goto: 141
+==>> state: 137
 ELIFSTMT -> ELSE BLOCK .   index: 2 2    goto: -2
 Reduce: ELIFSTMT -> ELSE BLOCK
-==>> state: 137
-ELIFSTMT -> ELSEIF ( . CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 2 9    goto: 141
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 79
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 81
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 81
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 44
+==>> state: 138
+ELIFSTMT -> ELSEIF ( . CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 2 9    goto: 142
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 80
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 82
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 82
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 45
 PARTEXPR ->  . INT  index: 0 1    goto: 11
 PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
 PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 81
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 44
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 82
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 45
 VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 44
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 44
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 45
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 45
 TYPE ->  . INTEGER  index: 0 1    goto: 10
 TYPE ->  . DOUBLE  index: 0 1    goto: 12
 TYPE -> EPSILON .   index: 1 1    goto: -2
 Reduce: TYPE -> EPSILON
-==>> state: 138
+==>> state: 139
 STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION ) .   index: 10 10    goto: -2
 Reduce: STATEMENTNO -> REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )
-==>> state: 139
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL . ) LABEL BLOCK  index: 10 13    goto: 142
 ==>> state: 140
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL . ) LABEL BLOCK  index: 10 13    goto: 143
+==>> state: 141
 STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION ) .   index: 10 10    goto: -2
 Reduce: STATEMENTNO -> DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )
-==>> state: 141
-ELIFSTMT -> ELSEIF ( CONDITION . ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 3 9    goto: 143
 ==>> state: 142
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) . LABEL BLOCK  index: 11 13    goto: 144
-LABEL -> EPSILON .   index: 1 1    goto: -2
-Reduce: LABEL -> EPSILON
+ELIFSTMT -> ELSEIF ( CONDITION . ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 3 9    goto: 144
 ==>> state: 143
-ELIFSTMT -> ELSEIF ( CONDITION ) . LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 4 9    goto: 145
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) . LABEL BLOCK  index: 11 13    goto: 145
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
 ==>> state: 144
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL . BLOCK  index: 12 13    goto: 146
-BLOCK ->  . STATEMENT  index: 0 1    goto: 110
-BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 112
-STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
-STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
-STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
-STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
-STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
-STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
-STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
-STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
-VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
-VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
-EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
-FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-Reduce: TYPE -> EPSILON
-==>> state: 145
-ELIFSTMT -> ELSEIF ( CONDITION ) LABEL . BLOCK GOTOLABEL LABEL ELIFSTMT  index: 5 9    goto: 147
-BLOCK ->  . STATEMENT  index: 0 1    goto: 110
-BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 112
-STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
-STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
-STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
-STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
-STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 21
-STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
-STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
-STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
-STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 30
-STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 19
-STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
-STATEMENTNO ->  . #  index: 0 1    goto: 32
-VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
-VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
-VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
-VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
-VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
-EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
-EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
-IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
-FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
-TYPE ->  . INTEGER  index: 0 1    goto: 10
-TYPE ->  . DOUBLE  index: 0 1    goto: 12
-TYPE -> EPSILON .   index: 1 1    goto: -2
-EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 22
-EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 25
-EXPRESSION ->  . CONDITION  index: 0 1    goto: 24
-COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 26
-COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 28
-PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
-PARTEXPR ->  . INT  index: 0 1    goto: 11
-PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
-PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
-PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 25
-PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 31
-PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
-CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 23
-CONDITION ->  . BOOLEXPR  index: 0 1    goto: 29
-SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 26
-SUMEXPR ->  . MULEXPR  index: 0 1    goto: 27
-INCEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 25
-COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 22
-BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 23
-BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 23
-MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 27
-MULEXPR ->  . PARTEXPR  index: 0 1    goto: 25
-Reduce: TYPE -> EPSILON
-==>> state: 146
-FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK .   index: 13 13    goto: -2
-Reduce: FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK
-==>> state: 147
-ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK . GOTOLABEL LABEL ELIFSTMT  index: 6 9    goto: 148
-GOTOLABEL -> EPSILON .   index: 1 1    goto: -2
-Reduce: GOTOLABEL -> EPSILON
-==>> state: 148
-ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL . LABEL ELIFSTMT  index: 7 9    goto: 149
+ELIFSTMT -> ELSEIF ( CONDITION ) . LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 4 9    goto: 146
 LABEL -> EPSILON .   index: 1 1    goto: -2
 Reduce: LABEL -> EPSILON
+==>> state: 145
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL . BLOCK  index: 12 13    goto: 147
+BLOCK ->  . STATEMENT  index: 0 1    goto: 111
+BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 113
+STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
+STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
+STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
+STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
+STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
+STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
+STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
+STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
+VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
+VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
+EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
+IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
+FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+Reduce: TYPE -> EPSILON
+==>> state: 146
+ELIFSTMT -> ELSEIF ( CONDITION ) LABEL . BLOCK GOTOLABEL LABEL ELIFSTMT  index: 5 9    goto: 148
+BLOCK ->  . STATEMENT  index: 0 1    goto: 111
+BLOCK ->  . { STATEMENTLIST }  index: 0 3    goto: 113
+STATEMENT ->  . STATEMENTNO  index: 0 1    goto: 5
+STATEMENT ->  . STATEMENTNO ;  index: 0 2    goto: 5
+STATEMENTNO ->  . VARIABLELIST  index: 0 1    goto: 3
+STATEMENTNO ->  . VARIABLE = ASSIGN  index: 0 3    goto: 2
+STATEMENTNO ->  . EXPRESSIONLIST  index: 0 1    goto: 22
+STATEMENTNO ->  . IFSTMT  index: 0 1    goto: 6
+STATEMENTNO ->  . FORSTMT  index: 0 1    goto: 7
+STATEMENTNO ->  . REPEAT { LABEL STATEMENTLIST } UNTIL ( LABEL CONDITION )  index: 0 10    goto: 16
+STATEMENTNO ->  . DO { LABEL STATEMENTLIST } WHILE ( LABEL CONDITION )  index: 0 10    goto: 31
+STATEMENTNO ->  . RETURN EXPRESSION  index: 0 2    goto: 20
+STATEMENTNO ->  . BREAK  index: 0 1    goto: 18
+STATEMENTNO ->  . CONTINUE  index: 0 1    goto: 19
+STATEMENTNO ->  . #  index: 0 1    goto: 33
+VARIABLELIST ->  . VARIABLE  index: 0 1    goto: 2
+VARIABLELIST ->  . VARIABLE , VARIABLELIST  index: 0 3    goto: 2
+VARIABLE ->  . TYPE IDENTIFIER  index: 0 2    goto: 9
+VARIABLE ->  . VARIABLE [ INDEX ]  index: 0 4    goto: 2
+VARIABLE ->  . VARIABLE [ INDEX ] [ INDEX ]  index: 0 7    goto: 2
+EXPRESSIONLIST ->  . EXPRESSION  index: 0 1    goto: 8
+EXPRESSIONLIST ->  . EXPRESSION , EXPRESSIONLIST  index: 0 3    goto: 8
+IFSTMT ->  . IF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 15
+FORSTMT ->  . FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK  index: 0 13    goto: 17
+TYPE ->  . INTEGER  index: 0 1    goto: 10
+TYPE ->  . DOUBLE  index: 0 1    goto: 12
+TYPE -> EPSILON .   index: 1 1    goto: -2
+EXPRESSION ->  . COMPUTEEXPR  index: 0 1    goto: 23
+EXPRESSION ->  . PARTEXPR  index: 0 1    goto: 26
+EXPRESSION ->  . CONDITION  index: 0 1    goto: 25
+COMPUTEEXPR ->  . SUMEXPR  index: 0 1    goto: 27
+COMPUTEEXPR ->  . INCEXPR  index: 0 1    goto: 29
+PARTEXPR ->  . VARIABLE  index: 0 1    goto: 2
+PARTEXPR ->  . INT  index: 0 1    goto: 11
+PARTEXPR ->  . FLOAT  index: 0 1    goto: 13
+PARTEXPR ->  . IDENTIFIER  index: 0 1    goto: 14
+PARTEXPR ->  . PARTEXPR = PARTEXPR  index: 0 3    goto: 26
+PARTEXPR ->  . ( EXPRESSION )  index: 0 3    goto: 32
+PARTEXPR ->  . VARIABLE ( EXPRESSIONLIST )  index: 0 4    goto: 2
+CONDITION ->  . COMPAREEXPR  index: 0 1    goto: 24
+CONDITION ->  . BOOLEXPR  index: 0 1    goto: 30
+SUMEXPR ->  . SUMEXPR SUMOP MULEXPR  index: 0 3    goto: 27
+SUMEXPR ->  . MULEXPR  index: 0 1    goto: 28
+INCEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+INCEXPR ->  . PARTEXPR INCOP  index: 0 2    goto: 26
+COMPAREEXPR ->  . COMPUTEEXPR COMPAREOP COMPUTEEXPR  index: 0 3    goto: 23
+BOOLEXPR ->  . COMPAREEXPR && LABEL COMPAREEXPR  index: 0 4    goto: 24
+BOOLEXPR ->  . COMPAREEXPR || LABEL COMPAREEXPR  index: 0 4    goto: 24
+MULEXPR ->  . MULEXPR MULOP PARTEXPR  index: 0 3    goto: 28
+MULEXPR ->  . PARTEXPR  index: 0 1    goto: 26
+Reduce: TYPE -> EPSILON
+==>> state: 147
+FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK .   index: 13 13    goto: -2
+Reduce: FORSTMT -> FOR ( EXPRESSION ; LABEL CONDITION ; LABEL EXPRESSION GOTOLABEL ) LABEL BLOCK
+==>> state: 148
+ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK . GOTOLABEL LABEL ELIFSTMT  index: 6 9    goto: 149
+GOTOLABEL -> EPSILON .   index: 1 1    goto: -2
+Reduce: GOTOLABEL -> EPSILON
 ==>> state: 149
-ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL . ELIFSTMT  index: 8 9    goto: 150
-ELIFSTMT ->  . ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 132
-ELIFSTMT ->  . ELSE BLOCK  index: 0 2    goto: 131
+ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL . LABEL ELIFSTMT  index: 7 9    goto: 150
+LABEL -> EPSILON .   index: 1 1    goto: -2
+Reduce: LABEL -> EPSILON
+==>> state: 150
+ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL . ELIFSTMT  index: 8 9    goto: 151
+ELIFSTMT ->  . ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT  index: 0 9    goto: 133
+ELIFSTMT ->  . ELSE BLOCK  index: 0 2    goto: 132
 ELIFSTMT -> EPSILON .   index: 1 1    goto: -2
 Reduce: ELIFSTMT -> EPSILON
-==>> state: 150
+==>> state: 151
 ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT .   index: 9 9    goto: -2
 Reduce: ELIFSTMT -> ELSEIF ( CONDITION ) LABEL BLOCK GOTOLABEL LABEL ELIFSTMT

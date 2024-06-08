@@ -40,6 +40,7 @@ class EnumGrammar(Enum):
     UNTIL = 'UNTIL'
     FOR = 'FOR'
     BREAK = 'BREAK'
+    CONTINUE = 'CONTINUE'
     RETURN = 'RETURN'
     EPSILON = 'EPSILON'
     STATEMENTLIST = 'STATEMENTLIST'

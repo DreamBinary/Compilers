@@ -49,6 +49,7 @@ class SDT:
         self.stack = []
         self.jump = defaultdict(lambda: -1)
         self.breaklist = []
+        self.continuelist = []
         self.returnlist = []
         self.store = None  # 传递变量类型
 
@@ -209,6 +210,7 @@ class SDT:
             'max': 'self.max',
             'min': "self.min",
             'widen': 'self.widen',
+            'continuelist': 'self.continuelist',
         }
         for k, v in replace.items():
             r = r.replace(k, v)
