@@ -1,4 +1,21 @@
-integer x;
-double y;
-integer z;
-z = x + y;
+miniRC=function(integer delta){
+     integer a[5][10], b[5][10], i, j;
+
+     for(i=0; i<5+id*id+7; i++) for(j=0; j<10; j++){
+		a[i][j] = i + j * 1.5;                if(i>j) b[i][j]=i*delta+j; else b[i][j]=i-j/delta;
+     }
+     integer sum;
+     sum = i = j = 0;
+     repeat{
+
+        break;
+        if (i>j){
+           j++;
+           sum--;
+        }else i++;
+        continue;
+        if(i<5 && j<10) sum = sum + a[i][j]*b[i][j]; else break;
+    }until(sum>=100);
+    i = 1;
+    return(sum);   
+}

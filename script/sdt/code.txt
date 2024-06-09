@@ -1,12 +1,111 @@
-integer x;
-double y;
-integer z;
-z = x + y;
+miniRC=function(integer delta){
+     integer a[5][10], b[5][10], i, j;
 
-100: t1 =  (double) x
-101: t2 = t1 + y
-102: t3 =  (integer) t2
-103: z = t3
+     for(i=0; i<5+id*id+7; i++) for(j=0; j<10; j++){
+		a[i][j] = i + j * 1.5;                if(i>j) b[i][j]=i*delta+j; else b[i][j]=i-j/delta;
+     }
+     integer sum;
+     sum = i = j = 0;
+     repeat{
+
+        break;
+        if (i>j){
+           j++;
+           sum--;
+        }else i++;
+        continue;
+        if(i<5 && j<10) sum = sum + a[i][j]*b[i][j]; else break;
+    }until(sum>=100);
+    i = 1;
+    return(sum);   
+}
+
+
+100: i = 0
+101: t1 = id * id
+102: t2 = 5 + t1
+103: t3 = t2 + 7
+104: if i < t3 goto 109
+105: goto 144
+106: t4 = i + 1
+107: i = t4
+108: goto 101
+109: j = 0
+110: if j < 10 goto 115
+111: goto 106
+112: t5 = j + 1
+113: j = t5
+114: goto 110
+115: t6 = 40 * i
+116: t7 = 4 * j
+117: t8 = t7 + t6
+118: t9 =  a[t8]
+119: t10 =  (double) j
+120: t11 = t10 * 1.5
+121: t12 =  (double) i
+122: t13 = t12 + t11
+123: t14 =  (integer[][]) t13
+124: t9 = t14
+125: if i > j goto 127
+126: goto 135
+127: t15 = 40 * i
+128: t16 = 4 * j
+129: t17 = t16 + t15
+130: t18 =  b[t17]
+131: t19 = i * delta
+132: t20 = t19 + j
+133: t18 = t20
+134: goto 142
+135: t21 = 40 * i
+136: t22 = 4 * j
+137: t23 = t22 + t21
+138: t24 =  b[t23]
+139: t25 = j / delta
+140: t26 = i - t25
+141: t24 = t26
+142: goto 112
+143: goto 106
+144: j = 0
+145: i = j
+146: sum = i
+147: goto 181
+148: if i > j goto 150
+149: goto 155
+150: t27 = j + 1
+151: j = t27
+152: t28 = sum - 1
+153: sum = t28
+154: goto 157
+155: t29 = i + 1
+156: i = t29
+157: goto 147
+158: if i < 5 goto 160
+159: goto 174
+160: if j < 10 goto 162
+161: goto 174
+162: t30 = 40 * i
+163: t31 = 4 * j
+164: t32 = t31 + t30
+165: t33 =  a[t32]
+166: t34 = 40 * i
+167: t35 = 4 * j
+168: t36 = t35 + t34
+169: t37 =  b[t36]
+170: t38 = t33 * t37
+171: t39 = sum + t38
+172: sum = t39
+173: goto 175
+174: goto 177
+175: if sum >= 100 goto 177
+176: goto 147
+177: i = 1
+178: goto 180
+179: param delta
+180: miniRC = call function, 1
 
 
 ==>> log_error
+Variable miniRC not declared.
+Variable id not declared.
+Variable id not declared.
+Variable miniRC not declared.
